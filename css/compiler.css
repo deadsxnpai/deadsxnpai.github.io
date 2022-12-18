@@ -2,26 +2,14 @@
 .btn-secondary,
 .btn-secondary:hover,
 .btn-secondary:focus {
-  color: #fff;
+  color: #333;
   text-shadow: none;
 }
-.btn {
-    margin-right:100px;
-}
-.d-inline-flex{
-    margin-left:185px;
-}
+
 html {
   height: -webkit-fill-available;
 }
 
-main {
-    height: 100vh;
-    height: -webkit-fill-available;
-    max-height: 100vh;
-    overflow-x: auto;
-    overflow-y: hidden;
-}
 body {
   width:100%;
   background-image: url(https://fansubbing.com/content/images/2020/05/snippet-1.png);
@@ -35,11 +23,9 @@ body {
 }
 
 .cover-container {
-  color: #fff;
+  max-width: 42em;
 }
-.float-md-start{
-  margin-left: 32%;
-}
+
 
 .nav-masthead .nav-link {
   color: rgba(255, 255, 255, .5);
@@ -59,12 +45,16 @@ body {
   color: #fff;
   border-bottom-color: #fff;
 }
-
-.col {
-    margin-bottom:50%;
+.transition-fade {
+  transition: 0.4s;
+  opacity: 1;
 }
-.bd-example{
-  margin-top:15%;
-  margin-right: 10%;
-  margin-left: 10%;
+
+html.is-animating .transition-fade {
+  opacity: 0;
+}
+.cpp {
+  text-align: left;
+  max-width: 100%;
+  max-height: 100%;
 }
