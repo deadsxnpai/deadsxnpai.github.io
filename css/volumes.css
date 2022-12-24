@@ -8,9 +8,6 @@
 .btn {
     margin-right:100px;
 }
-.d-inline-flex{
-    margin-left:185px;
-}
 html {
   height: -webkit-fill-available;
 }
@@ -36,9 +33,7 @@ body {
 
 .cover-container {
   color: #fff;
-}
-.float-md-start{
-  margin-left: 32%;
+  max-width: 65em;
 }
 
 .nav-masthead .nav-link {
@@ -61,10 +56,11 @@ body {
 }
 
 .col {
-    margin-bottom:50%;
+    margin-top:50%;
+    margin-bottom:10%;
 }
 .bd-example{
-  margin-top:15%;
+  margin-top: 25%;
   margin-right: 10%;
   margin-left: 10%;
 }
