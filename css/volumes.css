@@ -60,7 +60,10 @@ body {
     margin-bottom:10%;
 }
 .bd-example{
-  margin-top: 25%;
+  margin-top: 15%;
   margin-right: 10%;
   margin-left: 10%;
+}
+#start{
+  margin-top:10%
 }

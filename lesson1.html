@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ for Beginners</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<link href="css/conent.css" rel="stylesheet">
+<link rel="stylesheet"
+      href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/styles/default.min.css">
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/highlight.min.js"></script>
+
+</head>
+
+<body id="swup" class="d-flex h-100 text-center text-bg-dark">
+
+    <div class="cover-container p-3 mx-auto flex-column">
+        <header class="mb-auto">
+          <div>
+            <h3 class="float-md-start mb-0"><a class="nav-link px-0" href="https://deadsxnpai.github.io/index.html">C++ </a> </h3>
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+              <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="https://deadsxnpai.github.io/index.html">Главная</a>
+              <a class="nav-link fw-bold py-1 px-0" href="https://deadsxnpai.github.io/volumes.html">Главы</a>
+              <a class="nav-link fw-bold py-1 px-0" href="http://localhost:3000/">Запустить</a>
+            </nav>
+          </div>
+        </header>
+          <div class="sidenav">
+          <a href="lesson1.html">Урок 1</a>
+          <a href="lesson2.html">Урок 2</a>
+          <a href="lesson3.html">Урок 3</a>
+          <a href="lesson4.html">Урок 4</a>
+        </div>
+
+      
+        <div id="start" class="transition-fade">
+          <h1 id="first">Первая программа на C++ — урок 1</h1>
+          <p style="text-align:left">В качестве среды разработки под Windows автор советует использовать Visual Studio 2008 (800 Мб), если у вас Windows XP, Visual Studio 2013 (6.5 Гб) для Windows 7 и выше, или Dev C++ 5 (41 Мб) для тех, у кого слишком медленный интернет для загрузки Visual Studio. Пользователям Unix-подобных систем, потребуется компилятор GCC и любой текстовый редактор, например Vim.
+            После того, как вы установили все необходимое, приступим к написанию первой программы.</p>
+        </div>
+        <div>
+          <h2>Создание проекта</h2>
+          <h3>Для Visual Studio</h3>
+          <p style="text-align:left">
+            Откройте меню «Файл → Создать → Проект». Перейдите на вкладку «Общие» и выберите «Пустой проект». Придумайте проекту любое название, например «lesson1» и нажмите «OK».
+
+В окне обозревателя решений (обычно он находится в левом верхнем углу) щелкните правой кнопкой на папке «файлы исходного кода». В диалоговом окне выберите пункт меню «Добавить → Создать элемент». Введите название для нового файла — main.cpp и нажмите кнопку «Добавить».
+          </p>
+          <h3>Для GCC</h3>
+          <p style="text-align:left">Создайте пустой файл и откройте его любым текстовым редактором, в котором есть подсветка синтаксиса.</p>
+        </div>
+        <h2>Код первой программы</h2>
+        <p>Наберите следующий код:</p>
+        <pre><code class="hljs cpp">
+          <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+          <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdlib&gt;</span> // для system</span>
+          <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+          
+          <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> 
+          </span>{ 
+              <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Hello, world!"</span> &lt;&lt; endl;
+              system(<span class="hljs-string">"pause"</span>); <span class="hljs-comment">// Только для тех, у кого MS Visual Studio</span>
+              <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; 
+          }
+          </code>
+        </pre>
+      <h3>Описание синтаксиса</h3>
+      <p style="text-align:left">Директива #include используется для подключения других файлов в код. Строка #include <iostream>, будет заменена содержимым файла «iostream.h», который находится в стандартной библиотеке языка и отвечает за ввод и вывод данных на экран.
+
+        #include <cstdlib> подключает стандартную библиотеку языка С. Это подключение необходимо для работы функции system.
+        
+        Содержимое третьей строки — using namespace std; указывает на то, что мы используем по умолчанию пространство имен с названием «std». Все то, что находится внутри фигурных скобок функции int main() {} будет автоматически выполняться после запуска программы.
+        
+        Строка cout << "Hello, world!" << endl; говорит программе выводить сообщение с текстом «Hello, world» на экран.
+        
+        Оператор cout предназначен для вывода текста на экран командной строки. После него ставятся две угловые кавычки (<<). Далее идет текст, который должен выводиться. Он помещается в двойные кавычки. Оператор endl переводит строку на уровень ниже.
+        
+        Если в процессе выполнения произойдет какой-либо сбой, то будет сгенерирован код ошибки, отличный от нуля. Если же работа программы завершилась без сбоев, то код ошибки будет равен нулю. Команда return 0 необходима для того, чтобы передать операционной системе сообщение об удачном завершении программы.
+        
+        — В конце каждой команды ставится точка с запятой.
+        
+        </p>
+        <h3>Компиляция и запуск</h3>
+        <p style="text-align:left">Теперь скомпилируйте и запустите программу. Тем, кто пользуется MS Visual Studio, нужно нажать сочетание клавиш «Ctrl+F5». Пользователям GCC нужно выполнить следующие команды:</p>
+        <pre >
+          <code class="hljs cpp" >
+            gcc имя_файла.cpp -o имя_выходного_бинарника # компиляция кода ./имя_выходного_бинарника.out # запуск программы
+          </code>
+        </pre>
+        <p style="text-align:left">Если программа собралась с первого раза, то хорошо. Если компилятор говорит о наличии ошибок, значит вы что-то сделали неправильно.<br>Так же работоспособность программы можно проверить во вкладке запуск</p>
+        <footer class="mt-auto text-white-50">
+          <p>Пособие для изучения <a href="https://ru.cppreference.com/w/" class="text-white">C++</a>, by <a href="http://vk.com/dead.senpai" class="text-white">Ключников Даниил</a>.</p>
+        </footer>
+      </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</body>
+</html>

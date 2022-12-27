@@ -15,6 +15,7 @@ function App() {
     setOutput(data.output);
     } catch(err){
       console.log(err);
+      setOutput('У вас ошибка!');
     }
   }
 

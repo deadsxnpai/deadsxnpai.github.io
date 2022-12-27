@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ for Beginners</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<link href="css/conent.css" rel="stylesheet">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/styles/default.min.css">
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/highlight.min.js"></script>
+
+</head>
+
+<body id="swup" class="d-flex h-100 text-center text-bg-dark">
+
+    <div class="cover-container p-3 w-100 mx-auto flex-column">
+        <header class="mb-auto">
+          <div>
+            <h3 class="float-md-start mb-0"><a class="nav-link px-0" href="https://deadsxnpai.github.io/index.html">C++ </a> </h3>
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+              <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="https://deadsxnpai.github.io/index.html">Главная</a>
+              <a class="nav-link fw-bold py-1 px-0" href="https://deadsxnpai.github.io/volumes.html">Главы</a>
+              <a class="nav-link fw-bold py-1 px-0" href="http://localhost:3000/">Запустить</a>
+            </nav>
+          </div>
+        </header>
+          <div class="sidenav">
+          <a href="lesson1.html">Урок 1</a>
+          <a href="lesson2.html">Урок 2</a>
+          <a href="lesson3.html">Урок 3</a>
+          <a href="lesson4.html">Урок 4</a>
+        </div>
+
+      
+        <div id="start" class="transition-fade">
+          <h1>Циклы в C++ — урок 4</h1>
+          <p style="text-align:left">Иногда необходимо повторять одно и то же действие несколько раз подряд. Для этого используют циклы. В этом уроке мы научимся программировать циклы на C++, после чего посчитаем сумму всех чисел от 1 до 1000.</p>
+          <h2>Цикл for</h2>
+          <p style="text-align:left">Если мы знаем точное количество действий (итераций) цикла, то можем использовать цикл for. Синтаксис его выглядит примерно так:</p>
+          <pre><code class="hljs cpp">
+            <span class="hljs-keyword">for</span> (действие до начала цикла;
+            условие продолжения цикла;
+            действия в конце каждой итерации цикла) {
+                инструкция цикла;
+                инструкция цикла <span class="hljs-number">2</span>;
+                инструкция цикла N;
+            }
+          </code></pre>
+          <p style="text-align:left">Итерацией цикла называется один проход этого цикла
+
+            Существует частный случай этой записи, который мы сегодня и разберем:</p>
+          <pre><code class="hljs bash">
+            <span class="hljs-keyword">for</span> (счетчик = значение; счетчик &lt; значение; шаг цикла) {
+              тело цикла;
+            }
+          </code></pre>
+          <p style="text-align:left">Счетчик цикла — это переменная, в которой хранится количество проходов данного цикла.</p>
+          <h2>Описание синтаксиса</h2>
+          <ol style="text-align:left">
+            <li>Сначала присваивается первоначальное значение счетчику, после чего ставится точка с запятой.</li>
+            <li>Затем задается конечное значение счетчика цикла. После того, как значение счетчика достигнет указанного предела, цикл завершится. Снова ставим точку с запятой.</li>
+            <li>Задаем шаг цикла. Шаг цикла — это значение, на которое будет увеличиваться или уменьшаться счетчик цикла при каждом проходе.</li>
+          </ol>
+          <h2>Пример кода</h2>
+          <p style="text-align:left">Напишем программу, которая будет считать сумму всех чисел от 1 до 1000.</p>
+          <pre><code class="hljs cpp">
+            <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+            <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+      
+            <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+            </span>{
+                <span class="hljs-keyword">int</span> i; <span class="hljs-comment">// счетчик цикла</span>
+                <span class="hljs-keyword">int</span> sum = <span class="hljs-number">0</span>; <span class="hljs-comment">// сумма чисел от 1 до 1000.</span>
+                setlocale(<span class="hljs-number">0</span>, <span class="hljs-string">""</span>);
+                <span class="hljs-keyword">for</span> (i = <span class="hljs-number">1</span>; i &lt;= <span class="hljs-number">1000</span>; i++) <span class="hljs-comment">// задаем начальное значение 1, конечное 1000 и задаем шаг цикла - 1.</span>
+                {
+                    sum = sum + i;
+                }
+                <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Сумма чисел от 1 до 1000 = "</span> &lt;&lt; sum &lt;&lt; endl;         
+                <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+            }
+            </code></pre>
+            <p style="text-align:left">Если мы скомпилируем этот код и запустим программу, то она покажет нам ответ: 500500. Это и есть сумма всех целых чисел от 1 до 1000. Если считать это вручную, понадобится очень много времени и сил. Цикл выполнил всю рутинную работу за нас.
+
+              Заметьте, что конечное значение счетчика я задал нестрогим неравенством ( <= — меньше либо равно), поскольку, если бы я поставил знак меньше, то цикл произвел бы 999 итераций, т.е. на одну меньше, чем требуется. Это довольно важный момент, т.к. здесь новички часто допускают ошибки, особенно при работе с массивами (о них будет рассказано в следующем уроке). Значение шага цикла я задал равное единице. i++ — это тоже самое, что и i = i + 1.
+              
+              В теле цикла, при каждом проходе программа увеличивает значение переменной sum на i. Еще один очень важный момент — в начале программы я присвоил переменной sum значение нуля. Если бы я этого не сделал, программа вылетела вы в сегфолт. При объявлении переменной без ее инициализации что эта переменная будет хранить «мусор».
+              
+              Естественно к мусору мы ничего прибавить не можем. Некоторые компиляторы, такие как gcc, инициализирует переменную нулем при ее объявлении.</p>
+            <h2>Цикл while</h2>
+            <p style="text-align:left">Когда мы не знаем, сколько итераций должен произвести цикл, нам понадобится цикл while или do...while. Синтаксис цикла while в C++ выглядит следующим образом.</p>
+            <pre><code class="hljs less">
+              <span class="hljs-tag">while</span> (Условие) {
+              Тело цикла;
+              }
+            </code></pre>
+            <p style="text-align:left">Данный цикл будет выполняться, пока условие, указанное в круглых скобках является истиной. Решим ту же задачу с помощью цикла while. Хотя здесь мы точно знаем, сколько итераций должен выполнить цикл, очень часто бывают ситуации, когда это значение неизвестно.
+
+              Ниже приведен исходный код программы, считающей сумму всех целых чисел от 1 до 1000.</p>
+            <pre><code class="hljs cpp">
+            <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+            <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+              
+            <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+            </span>{
+                setlocale(<span class="hljs-number">0</span>, <span class="hljs-string">""</span>);
+                <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; <span class="hljs-comment">// инициализируем счетчик цикла.</span>                  
+                <span class="hljs-keyword">int</span> sum = <span class="hljs-number">0</span>; <span class="hljs-comment">// инициализируем счетчик суммы.</span>
+                <span class="hljs-keyword">while</span> (i &lt; <span class="hljs-number">1000</span>)
+                {
+                    i++;
+                    sum += i;
+                }
+                <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Сумма чисел от 1 до 1000 = "</span> &lt;&lt; sum &lt;&lt; endl; 
+                <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+            }
+            </code></pre>
+            <p style="text-align:left">После компиляции программа выдаст результат, аналогичный результату работы предыдущей программы. Но поясним несколько важных моментов. Я задал строгое неравенство в условии цикла и инициализировал счетчик i нулем, так как в цикле while происходит на одну итерацию больше, потому он будет выполняться, до тех пор, пока значение счетчика перестает удовлетворять условию, но данная итерация все равно выполнится. Если бы мы поставили нестрогое неравенство, то цикл бы закончился, когда переменная i стала бы равна 1001 и выполнилось бы на одну итерацию больше.
+
+              Теперь давайте рассмотрим по порядку исходный код нашей программы. Сначала мы инициализируем счетчик цикла и переменную, хранящую сумму чисел.
+              
+              В данном случае мы обязательно должны присвоить счетчику цикла какое-либо значение, т.к. в предыдущей программе мы это значение присваивали внутри цикла for, здесь же, если мы не инициализируем счетчик цикла, то в него попадет «мусор» и компилятор в лучшем случае выдаст нам ошибку, а в худшем, если программа соберется — сегфолт практически неизбежен.
+              
+              Затем мы описываем условие цикла — «пока переменная i меньше 1000 — выполняй цикл». При каждой итерации цикла значение переменной-счетчика i увеличивается на единицу внутри цикла.
+              
+              Когда выполнится 1000 итераций цикла, счетчик станет равным 999 и следующая итерация уже не выполнится, поскольку 1000 не меньше 1000. Выражение sum += i является укороченной записью sum = sum + i.
+              
+              После окончания выполнения цикла, выводим сообщение с ответом.</p>
+            <h2>Цикл do while</h2>
+            <p style="text-align:left">Цикл do while очень похож на цикл while. Единственное их различие в том, что при выполнении цикла do while один проход цикла будет выполнен независимо от условия. Решение задачи на поиск суммы чисел от 1 до 1000, с применением цикла do while.</p>
+            
+            <pre><code class="hljs cpp">
+              <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+              <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+              
+              <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span> <span class="hljs-params">()</span>
+              </span>{
+                  setlocale(<span class="hljs-number">0</span>, <span class="hljs-string">""</span>);
+                  <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; <span class="hljs-comment">// инициализируем счетчик цикла.</span>
+                  <span class="hljs-keyword">int</span> sum = <span class="hljs-number">0</span>; <span class="hljs-comment">// инициализируем счетчик суммы.</span>
+                  <span class="hljs-keyword">do</span> {<span class="hljs-comment">// выполняем цикл.</span>
+                      i++;
+                      sum += i;
+                  } <span class="hljs-keyword">while</span> (i &lt; <span class="hljs-number">1000</span>); <span class="hljs-comment">// пока выполняется условие.</span>
+                  <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Сумма чисел от 1 до 1000 = "</span> &lt;&lt; sum &lt;&lt; endl;
+                  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+              }
+            </code></pre>
+            <p style="text-align:left">Принципиального отличия нет, но если присвоить переменной i значение, большее, чем 1000, то цикл все равно выполнит хотя бы один проход.
+
+              Попрактикуйтесь, поэкспериментируйте над собственными примерами задач. Циклы — очень важная вещь, поэтому им стоит уделить побольше внимания. Когда поймете, как работают циклы — можете смело переходить к изучению следующего урока.</p>
+
+
+            
+        </div>
+          <footer class="mt-auto text-white-50">
+          <p>Пособие для изучения <a href="https://ru.cppreference.com/w/" class="text-white">C++</a>, by <a href="http://vk.com/dead.senpai" class="text-white">Ключников Даниил</a>.</p>
+        </footer>
+      </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</body>
+</html>
