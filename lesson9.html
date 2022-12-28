@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ for Beginners</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<link href="css/conent.css" rel="stylesheet">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/styles/default.min.css">
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/highlight.min.js"></script>
+
+</head>
+
+<body id="swup" class="d-flex h-100 text-center text-bg-dark">
+
+    <div class="cover-container p-3 w-100 mx-auto flex-column">
+        <header class="mb-auto">
+          <div>
+            <h3 class="float-md-start mb-0"><a class="nav-link px-0" href="https://deadsxnpai.github.io/index.html">C++ </a> </h3>
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+              <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="https://deadsxnpai.github.io/index.html">Главная</a>
+              <a class="nav-link fw-bold py-1 px-0" href="https://deadsxnpai.github.io/volumes.html">Главы</a>
+              <a class="nav-link fw-bold py-1 px-0" href="http://localhost:3000/">Запустить</a>
+            </nav>
+          </div>
+        </header>
+        <div class="sidenav">
+            <h5 style="margin-left: 5%;">Оглавление</h5>
+          <a href="lesson1.html">Урок 1</a>
+          <a href="lesson2.html">Урок 2</a>
+          <a href="lesson3.html">Урок 3</a>
+          <a href="lesson4.html">Урок 4</a>
+          <a href="lesson5.html">Урок 5</a>
+          <a href="lesson6.html">Урок 6</a>
+          <a href="lesson7.html">Урок 7</a>
+          <a href="lesson8.html">Урок 8</a>
+          <a href="lesson9.html">Урок 9</a>
+          <a href="lesson10.html">Урок 10</a>
+          <a href="lesson11.html">Урок 11</a>
+        </div>
+
+      
+        <div id="start" class="transition-fade">
+            <h2>Классы в C++ — урок 9</h2>
+            <p style="text-align:left">Весь реальный мир состоит из объектов. Города состоят из районов, в каждом районе есть свои названия улиц, на каждой улице находятся жилые дома, которые также состоят из объектов.
+
+                Практически любой материальный предмет можно представить в виде совокупности объектов, из которых он состоит. Допустим, что нам нужно написать программу для учета успеваемости студентов. Можно представить группу студентов, как класс языка C++. Назовем его Students.</p>
+            <pre><code class="cpp hljs">
+                    <span class="hljs-keyword">class</span> Students {
+                    <span class="hljs-comment">// Имя студента</span>
+                    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> name;
+                    <span class="hljs-comment">// Фамилия</span>
+                    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> last_name;
+                    <span class="hljs-comment">// Пять промежуточных оценок студента</span>
+                    <span class="hljs-keyword">int</span> scores[<span class="hljs-number">5</span>];
+                    <span class="hljs-comment">// Итоговая оценка за семестр</span>
+                    <span class="hljs-keyword">float</span> average_ball;
+                };
+            </code></pre>
+            <h2>Основные понятия</h2>
+            <p style="text-align:left">Классы в программировании состоят из свойств и методов. Свойства — это любые данные, которыми можно характеризовать объект класса. В нашем случае, объектом класса является студент, а его свойствами — имя, фамилия, оценки и средний балл.</p>
+            <p style="text-align:left">У каждого студента есть имя — name и фамилия last_name . Также, у него есть промежуточные оценки за весь семестр. Эти оценки мы будем записывать в целочисленный массив из пяти элементов. После того, как все пять оценок будут проставлены, определим средний балл успеваемости студента за весь семестр — свойство average_ball.</p>
+            <p style="text-align:left">Методы — это функции, которые могут выполнять какие-либо действия над данными (свойствами) класса. Добавим в наш класс функцию calculate_average_ball(), которая будет определять средний балл успеваемости ученика.</p>
+            <ul style="text-align:left">
+                <li>Методы класса — это его функции.</li>
+                <li>Свойства класса — его переменные.</li>
+            </ul>
+            <pre><code class="cpp hljs">
+                <span class="hljs-keyword">class</span> Students {
+                <span class="hljs-keyword">public</span>:
+                    <span class="hljs-comment">// Функция, считающая средний балл</span>
+                    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">calculate_average_ball</span><span class="hljs-params">()</span>
+                    </span>{
+                        <span class="hljs-keyword">int</span> sum = <span class="hljs-number">0</span>; <span class="hljs-comment">// Сумма всех оценок</span>
+                        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; ++i) {
+                            sum += scores[i];
+                        }
+                        <span class="hljs-comment">// считаем среднее арифметическое</span>
+                        average_ball = sum / <span class="hljs-number">5.0</span>;
+                    }
+            
+                    <span class="hljs-comment">// Имя студента</span>
+                    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> name;
+                    <span class="hljs-comment">// Фамилия</span>
+                    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> last_name;
+                    <span class="hljs-comment">// Пять промежуточных оценок студента</span>
+                    <span class="hljs-keyword">int</span> scores[<span class="hljs-number">5</span>];
+            
+                <span class="hljs-keyword">private</span>:
+                    <span class="hljs-comment">// Итоговая оценка за семестр</span>
+                    <span class="hljs-keyword">float</span> average_ball;
+            };
+            </code></pre>
+            <p style="text-align:left">Функция calculate_average_ball() просто делит сумму всех промежуточных оценок на их количество.</p>
+            <h2>Модификаторы доступа public и private</h2>
+            <p style="text-align:left">Все свойства и методы классов имеют права доступа. По умолчанию, все содержимое класса является доступным для чтения и записи только для него самого. Для того, чтобы разрешить доступ к данным класса извне, используют модификатор доступа public. Все функции и переменные, которые находятся после модификатора public, становятся доступными из всех частей программы.
+
+            </p>
+            <p style="text-align:left">Закрытые данные класса размещаются после модификатора доступа private. Если отсутствует модификатор public, то все функции и переменные, по умолчанию являются закрытыми (как в первом примере).</p>
+            <p style="text-align:left">Обычно, приватными делают все свойства класса, а публичными — его методы. Все действия с закрытыми свойствами класса реализуются через его методы. Рассмотрим следующий код.</p>
+            <pre><code class="cpp hljs">
+                <span class="hljs-keyword">class</span> Students {
+                <span class="hljs-keyword">public</span>:
+                    <span class="hljs-comment">// Установка среднего балла</span>
+                    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">set_average_ball</span><span class="hljs-params">(<span class="hljs-keyword">float</span> ball)</span>
+                    </span>{
+                        average_ball = ball;
+                    }
+                    <span class="hljs-comment">// Получение среднего балла</span>
+                    <span class="hljs-function"><span class="hljs-keyword">float</span> <span class="hljs-title">get_average_ball</span><span class="hljs-params">()</span>
+                    </span>{
+                        <span class="hljs-keyword">return</span> average_ball;
+                    }
+                    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> name;
+                    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> last_name;
+                    <span class="hljs-keyword">int</span> scores[<span class="hljs-number">5</span>];
+            
+                <span class="hljs-keyword">private</span>:
+                    <span class="hljs-keyword">float</span> average_ball;
+            };
+            </code></pre>
+            <p style="text-align:left">Мы не можем напрямую обращаться к закрытым данными класса. Работать с этими данными можно только посредством методов этого класса. В примере выше, мы используем функцию get_average_ball() для получения средней оценки студента, и set_average_ball() для выставления этой оценки.</p>
+            <p style="text-align:left">Функция set_average_ball() принимает средний балл в качестве параметра и присваивает его значение закрытой переменной average_ball. Функция get_average_ball() просто возвращает значение этой переменной.
+
+            </p>
+            <h2>Программа учета успеваемости студентов</h2>
+            <p style="text-align:left">Создадим программу, которая будет заниматься учетом успеваемости студентов в группе. Создайте заголовочный файл students.h, в котором будет находиться класс Students.</p>
+            <pre><code class="cpp hljs">
+                <span class="hljs-comment">/* students.h */</span>
+                <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+                
+                <span class="hljs-keyword">class</span> Students {
+                    <span class="hljs-keyword">public</span>:
+                        <span class="hljs-comment">// Установка имени студента</span>
+                        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">set_name</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> student_name)</span>
+                        </span>{
+                            name = student_name;
+                        }
+                        <span class="hljs-comment">// Получение имени студента</span>
+                        <span class="hljs-built_in">std</span>::<span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">get_name</span><span class="hljs-params">()</span>
+                        </span>{
+                            <span class="hljs-keyword">return</span> name;
+                        }
+                        <span class="hljs-comment">// Установка фамилии студента</span>
+                        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">set_last_name</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> student_last_name)</span>
+                        </span>{
+                            last_name = student_last_name;
+                        }
+                        <span class="hljs-comment">// Получение фамилии студента</span>
+                        <span class="hljs-built_in">std</span>::<span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">get_last_name</span><span class="hljs-params">()</span>
+                        </span>{
+                            <span class="hljs-keyword">return</span> last_name;
+                        }
+                        <span class="hljs-comment">// Установка промежуточных оценок</span>
+                        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">set_scores</span><span class="hljs-params">(<span class="hljs-keyword">int</span> student_scores[])</span>
+                        </span>{
+                            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; ++i) {
+                                scores[i] = student_scores[i];
+                            }
+                        }
+                        <span class="hljs-comment">// Установка среднего балла</span>
+                        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">set_average_ball</span><span class="hljs-params">(<span class="hljs-keyword">float</span> ball)</span>
+                        </span>{
+                            average_ball = ball;
+                        }
+                        <span class="hljs-comment">// Получение среднего балла</span>
+                        <span class="hljs-function"><span class="hljs-keyword">float</span> <span class="hljs-title">get_average_ball</span><span class="hljs-params">()</span>
+                        </span>{
+                            <span class="hljs-keyword">return</span> average_ball;
+                        }
+                
+                    <span class="hljs-keyword">private</span>:
+                        <span class="hljs-comment">// Промежуточные оценки</span>
+                        <span class="hljs-keyword">int</span> scores[<span class="hljs-number">5</span>];
+                        <span class="hljs-comment">// Средний балл</span>
+                        <span class="hljs-keyword">float</span> average_ball; 
+                        <span class="hljs-comment">// Имя</span>
+                        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> name;
+                        <span class="hljs-comment">// Фамилия</span>
+                        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> last_name;
+                };
+            </code></pre>
+            <p style="text-align:left">Мы добавили в наш класс новые методы, а также сделали приватными все его свойства. Функция set_name() сохраняет имя студента в переменной name, а get_name() возвращает значение этой переменной. Принцип работы функций set_last_name() и get_last_name() аналогичен.
+
+                Функция set_scores() принимает массив с промежуточными оценками и сохраняет их в приватную переменную int scores[5].
+                
+                Теперь создайте файл main.cpp со следующим содержимым.</p>
+                <pre><code class="cpp hljs">
+                    <span class="hljs-comment">/* main.cpp */</span>
+                    <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+                    <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">"students.h"</span></span>
+                    
+                    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+                    </span>{
+                        <span class="hljs-comment">// Создание объекта класса Student</span>
+                        Students student;
+                    
+                        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> name;
+                        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> last_name;
+                    
+                        <span class="hljs-comment">// Ввод имени с клавиатуры</span>
+                        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Name: "</span>;
+                        getline(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cin</span>, name);
+                    
+                        <span class="hljs-comment">// Ввод фамилии</span>
+                        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Last name: "</span>;
+                        getline(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cin</span>, last_name);
+                    
+                        <span class="hljs-comment">// Сохранение имени и фамилии в объект класса Students</span>
+                        student.set_name(name);
+                        student.set_last_name(last_name);
+                    
+                        <span class="hljs-comment">// Оценки</span>
+                        <span class="hljs-keyword">int</span> scores[<span class="hljs-number">5</span>];
+                        <span class="hljs-comment">// Сумма всех оценок</span>
+                        <span class="hljs-keyword">int</span> sum = <span class="hljs-number">0</span>;
+                    
+                        <span class="hljs-comment">// Ввод промежуточных оценок </span>
+                        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; ++i) {
+                            <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Score "</span> &lt;&lt; i+<span class="hljs-number">1</span> &lt;&lt; <span class="hljs-string">": "</span>;
+                            <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cin</span> &gt;&gt; scores[i];
+                            <span class="hljs-comment">// суммирование</span>
+                            sum += scores[i];
+                        }
+                    
+                        <span class="hljs-comment">// Сохраняем промежуточные оценки в объект класса Student</span>
+                        student.set_scores(scores);
+                        <span class="hljs-comment">// Считаем средний балл</span>
+                        <span class="hljs-keyword">float</span> average_ball = sum / <span class="hljs-number">5.0</span>;
+                        <span class="hljs-comment">// Сохраняем средний балл в объект класса Students</span>
+                        student.set_average_ball(average_ball);
+                        <span class="hljs-comment">// Выводим данные по студенту</span>
+                        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Average ball for "</span> &lt;&lt; student.get_name() &lt;&lt; <span class="hljs-string">" "</span>
+                             &lt;&lt; student.get_last_name() &lt;&lt; <span class="hljs-string">" is "</span>
+                             &lt;&lt; student.get_average_ball() &lt;&lt; <span class="hljs-built_in">std</span>::endl;
+                    
+                        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+                    }
+             </code></pre>
+            <p style="text-align:left">В самом начале программы создается объект класса Students. Дело в том, что сам класс является только описанием его объекта. Класс Students является описанием любого из студентов, у которого есть имя, фамилия и возможность получения оценок.
+
+                Объект класса Students характеризует конкретного студента. Если мы захотим выставить оценки всем ученикам в группе, то будем создавать новый объект для каждого из них. Использование классов очень хорошо подходит для описания объектов реального мира.
+                
+                После создания объекта student, мы вводим с клавиатуры фамилию, имя и промежуточные оценки для конкретного ученика. Пускай это будет Вася Пупкин, у которого есть пять оценок за семестр — две тройки, две четверки и одна пятерка.
+                
+                Введенные данные мы передаем set-функциям, которые присваивают их закрытым переменным класса. После того, как были введены промежуточные оценки, мы высчитываем средний балл на основе этих оценок, а затем сохраняем это значение в закрытом свойстве average_ball, с помощью функции set_average_ball().</p>
+            <h2>Отделение данных от логики</h2>
+            <p style="text-align:left">Вынесем реализацию всех методов класса в отдельный файл students.cpp.</p>
+            <pre><code class="cpp hljs">
+                <span class="hljs-comment">/* students.cpp */</span>
+                <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+                <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">"students.h"</span></span>
+                
+                <span class="hljs-comment">// Установка имени студента</span>
+                <span class="hljs-keyword">void</span> Students::set_name(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> student_name)
+                {
+                    Students::name = student_name;
+                }
+                
+                <span class="hljs-comment">// Получение имени студента</span>
+                <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> Students::get_name()
+                {
+                    <span class="hljs-keyword">return</span> Students::name;
+                }
+                
+                <span class="hljs-comment">// Установка фамилии студента</span>
+                <span class="hljs-keyword">void</span> Students::set_last_name(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> student_last_name)
+                {
+                    Students::last_name = student_last_name;
+                }
+                
+                <span class="hljs-comment">// Получение фамилии студента</span>
+                <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> Students::get_last_name()
+                {
+                    <span class="hljs-keyword">return</span> Students::last_name;
+                }
+                
+                <span class="hljs-comment">// Установка промежуточных оценок</span>
+                <span class="hljs-keyword">void</span> Students::set_scores(<span class="hljs-keyword">int</span> scores[])
+                {
+                    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; ++i) {
+                        Students::scores[i] = scores[i];
+                    }
+                }
+                
+                <span class="hljs-comment">// Установка среднего балла</span>
+                <span class="hljs-keyword">void</span> Students::set_average_ball(<span class="hljs-keyword">float</span> ball)
+                {
+                    Students::average_ball = ball;
+                }
+                
+                <span class="hljs-comment">// Получение среднего балла</span>
+                <span class="hljs-keyword">float</span> Students::get_average_ball()
+                {
+                    <span class="hljs-keyword">return</span> Students::average_ball;
+                }
+            </code></pre>
+            <p style="text-align:left">А в заголовочном файле students.h оставим только прототипы этих методов.</p>
+            <pre><code class="cpp hljs">
+                <span class="hljs-comment">/* students.h */</span>
+                <span class="hljs-preprocessor">#<span class="hljs-keyword">pragma</span> once <span class="hljs-comment">/* Защита от двойного подключения заголовочного файла */</span></span>
+                <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+                
+                <span class="hljs-keyword">class</span> Students {
+                    <span class="hljs-keyword">public</span>:
+                        <span class="hljs-comment">// Установка имени студента</span>
+                        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">set_name</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>)</span></span>;
+                        <span class="hljs-comment">// Получение имени студента</span>
+                        <span class="hljs-built_in">std</span>::<span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">get_name</span><span class="hljs-params">()</span></span>;
+                        <span class="hljs-comment">// Установка фамилии студента</span>
+                        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">set_last_name</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>)</span></span>;
+                        <span class="hljs-comment">// Получение фамилии студента</span>
+                        <span class="hljs-built_in">std</span>::<span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">get_last_name</span><span class="hljs-params">()</span></span>;
+                        <span class="hljs-comment">// Установка промежуточных оценок</span>
+                        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">set_scores</span><span class="hljs-params">(<span class="hljs-keyword">int</span> [])</span></span>;
+                        <span class="hljs-comment">// Установка среднего балла</span>
+                        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">set_average_ball</span><span class="hljs-params">(<span class="hljs-keyword">float</span>)</span></span>;
+                        <span class="hljs-comment">// Получение среднего балла</span>
+                        <span class="hljs-function"><span class="hljs-keyword">float</span> <span class="hljs-title">get_average_ball</span><span class="hljs-params">()</span></span>;
+                
+                    <span class="hljs-keyword">private</span>:
+                        <span class="hljs-comment">// Промежуточные оценки</span>
+                        <span class="hljs-keyword">int</span> scores[<span class="hljs-number">5</span>];
+                        <span class="hljs-comment">// Средний балл</span>
+                        <span class="hljs-keyword">float</span> average_ball;
+                        <span class="hljs-comment">// Имя</span>
+                        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> name;
+                        <span class="hljs-comment">// Фамилия</span>
+                        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> last_name;
+                };
+            </code></pre>
+            <p style="text-align:left">Такой подход называется абстракцией данных — одного из фундаментальных принципов объектно-ориентированного программирования. К примеру, если кто-то другой захочет использовать наш класс в своем коде, ему не обязательно знать, как именно высчитывается средний балл. Он просто будет использовать функцию calculate_average_ball() из второго примера, не вникая в алгоритм ее работы.</p>
+            <p style="text-align:left">Над крупными проектами обычно работает несколько программистов. Каждый из них занимается написанием определенной части продукта. В таких масштабах кода, одному человеку практически нереально запомнить, как работает каждая из внутренних функций проекта. В нашей программе, мы используем оператор потокового вывода cout, не задумываясь о том, как он реализован на низком уровне. Кроме того, отделение данных от логики является хорошим тоном программирования.</p>
+            <p style="text-align:left">В начале обучения мы говорили о пространствах имен (namespaces). Каждый класс в C++ использует свое пространство имен. Это сделано для того, чтобы избежать конфликтов при именовании переменных и функций. В файле students.cpp мы используем оператор принадлежности :: перед именем каждой функции. Это делается для того, чтобы указать компилятору, что эти функции принадлежат классу Students.</p>
+            <h2>Создание объекта через указатель</h2>
+            <p> style="text-align:left"При создании объекта, лучше не копировать память для него, а выделять ее в в куче с помощью указателя. И освобождать ее после того, как мы закончили работу с объектом. Реализуем это в нашей программе, немного изменив содержимое файла main.cpp.</p>
+            <pre><code class="cpp hljs">
+                <span class="hljs-comment">/* main.cpp */</span>
+                <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+                <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">"students.h"</span></span>
+                
+                <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+                </span>{
+                    <span class="hljs-comment">// Выделение памяти для объекта Students</span>
+                    Students *student = <span class="hljs-keyword">new</span> Students;
+                
+                    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> name;
+                    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> last_name;
+                
+                    <span class="hljs-comment">// Ввод имени с клавиатуры</span>
+                    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Name: "</span>;
+                    getline(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cin</span>, name);
+                
+                    <span class="hljs-comment">// Ввод фамилии</span>
+                    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Last name: "</span>;
+                    getline(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cin</span>, last_name);
+                
+                    <span class="hljs-comment">// Сохранение имени и фамилии в объект класса Students</span>
+                    student-&gt;set_name(name);
+                    student-&gt;set_last_name(last_name);
+                
+                    <span class="hljs-comment">// Оценки</span>
+                    <span class="hljs-keyword">int</span> scores[<span class="hljs-number">5</span>];
+                    <span class="hljs-comment">// Сумма всех оценок</span>
+                    <span class="hljs-keyword">int</span> sum = <span class="hljs-number">0</span>;
+                
+                    <span class="hljs-comment">// Ввод промежуточных оценок </span>
+                    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; ++i) {
+                        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Score "</span> &lt;&lt; i+<span class="hljs-number">1</span> &lt;&lt; <span class="hljs-string">": "</span>;
+                        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cin</span> &gt;&gt; scores[i];
+                        <span class="hljs-comment">// суммирование</span>
+                        sum += scores[i];
+                    }
+                    <span class="hljs-comment">// Сохраняем промежуточные оценки в объект класса Student</span>
+                    student-&gt;set_scores(scores);
+                
+                    <span class="hljs-comment">// Считаем средний балл</span>
+                    <span class="hljs-keyword">float</span> average_ball = sum / <span class="hljs-number">5.0</span>;
+                    <span class="hljs-comment">// Сохраняем средний балл в объект класса Students</span>
+                    student-&gt;set_average_ball(average_ball);
+                    <span class="hljs-comment">// Выводим данные по студенту</span>
+                    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Average ball for "</span> &lt;&lt; student-&gt;get_name() &lt;&lt; <span class="hljs-string">" "</span>
+                         &lt;&lt; student-&gt;get_last_name() &lt;&lt; <span class="hljs-string">" is "</span>
+                         &lt;&lt; student-&gt;get_average_ball() &lt;&lt; <span class="hljs-built_in">std</span>::endl;
+                    <span class="hljs-comment">// Удаление объекта student из памяти</span>
+                    <span class="hljs-keyword">delete</span> student; 
+                    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+                }
+            </code></pre>
+            <p style="text-align:left">При создании статического объекта, для доступа к его методам и свойствам, используют операция прямого обращения — «.» (символ точки). Если же память для объекта выделяется посредством указателя, то для доступа к его методам и свойствам используется оператор косвенного обращения — «->».</p>
+            <h2>Конструктор и деструктор класса</h2>
+            <p style="text-align:left">Конструктор класса — это специальная функция, которая автоматически вызывается сразу после создания объекта этого класса. Он не имеет типа возвращаемого значения и должен называться также, как класс, в котором он находится. По умолчанию, заполним двойками массив с промежуточными оценками студента.</p>
+            <pre><code class="cpp hljs">
+                <span class="hljs-keyword">class</span> Students {
+                <span class="hljs-keyword">public</span>:
+                    <span class="hljs-comment">// Конструктор класса Students</span>
+                    Students(<span class="hljs-keyword">int</span> default_score)
+                    {
+                        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; ++i) {
+                            scores[i] = default_score;
+                        }
+                    }
+            
+                <span class="hljs-keyword">private</span>:
+                    <span class="hljs-keyword">int</span> scores[<span class="hljs-number">5</span>];
+            };
+            
+            <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+            </span>{
+                <span class="hljs-comment">// Передаем двойку в конструктор</span>
+                Students *student = <span class="hljs-keyword">new</span> Students(<span class="hljs-number">2</span>);
+                <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+            }
+            </code></pre>
+            <p style="text-align:left">Мы можем исправить двойки, если ученик будет хорошо себя вести, и вовремя сдавать домашние задания. А на «нет» и суда нет :-)
+
+                Деструктор класса вызывается при уничтожении объекта. Имя деструктора аналогично имени конструктора, только в начале ставится знак тильды ~. Деструктор не имеет входных параметров.</p>
+            <pre><code class="cpp hljs">
+                <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+
+                    <span class="hljs-keyword">class</span> Students {
+                        <span class="hljs-keyword">public</span>:
+                            <span class="hljs-comment">// Деструктор</span>
+                            ~Students()
+                            {
+                                <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Memory has been cleaned. Good bye."</span> &lt;&lt; <span class="hljs-built_in">std</span>::endl;
+                            }
+                    };
+                    
+                    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+                    </span>{
+                        Students *student = <span class="hljs-keyword">new</span> Students;
+                        <span class="hljs-comment">// Уничтожение объекта</span>
+                        <span class="hljs-keyword">delete</span> student;
+                        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+                    }
+            </code></pre>
+        </div>
+          <footer class="mt-auto text-white-50">
+          <p>Пособие для изучения <a href="https://ru.cppreference.com/w/" class="text-white">C++</a>, by <a href="http://vk.com/dead.senpai" class="text-white">Ключников Даниил</a>.</p>
+        </footer>
+      </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ for Beginners</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<link href="css/conent.css" rel="stylesheet">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/styles/default.min.css">
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/highlight.min.js"></script>
+
+</head>
+
+<body id="swup" class="d-flex h-100 text-center text-bg-dark">
+
+    <div class="cover-container p-3 w-100 mx-auto flex-column">
+        <header class="mb-auto">
+          <div>
+            <h3 class="float-md-start mb-0"><a class="nav-link px-0" href="https://deadsxnpai.github.io/index.html">C++ </a> </h3>
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+              <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="https://deadsxnpai.github.io/index.html">Главная</a>
+              <a class="nav-link fw-bold py-1 px-0" href="https://deadsxnpai.github.io/volumes.html">Главы</a>
+              <a class="nav-link fw-bold py-1 px-0" href="http://localhost:3000/">Запустить</a>
+            </nav>
+          </div>
+        </header>
+        <div class="sidenav">
+            <h5 style="margin-left: 5%;">Оглавление</h5>
+          <a href="lesson1.html">Урок 1</a>
+          <a href="lesson2.html">Урок 2</a>
+          <a href="lesson3.html">Урок 3</a>
+          <a href="lesson4.html">Урок 4</a>
+          <a href="lesson5.html">Урок 5</a>
+          <a href="lesson6.html">Урок 6</a>
+          <a href="lesson7.html">Урок 7</a>
+          <a href="lesson8.html">Урок 8</a>
+          <a href="lesson9.html">Урок 9</a>
+          <a href="lesson10.html">Урок 10</a>
+          <a href="lesson11.html">Урок 11</a>
+        </div>
+
+      
+        <div id="start" class="transition-fade">
+            <h1>Наследование классов в C++ — урок 11</h1>
+            <p style="text-align:left">Наследование позволяет избежать дублирования лишнего кода при написании классов. Пусть в базе данных ВУЗа должна храниться информация о всех студентах и преподавателях. Представлять все данные в одном классе не получится, поскольку для преподавателей нам понадобится хранить данные, которые для студента не применимы, и наоборот.</p>
+            <h2>Создание базового класса</h2>
+            <p style="text-align:left">Для решения этой задачи создадим базовый класс human, который будет описывать модель человека. В нем будут храниться имя, фамилия и отчество.
+
+                Создайте файл human.h:</p>
+                <pre><code class="cpp hljs">
+                    <span class="hljs-comment">// human.h</span>
+                    <span class="hljs-preprocessor">#<span class="hljs-keyword">ifndef</span> HUMAN_H_INCLUDED</span>
+                    <span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> HUMAN_H_INCLUDED</span>
+                    
+                    <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+                    <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sstream&gt;</span></span>
+                    
+                    <span class="hljs-keyword">class</span> human {
+                        <span class="hljs-keyword">public</span>:
+                            <span class="hljs-comment">// Конструктор класса human</span>
+                            human(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> last_name, <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> name, <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> second_name)
+                            {
+                                <span class="hljs-keyword">this</span>-&gt;last_name = last_name;
+                                <span class="hljs-keyword">this</span>-&gt;name = name;
+                                <span class="hljs-keyword">this</span>-&gt;second_name = second_name;
+                            }
+                    
+                            <span class="hljs-comment">// Получение ФИО человека</span>
+                            <span class="hljs-built_in">std</span>::<span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">get_full_name</span><span class="hljs-params">()</span>
+                            </span>{
+                                <span class="hljs-built_in">std</span>::<span class="hljs-built_in">ostringstream</span> full_name;
+                                full_name &lt;&lt; <span class="hljs-keyword">this</span>-&gt;last_name &lt;&lt; <span class="hljs-string">" "</span>
+                                    &lt;&lt; <span class="hljs-keyword">this</span>-&gt;name &lt;&lt; <span class="hljs-string">" "</span>
+                                    &lt;&lt; <span class="hljs-keyword">this</span>-&gt;second_name;
+                                <span class="hljs-keyword">return</span> full_name.str();
+                            }
+                    
+                        <span class="hljs-keyword">private</span>:
+                            <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> name; <span class="hljs-comment">// имя</span>
+                            <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> last_name; <span class="hljs-comment">// фамилия</span>
+                            <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> second_name; <span class="hljs-comment">// отчество</span>
+                    };
+                    
+                    <span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span> <span class="hljs-comment">// HUMAN_H_INCLUDED</span></span>
+            </code></pre>
+            <h2>Наследование от базового класса</h2>
+            <p style="text-align:left">Теперь создайте новый класс student, который будет наследником класса human. Поместите его в файл student.h.</p>
+            <pre><code class="cpp hljs">
+                <span class="hljs-comment">// student.h</span>
+                <span class="hljs-preprocessor">#<span class="hljs-keyword">ifndef</span> STUDENT_H_INCLUDED</span>
+                <span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> STUDENT_H_INCLUDED</span>
+                
+                <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">"human.h"</span></span>
+                <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+                <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span>
+                
+                <span class="hljs-keyword">class</span> student : <span class="hljs-keyword">public</span> human {
+                    <span class="hljs-keyword">public</span>:
+                        <span class="hljs-comment">// Конструктор класса Student</span>
+                        student(
+                            <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> last_name,
+                            <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> name,
+                            <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> second_name,
+                            <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; scores
+                        ) : human(
+                            last_name,
+                            name,
+                            second_name
+                        ) {
+                            <span class="hljs-keyword">this</span>-&gt;scores = scores;
+                        }
+                
+                        <span class="hljs-comment">// Получение среднего балла студента</span>
+                        <span class="hljs-function"><span class="hljs-keyword">float</span> <span class="hljs-title">get_average_score</span><span class="hljs-params">()</span>
+                        </span>{
+                            <span class="hljs-comment">// Общее количество оценок</span>
+                            <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> count_scores = <span class="hljs-keyword">this</span>-&gt;scores.size();
+                            <span class="hljs-comment">// Сумма всех оценок студента</span>
+                            <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> sum_scores = <span class="hljs-number">0</span>;
+                            <span class="hljs-comment">// Средний балл</span>
+                            <span class="hljs-keyword">float</span> average_score;
+                
+                            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; count_scores; ++i) {
+                                sum_scores += <span class="hljs-keyword">this</span>-&gt;scores[i];
+                            }
+                
+                            average_score = (<span class="hljs-keyword">float</span>) sum_scores / (<span class="hljs-keyword">float</span>) count_scores;
+                            <span class="hljs-keyword">return</span> average_score;
+                        }
+                
+                    <span class="hljs-keyword">private</span>:
+                        <span class="hljs-comment">// Оценки студента</span>
+                        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; scores;
+                };
+                <span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span> <span class="hljs-comment">// STUDENT_H_INCLUDED</span></span>
+            </code></pre>
+            <p style="text-align:left">Функция get_average_score вычисляет среднее арифметическое всех оценок студента. Все публичные свойства и методы класса human будут доступны в классе student.</p>
+            <h2>Конструктор базового класса</h2>
+            <p style="text-align:left">Для того, чтобы инициализировать конструктор родительского класса (в нашем случае — это сохранение имени, фамилии и отчества ученика), используется следующий синтаксис:</p>
+            <pre><code class="cpp hljs"><span class="hljs-comment">// Конструктор класса Student</span>
+                student(
+                    <span class="hljs-comment">// аргументы конструктора текущего класса</span>
+                ) : human(
+                    <span class="hljs-comment">// инициализация конструктора родительского класса</span>
+                ) {
+                    <span class="hljs-comment">// инициализация конструктора текущего класса</span>
+                }
+                </code></pre>
+            <p style="text-align:left">В конструктор класса human мы передаем инициалы человека, которые сохраняются в экземпляре класса. Для класса students, нам необходимо задать еще и список оценок студента. Поэтому конструктор students принимает все аргументы конструктора базового класса, а также дополнительные аргументы для расширения функционала:</p>
+            <pre><code class="cpp hljs"><span class="hljs-comment">// Конструктор класса Student</span>
+                student(
+                    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> last_name,
+                    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> name,
+                    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> second_name,
+                    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; scores
+                ) : human(
+                    last_name,
+                    name,
+                    second_name
+                ) {
+                    <span class="hljs-keyword">this</span>-&gt;scores = scores;
+                }
+            </code></pre>
+            <p style="text-align:left">Список оценок студента хранится в векторе.</p>
+            <h2>Создание объекта класса student</h2>
+            <p style="text-align:left">Реализуем пользовательский интерфейс для работы с классом student.</p>
+            <pre><code class="cpp hljs">
+                <span class="hljs-comment">// main.cpp</span>
+
+                <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+                <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span>
+                
+                <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">"human.h"</span></span>
+                <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">"student.h"</span></span>
+                
+                <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>* argv[])</span>
+                </span>{
+                
+                    <span class="hljs-comment">// Оценки студента</span>
+                    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; scores;
+                
+                    <span class="hljs-comment">// Добавление оценок студента в вектор</span>
+                    scores.push_back(<span class="hljs-number">5</span>);
+                    scores.push_back(<span class="hljs-number">3</span>);
+                    scores.push_back(<span class="hljs-number">2</span>);
+                    scores.push_back(<span class="hljs-number">2</span>);
+                    scores.push_back(<span class="hljs-number">5</span>);
+                    scores.push_back(<span class="hljs-number">3</span>);
+                    scores.push_back(<span class="hljs-number">3</span>);
+                    scores.push_back(<span class="hljs-number">3</span>);
+                    scores.push_back(<span class="hljs-number">3</span>);
+                
+                    <span class="hljs-comment">// Создание объекта класса student</span>
+                    student *stud = <span class="hljs-keyword">new</span> student(<span class="hljs-string">"Петров"</span>, <span class="hljs-string">"Иван"</span>, <span class="hljs-string">"Алексеевич"</span>, scores);
+                
+                    <span class="hljs-comment">// Вывод полного имени студента (используется унаследованный метод класса human)</span>
+                    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; stud-&gt;get_full_name() &lt;&lt; <span class="hljs-built_in">std</span>::endl;
+                    <span class="hljs-comment">// Вывод среднего балла студента</span>
+                    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Средний балл: "</span> &lt;&lt; stud-&gt;get_average_score() &lt;&lt; <span class="hljs-built_in">std</span>::endl;
+                
+                    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+                }
+                </code></pre>
+            <p style="text-align:left">В этом примере мы написали программу, которая создает объект класса student, сохраняя в нем его имя, фамилию, отчество и список оценок.
+
+                После инициализации объекта, происходит вывод полного имени студента с помощью функции get_full_name. Эта функция была унаследована от базового класса human.
+                
+                Затем программа вычислияет средний балл студента и выводит его на экран. Этим занимается функция get_average_score, которую мы описали внутри класса student.</p>
+            <h2>Создание класса-наследника teacher</h2>
+            <p style="text-align:left">Нужно создать еще один класс, в котором будут храниться данные преподавателей. Дадим ему название — teacher. Как вы уже поняли, мы не будем описывать все методы этого класса с нуля, а просто унаследуем его от класса human. Тогда, не нужно будет реализовывать хранение имени, фамилии и отчества препода. Это уже есть в базовом классе human.
+
+                Создайте файл teacher.h:</p>
+                <pre><code class="cpp hljs">
+                    <span class="hljs-comment">// teacher.h</span>
+                    <span class="hljs-preprocessor">#<span class="hljs-keyword">ifndef</span> TEACHER_H_INCLUDED</span>
+                    <span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> TEACHER_H_INCLUDED</span>
+                    
+                    <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">"human.h"</span></span>
+                    <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+                    
+                    <span class="hljs-keyword">class</span> teacher : <span class="hljs-keyword">public</span> human {
+                        <span class="hljs-comment">// Конструктор класса teacher</span>
+                        <span class="hljs-keyword">public</span>:
+                            teacher(
+                                <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> last_name,
+                                <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> name,
+                                <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> second_name,
+                                <span class="hljs-comment">// Количество учебных часов за семетр у преподавателя</span>
+                                <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> work_time
+                            ) : human(
+                                last_name,
+                                name,
+                                second_name
+                            ) {
+                                <span class="hljs-keyword">this</span>-&gt;work_time = work_time;
+                            }
+                    
+                            <span class="hljs-comment">// Получение количества учебных часов</span>
+                            <span class="hljs-function"><span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> <span class="hljs-title">get_work_time</span><span class="hljs-params">()</span>
+                            </span>{
+                                <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>-&gt;work_time;
+                            }
+                    
+                        <span class="hljs-keyword">private</span>:
+                            <span class="hljs-comment">// Учебные часы</span>
+                            <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> work_time;
+                    };
+                    
+                    <span class="hljs-preprocessor">#<span class="hljs-keyword">endif</span> <span class="hljs-comment">// TEACHER_H_INCLUDED</span></span>
+                    </code></pre>
+            <p style="text-align:left">У класса teacher появилось новое свойство — количество учебных часов, отведенное преподавателю на единицу времени (семестр). Весь остальной функционал наследуется от базового класса human. Если бы мы писали все с нуля, то одинакового кода бы получилось в разы больше, и его поддержка усложнилась бы на порядок.</p>
+            <h2>Создание объекта класса teacher
+            </h2>
+            <p style="text-align:left">Изменим содержимое файла main.cpp, чтобы проверить работу класса teacher.</p>
+            <pre><code class="cpp hljs">
+                <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+
+                <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">"human.h"</span></span>
+                <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">"teacher.h"</span></span>
+                
+                <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>* argv[])</span>
+                </span>{
+                
+                    <span class="hljs-comment">// Количество учебных часов преподавателя</span>
+                    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> teacher_work_time = <span class="hljs-number">40</span>;
+                
+                    teacher *tch = <span class="hljs-keyword">new</span> teacher(<span class="hljs-string">"Васильков"</span>, <span class="hljs-string">"Петр"</span>, <span class="hljs-string">"Сергеевич"</span>, teacher_work_time);
+                
+                    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; tch-&gt;get_full_name() &lt;&lt; <span class="hljs-built_in">std</span>::endl;
+                    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Количество часов: "</span> &lt;&lt; tch-&gt;get_work_time() &lt;&lt; <span class="hljs-built_in">std</span>::endl;
+                
+                    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+                }
+                </code></pre>
+            <p style="text-align:left">Можно таким же образом создать класс, в котором будут храниться данные обслуживающего персонала или руководящего состава. Наследование используют, когда у каждой группы объектов есть общие параметры, но для каждой из этих групп нужно хранить более кастомные данные.
+
+                Также, мы можем создать класс, который будет описывыть студента заочной формы обучения. Его мы унаследовали бы от класса student, добавив какие-либо дополнительные данные.
+                
+                В класс human можно добавить еще больше свойств, которые будут описывать данные, имеющиеся у любого человека. Например, номер паспорта, дату рождения, прописку и место проживания.
+                
+                Подобный подход позволяет в разы уменьшить дублирование кода в реальных проектах, и упросить его поддержку.
+                
+                </p>
+            <h2>Когда нужно использовать конструктор</h2>
+            <p style="text-align:left">Если у класса много свойств — их совсем не обязательно задавать в конструкторе. Для сохранения отдельных свойств класса используют set-функции. Например, для сохранения номера паспорта, можно создать публичный метод set_passport_number(std::string number), который будет принимать значение свойства и сохранять его в объекте, через переменную this.
+
+            </p>
+        </div>
+          <footer class="mt-auto text-white-50">
+          <p>Пособие для изучения <a href="https://ru.cppreference.com/w/" class="text-white">C++</a>, by <a href="http://vk.com/dead.senpai" class="text-white">Ключников Даниил</a>.</p>
+        </footer>
+      </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</body>
+</html>

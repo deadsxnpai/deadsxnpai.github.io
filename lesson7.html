@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ for Beginners</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<link href="css/conent.css" rel="stylesheet">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/styles/default.min.css">
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/highlight.min.js"></script>
+
+</head>
+
+<body id="swup" class="d-flex h-100 text-center text-bg-dark">
+
+    <div class="cover-container p-3 w-100 mx-auto flex-column">
+        <header class="mb-auto">
+          <div>
+            <h3 class="float-md-start mb-0"><a class="nav-link px-0" href="https://deadsxnpai.github.io/index.html">C++ </a> </h3>
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+              <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="https://deadsxnpai.github.io/index.html">Главная</a>
+              <a class="nav-link fw-bold py-1 px-0" href="https://deadsxnpai.github.io/volumes.html">Главы</a>
+              <a class="nav-link fw-bold py-1 px-0" href="http://localhost:3000/">Запустить</a>
+            </nav>
+          </div>
+        </header>
+        <div class="sidenav">
+            <h5 style="margin-left: 5%;">Оглавление</h5>
+          <a href="lesson1.html">Урок 1</a>
+          <a href="lesson2.html">Урок 2</a>
+          <a href="lesson3.html">Урок 3</a>
+          <a href="lesson4.html">Урок 4</a>
+          <a href="lesson5.html">Урок 5</a>
+          <a href="lesson6.html">Урок 6</a>
+          <a href="lesson7.html">Урок 7</a>
+          <a href="lesson8.html">Урок 8</a>
+          <a href="lesson9.html">Урок 9</a>
+          <a href="lesson10.html">Урок 10</a>
+          <a href="lesson11.html">Урок 11</a>
+        </div>
+
+      
+        <div id="start" class="transition-fade">
+            <h1>Указатели в C++ — урок 7</h1>
+            <p style="text-align:left">При выполнении любой программы, все необходимые для ее работы данные должныбыть загружены в оперативную память компьютера. Для обращения к переменным, находящимся в памяти, используются специальные адреса, которые записываются в шестнадцатеричном виде, например 0x100 или 0x200.</p>
+            <p style="text-align:left">Если переменных в памяти потребуется слишком большое количество, которое не сможет вместить в себя сама аппаратная часть, произойдет перегрузка системы или её зависание.
+
+                Если мы объявляем переменные статично, так как мы делали в предыдущих уроках, они остаются в памяти до того момента, как программа завершит свою работу, а после чего уничтожаются.
+                
+                Такой подход может быть приемлем в простых примерах и несложных программах, которые не требуют большого количества ресурсов. Если же наш проект является огромным программным комплексом с высоким функционалом, объявлять таким образом переменные, естественно, было бы довольно не умно.</p>
+            <p style="text-align:left">Можете себе представить, если бы небезызвестная Battlefield 3 использовала такой метод работы с данными? В таком случае, самым заядлым геймерам пришлось бы перезагружать свои высоконагруженные системы кнопкой reset после нескольких секунд работы игры.
+
+                Дело в том, что играя в тот же Battlefield, геймер в каждый новый момент времени видит различные объекты на экране монитора, например сейчас я стреляю во врага, а через долю секунды он уже падает убитым, создавая вокруг себя множество спецэффектов, таких как пыль, тени, и т.п.
+                
+                </p>
+            <p style="text-align:left">Естественно, все это занимает какое-то место в оперативной памяти компьютера. Если не уничтожать неиспользуемые объекты, очень скоро они заполнят весь объем ресурсов ПК.
+
+                По этим причинам, в большинстве языков, в том числе и C/C++, имеется понятие указателя. Указатель — это переменная, хранящая в себе адрес ячейки оперативной памяти, например 0x100.
+                
+                Мы можем обращаться, например к массиву данных через указатель, который будет содержать адрес начала диапазона ячеек памяти, хранящих этот массив.
+                
+                После того, как этот массив станет не нужен для выполнения остальной части программы, мы просто освободим память по адресу этого указателя, и она вновь станет доступно для других переменных.
+                
+                Ниже приведен конкретный пример обращения к переменным через указатель и напрямую.</p>
+            <h2>Пример использования статических переменных</h2>
+            <pre><code class="hljs cpp"><
+                span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+                <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+                
+                <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+                </span>{
+                    <span class="hljs-keyword">int</span> a; <span class="hljs-comment">// Объявление статической переменной</span>
+                    <span class="hljs-keyword">int</span> b = <span class="hljs-number">5</span>; <span class="hljs-comment">// Инициализация статической переменной b</span>
+                
+                    a = <span class="hljs-number">10</span>;
+                    b = a + b;
+                    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"b is "</span> &lt;&lt; b &lt;&lt; endl;
+                    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+                }
+            </code></pre>
+            <h2>Пример использования динамических переменных</h2>
+            <pre><code class="cpp hljs"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+                <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+                
+                <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+                </span>{
+                    <span class="hljs-keyword">int</span> *a = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>; <span class="hljs-comment">// Объявление указателя для переменной типа int</span>
+                    <span class="hljs-keyword">int</span> *b = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">5</span>); <span class="hljs-comment">// Инициализация указателя</span>
+                
+                    *a = <span class="hljs-number">10</span>;
+                    *b = *a + *b;
+                
+                    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"b is "</span> &lt;&lt; *b &lt;&lt; endl;
+                
+                    <span class="hljs-keyword">delete</span> b;
+                    <span class="hljs-keyword">delete</span> a;
+                
+                    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+                }
+            </code></pre>
+            <p style="text-align:left">Синтаксис первого примера вам уже должен быть знаком. Мы объявляем/инициализируем статичные переменные a и b, после чего выполняем различные операции напрямую с ними.
+
+                Во втором примере мы оперируем динамическими переменными посредством указателей. Рассмотрим общий синтаксис указателей в C++.
+                
+                </p>    
+            <p style="text-align:left">Выделение памяти осуществляется с помощью оператора new и имеет вид: тип_данных *имя_указателя = new тип_данных;, например int *a = new int;. После удачного выполнения такой операции, в оперативной памяти компьютера происходит выделение диапазона ячеек, необходимого для хранения переменной типа int.
+
+                Логично предположить, что для разных типов данных выделяется разное количество памяти. Следует быть особенно осторожным при работе с памятью, потому что именно ошибки программы, вызванные утечкой памяти, являются одними из самых трудно находимых. На отладку программы в поисках одной ничтожной ошибки, может уйти час, день, неделя, в зависимости от упорности разработчика и объема кода.</p>
+            <p style="text-align:left">Инициализация значения, находящегося по адресу указателя выполняется схожим образом, только в конце ставятся круглые скобки с нужным значением: тип данных *имя_указателя = new тип_данных(значение). В нашем примере это int *b = new int(5).
+
+                Для того, чтобы получить адрес в памяти, на который ссылается указатель, используется имя переменной-указателя с префиксом &. перед ним (не путать со знаком ссылки в C++).
+                
+                Например, чтобы вывести на экран адрес ячейки памяти, на который ссылается указатель b во втором примере, мы пишем cout << "Address of b is " << &b << endl;. В моей системе, я получил значение 0x1aba030. У вас оно может быть другим, потому что адреса в оперативной памяти распределяются таким образом, чтобы максимально уменьшить фрагментацию. Поскольку, в любой системе список запущенных процессов, а также объем и разрядность памяти могут отличаться, система сама распределяет данные для обеспечения минимальной фрагментации.</p>
+            <p style="text-align:left">Для того, чтобы получить значение, которое находится по адресу, на который ссылается указатель, используется префикс *. Данная операция называется разыменованием указателя.
+
+                Во втором примере мы выводим на экран значение, которое находится в ячейке памяти (у меня это 0x1aba030): cout << "b is " << *b << endl; . В этом случае необходимо использовать знак *.</p>
+            <p style="text-align:left"> Чтобы изменить значение, находящееся по адресу, на который ссылается указатель, нужно также использовать звездочку, например, как во втором примере — *b = *a + *b;.</p>
+            <ul style="text-align:left">
+                <li>Когда мы оперируем данными, то используем знак *</li>
+                <li>Когда мы оперируем адресами, то используем знак &</li>
+            </ul>
+            <p style="text-align:left">В этих вещах очень часто возникают недопонимания, и кстати, не только у новичков. Многие из тех, кто начинал программировать с того же php, также часто испытывают подобную путаницу при работе с памятью.
+
+                Для того, чтобы освободить память, выделенную оператором new, используется оператор delete.</p>
+            <h2>Пример освобождения памяти</h2>
+            <pre><code class="hljs cpp">
+                <span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+                <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+                
+                <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+                </span>{
+                    <span class="hljs-comment">// Выделение памяти</span>
+                    <span class="hljs-keyword">int</span> *a = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>;
+                    <span class="hljs-keyword">int</span> *b = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>;
+                    <span class="hljs-keyword">float</span> *c = <span class="hljs-keyword">new</span> <span class="hljs-keyword">float</span>;
+                
+                    <span class="hljs-comment">// ... Любые действия программы</span>
+                
+                    <span class="hljs-comment">// Освобождение выделенной памяти</span>
+                    <span class="hljs-keyword">delete</span> c;
+                    <span class="hljs-keyword">delete</span> b;
+                    <span class="hljs-keyword">delete</span> a;
+                
+                    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+                }
+            </code></pre>
+            <p style="text-align:left">При использовании оператора delete для указателя, знак * не используется.</p>
+        </div>
+          <footer class="mt-auto text-white-50">
+          <p>Пособие для изучения <a href="https://ru.cppreference.com/w/" class="text-white">C++</a>, by <a href="http://vk.com/dead.senpai" class="text-white">Ключников Даниил</a>.</p>
+        </footer>
+      </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</body>
+</html>

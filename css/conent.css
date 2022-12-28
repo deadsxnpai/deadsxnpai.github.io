@@ -23,7 +23,7 @@ body {
 }
 
 .cover-container {
-    max-width: 65em;
+    max-width: 75em;
 }
 
 
@@ -55,6 +55,7 @@ html.is-animating .transition-fade {
 }
 
 .sidenav {
+  text-align: left;
   height: 100%; /* Full-height: remove this if you want "auto" height */
   width: 180px; /* Set the width of the sidebar */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
@@ -66,9 +67,16 @@ html.is-animating .transition-fade {
   padding-top: 20px;
 }
 .sidenav a {
-  padding: 6px 8px 6px 16px;
+  padding: 0px 0px 0px 10px;
   text-decoration: none;
   font-size: 20px;
+  color: #818181;
+  display: block;
+}
+.sidenav li a {
+  padding:  0px 0px 0px;
+  text-decoration: none;
+  font-size: 15px;
   color: #818181;
   display: block;
 }
