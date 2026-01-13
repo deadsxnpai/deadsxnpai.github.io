@@ -1,4 +1,6 @@
+import { apolloClient } from '@/shared/api/base';
 import { useColorScheme } from '@/shared/lib/hooks/use-color-scheme';
+import { ApolloProvider } from '@apollo/client';
 import {
 	DarkTheme,
 	DefaultTheme,
@@ -16,18 +18,20 @@ export default function RootLayout() {
 	const colorScheme = useColorScheme();
 
 	return (
-		<ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-			<Stack>
-				<Stack.Screen
-					name='(tabs)'
-					options={{ headerShown: false }}
-				/>
-				<Stack.Screen
-					name='modal'
-					options={{ presentation: 'modal', title: 'Modal' }}
-				/>
-			</Stack>
-			<StatusBar style='auto' />
-		</ThemeProvider>
+		<ApolloProvider client={apolloClient}>
+			<ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+				<Stack>
+					<Stack.Screen
+						name='(tabs)'
+						options={{ headerShown: false }}
+					/>
+					<Stack.Screen
+						name='modal'
+						options={{ presentation: 'modal', title: 'Modal' }}
+					/>
+				</Stack>
+				<StatusBar style='auto' />
+			</ThemeProvider>
+		</ApolloProvider>
 	);
 }

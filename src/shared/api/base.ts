@@ -3,25 +3,22 @@ import {
 	ApolloLink,
 	HttpLink,
 	InMemoryCache,
+	split,
 } from '@apollo/client';
 
-import { SetContextLink } from '@apollo/client/link/context';
-import { ErrorLink } from '@apollo/client/link/error';
-import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
-import { getMainDefinition } from '@apollo/client/utilities';
-
-import { createClient } from 'graphql-ws';
-import EncryptedStorage from 'react-native-encrypted-storage';
-
 import { BASE_URL, DOMAIN, isDev } from '@/shared/constants/base';
-
+import { setContext } from '@apollo/client/link/context';
+import { onError } from '@apollo/client/link/error';
+import { WebSocketLink } from '@apollo/client/link/ws';
+import { getMainDefinition } from '@apollo/client/utilities';
+import * as SecureStore from 'expo-secure-store';
 /* -------------------------------------------------------------------------- */
 /*                               Auth Helpers                                 */
 /* -------------------------------------------------------------------------- */
 
 export const getAccessToken = async (): Promise<Record<string, string>> => {
 	try {
-		const token = await EncryptedStorage.getItem('access_token');
+		const token = await SecureStore.getItemAsync('access_token');
 		return token ? { 'x-access-token': token } : {};
 	} catch (error) {
 		console.error('Failed to get access token', error);
@@ -42,26 +39,28 @@ const httpLink = new HttpLink({
 /*                              WebSocket Link                                */
 /* -------------------------------------------------------------------------- */
 
-const wsLink = new GraphQLWsLink(
-	createClient({
-		url: `wss://${DOMAIN}/graphql`,
-		keepAlive: 10_000,
-		retryAttempts: 10,
-		connectionParams: async () => getAccessToken(),
-	})
-);
+const wsLink = new WebSocketLink({
+	uri: `ws://${DOMAIN}/graphql`,
+	options: {
+		reconnect: true,
+		connectionParams: async () => {
+			const tokenHeaders = await getAccessToken();
+			return tokenHeaders;
+		},
+	},
+});
 
 /* -------------------------------------------------------------------------- */
 /*                               Error Link                                   */
 /* -------------------------------------------------------------------------- */
 
-const errorLink = new ErrorLink(({ graphQLErrors, networkError }: any) => {
+const errorLink = onError(({ graphQLErrors, networkError }) => {
 	if (graphQLErrors) {
-		for (const { message, locations, path } of graphQLErrors) {
+		graphQLErrors.forEach(({ message, locations, path }) => {
 			console.error(
 				`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
 			);
-		}
+		});
 	}
 
 	if (networkError) {
@@ -73,11 +72,11 @@ const errorLink = new ErrorLink(({ graphQLErrors, networkError }: any) => {
 /*                                Auth Link                                   */
 /* -------------------------------------------------------------------------- */
 
-const authLink = new SetContextLink(async (prevContext) => {
+const authLink = setContext(async (_, { headers }) => {
 	const tokenHeaders = await getAccessToken();
 	return {
 		headers: {
-			...prevContext.headers,
+			...headers,
 			...tokenHeaders,
 		},
 	};
@@ -87,7 +86,7 @@ const authLink = new SetContextLink(async (prevContext) => {
 /*                             Split Link (WS)                                 */
 /* -------------------------------------------------------------------------- */
 
-const splitLink = ApolloLink.split(
+const splitLink = split(
 	({ query }) => {
 		const definition = getMainDefinition(query);
 		return (
@@ -104,10 +103,8 @@ const splitLink = ApolloLink.split(
 /* -------------------------------------------------------------------------- */
 
 export const apolloClient = new ApolloClient({
-	queryDeduplication: false,
 	link: ApolloLink.from([errorLink, authLink, splitLink]),
 	cache: new InMemoryCache(),
-	devtools: {
-		enabled: isDev ? true : false,
-	},
+	queryDeduplication: false,
+	connectToDevTools: isDev,
 });
