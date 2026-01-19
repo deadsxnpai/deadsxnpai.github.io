@@ -8,7 +8,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 export default function HomeScreen() {
 	return (
 		<Container>
-			<Header title='FSD Expo App' />
+			<Header title='TSU mobile app' />
 			<ScrollView style={styles.content}>
 				<View style={styles.section}>
 					<Typography
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 16,
 	},
 	section: {
-		marginBottom: 32,
+		marginTop: 22,
 		backgroundColor: '#fff',
 		padding: 16,
 		borderRadius: 12,
