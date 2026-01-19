@@ -1,5 +1,4 @@
 import { apolloClient } from '@/shared/api/base';
-import { useColorScheme } from '@/shared/lib/hooks/use-color-scheme';
 import { ApolloProvider } from '@apollo/client';
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
@@ -11,12 +10,9 @@ export const unstable_settings = {
 };
 
 export default function RootLayout() {
-	const colorScheme = useColorScheme();
-
 	return (
 		<ApolloProvider client={apolloClient}>
-			<ThemeProvider
-				value={colorScheme === 'dark' ? DefaultTheme : DefaultTheme}>
+			<ThemeProvider value={DefaultTheme}>
 				<Stack>
 					<Stack.Screen
 						name='(tabs)'

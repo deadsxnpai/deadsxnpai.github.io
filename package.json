@@ -9,7 +9,8 @@
 		"ios": "expo start --ios",
 		"web": "expo start --web",
 		"lint": "expo lint",
-		"build:web": "expo export:web"
+		"build:web": "expo export:web",
+		"dev": "expo start --localhost"
 	},
 	"dependencies": {
 		"@apollo/client": "^3.9.7",

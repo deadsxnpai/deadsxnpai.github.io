@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 
 interface HeaderProps {
 	title: string;
@@ -7,14 +7,24 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ title }) => {
 	return (
-		<View style={styles.container}>
+		<View
+			style={
+				Platform.OS === 'web' ? styles.webContainer : styles.mobileContainer
+			}>
 			<Text style={styles.title}>{title}</Text>
 		</View>
 	);
 };
 
 const styles = StyleSheet.create({
-	container: {
+	mobileContainer: {
+		backgroundColor: '#007AFF',
+		paddingVertical: 40,
+		paddingHorizontal: 20,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	webContainer: {
 		backgroundColor: '#007AFF',
 		paddingVertical: 16,
 		paddingHorizontal: 20,
