@@ -1,6 +1,5 @@
 import { ApolloProvider } from '@/shared/lib/providers/apollo';
 import { AppContextProvider } from '@/shared/lib/providers/app-context';
-import { AuthProvider } from '@/shared/lib/providers/auth';
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -17,17 +16,17 @@ export default function RootLayout() {
 
 	return (
 		<ApolloProvider>
-			<AuthProvider>
-				<AppContextProvider>
-					<ThemeProvider value={DefaultTheme}>
-						<Stack screenOptions={{ headerShown: false }}>
-							<Stack.Screen name='(auth)' />
-							<Stack.Screen name='(app)' />
-						</Stack>
-						<StatusBar style='auto' />
-					</ThemeProvider>
-				</AppContextProvider>
-			</AuthProvider>
+			{/* <AuthProvider> */}
+			<AppContextProvider>
+				<ThemeProvider value={DefaultTheme}>
+					<Stack screenOptions={{ headerShown: false }}>
+						<Stack.Screen name='(app)' />
+						<Stack.Screen name='(auth)' />
+					</Stack>
+					<StatusBar style='auto' />
+				</ThemeProvider>
+			</AppContextProvider>
+			{/* </AuthProvider> */}
 		</ApolloProvider>
 	);
 }
