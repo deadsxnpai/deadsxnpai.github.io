@@ -12,9 +12,15 @@ import { WebView } from 'react-native-webview';
 
 interface CrossPlatformWebViewProps {
 	url: string;
+	injectedJavaScript?: string; // JavaScript to inject on page load
+	injectedJavaScriptBeforeContentLoaded?: string; // JS to inject before content loads
 }
 
-export function CrossPlatformWebView({ url }: CrossPlatformWebViewProps) {
+export function CrossPlatformWebView({
+	url,
+	injectedJavaScript,
+	injectedJavaScriptBeforeContentLoaded,
+}: CrossPlatformWebViewProps) {
 	const [currentUrl, setCurrentUrl] = useState(url);
 	const [inputUrl, setInputUrl] = useState(url);
 	const [loading, setLoading] = useState(true);
@@ -125,7 +131,7 @@ export function CrossPlatformWebView({ url }: CrossPlatformWebViewProps) {
 					<Ionicons
 						name='refresh'
 						size={24}
-						color='#007AFF'
+						color={Colors.primary}
 					/>
 				</TouchableOpacity>
 
@@ -148,7 +154,7 @@ export function CrossPlatformWebView({ url }: CrossPlatformWebViewProps) {
 					<Ionicons
 						name='home'
 						size={24}
-						color='#007AFF'
+						color={Colors.primary}
 					/>
 				</TouchableOpacity>
 
@@ -163,7 +169,7 @@ export function CrossPlatformWebView({ url }: CrossPlatformWebViewProps) {
 					<Ionicons
 						name='close'
 						size={24}
-						color={Colors.red}
+						color={Colors.secondPrimary}
 					/>
 				</TouchableOpacity>
 			</View>
@@ -194,6 +200,10 @@ export function CrossPlatformWebView({ url }: CrossPlatformWebViewProps) {
 					ref={webViewRef}
 					source={{ uri: currentUrl }}
 					style={styles.webview}
+					injectedJavaScript={injectedJavaScript}
+					injectedJavaScriptBeforeContentLoaded={
+						injectedJavaScriptBeforeContentLoaded
+					}
 					onNavigationStateChange={(navState) => {
 						setCanGoBack(navState.canGoBack);
 						setCanGoForward(navState.canGoForward);
@@ -312,7 +322,7 @@ const styles = StyleSheet.create({
 		color: '#666',
 	},
 	cancelButton: {
-		backgroundColor: '#FF3B30',
+		backgroundColor: Colors.secondPrimary,
 		paddingHorizontal: 20,
 		paddingVertical: 10,
 		borderRadius: 8,

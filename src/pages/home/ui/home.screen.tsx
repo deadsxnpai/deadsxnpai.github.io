@@ -6,7 +6,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 export function HomeScreen() {
 	return (
 		<Container>
-			<Header title='TSU mobile app' />
+			<Header title='' />
 			<ScrollView style={styles.content}>
 				<View style={styles.section}>
 					<Typography
