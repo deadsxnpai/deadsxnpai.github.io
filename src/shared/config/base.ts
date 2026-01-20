@@ -2,8 +2,8 @@ export const DOMAIN = 'lk.tsutmb.ru/api'; // prod
 // export const DOMAIN = "lk-dev.tsutmb.ru/api"; // for tests
 
 export const BASE_URL: string = `https://${DOMAIN}`;
-export const AUTH_URL: string = `${BASE_URL}/auth`;
-export const END_SESSION_URL: string = `${BASE_URL}/logout`;
+export const AUTH_URL: string = `${BASE_URL}/auth?redirect=tsumobileapp://app/`;
+export const END_SESSION_URL: string = `${BASE_URL}/endSession?redirect=tsumobileapp://app/logout`;
 
 export const dev: string = 'lk-dev.tsutmb.ru/api';
 export const isDev: boolean = DOMAIN === dev;

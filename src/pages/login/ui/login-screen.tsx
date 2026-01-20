@@ -1,23 +1,7 @@
-import { Container, Typography } from '@/shared';
+import { CrossPlatformWebView } from '@/shared';
+import { EndPoints } from '@/shared/config/base';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
 
 export function LoginScreen() {
-	return (
-		<Container>
-			<View style={styles.content}>
-				<Typography variant='h1'>Login</Typography>
-				<Typography variant='body'>Welcome to your profile!</Typography>
-			</View>
-		</Container>
-	);
+	return <CrossPlatformWebView url={EndPoints.auth} />;
 }
-
-const styles = StyleSheet.create({
-	content: {
-		flex: 1,
-		padding: 20,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-});
