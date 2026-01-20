@@ -3,7 +3,7 @@ import { IconSymbol } from '@/shared/ui/icon-symbol/icon-symbol';
 import { Tabs } from 'expo-router';
 import React from 'react';
 
-export default function TabLayout() {
+export default function TabsLayout() {
 	return (
 		<Tabs
 			screenOptions={{
@@ -24,7 +24,7 @@ export default function TabLayout() {
 				}}
 			/>
 			<Tabs.Screen
-				name='profile'
+				name='profile/index'
 				options={{
 					title: '',
 					tabBarIcon: ({ color }) => (
@@ -37,7 +37,7 @@ export default function TabLayout() {
 				}}
 			/>
 			<Tabs.Screen
-				name='chatbot'
+				name='chatbot/index'
 				options={{
 					title: '',
 					tabBarIcon: ({ color }) => (

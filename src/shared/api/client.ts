@@ -1,10 +1,6 @@
-import {
-	ApolloClient,
-	ApolloLink,
-	HttpLink,
-	InMemoryCache,
-	split,
-} from '@apollo/client';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+
+import { ApolloLink, HttpLink, split } from '@apollo/client';
 
 import { BASE_URL, DOMAIN, isDev } from '@/shared/constants/base';
 import { setContext } from '@apollo/client/link/context';
@@ -12,6 +8,7 @@ import { onError } from '@apollo/client/link/error';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import * as SecureStore from 'expo-secure-store';
+
 /* -------------------------------------------------------------------------- */
 /*                               Auth Helpers                                 */
 /* -------------------------------------------------------------------------- */
