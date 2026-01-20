@@ -1,5 +1,5 @@
 import { Button, Container, Typography } from '@/shared';
-import { Colors } from '@/shared/constants/theme';
+import { Colors } from '@/shared/config/theme';
 import { Header } from '@/widgets';
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';

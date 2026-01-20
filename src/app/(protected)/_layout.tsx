@@ -1,4 +1,4 @@
-import { Colors } from '@/shared/constants/theme';
+import { Colors } from '@/shared/config/theme';
 import { IconSymbol } from '@/shared/ui/icon-symbol/icon-symbol';
 import { Tabs } from 'expo-router';
 import React from 'react';
@@ -36,19 +36,6 @@ export default function TabsLayout() {
 					),
 				}}
 			/>
-			{/* <Tabs.Screen
-				name='vkmail/index'
-				options={{
-					title: 'VK mail',
-					tabBarIcon: ({ color }) => (
-						<IconSymbol
-							size={28}
-							name={'envelope.fill'}
-							color={color}
-						/>
-					),
-				}}
-			/> */}
 			<Tabs.Screen
 				name='moodle/index'
 				options={{

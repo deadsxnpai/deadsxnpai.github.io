@@ -1,1 +1,1 @@
-export * from './ui/login.screen';
+export * from './ui/login-screen';

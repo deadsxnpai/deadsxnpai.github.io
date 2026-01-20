@@ -1,1 +1,1 @@
-export * from './ui/home.screen';
+export * from './ui/home-screen';

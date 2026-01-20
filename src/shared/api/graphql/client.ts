@@ -2,7 +2,7 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 import { ApolloLink, HttpLink, split } from '@apollo/client';
 
-import { BASE_URL, DOMAIN, isDev } from '@/shared/constants/base';
+import { BASE_URL, DOMAIN, isDev } from '@/shared/config/base';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 import { WebSocketLink } from '@apollo/client/link/ws';
