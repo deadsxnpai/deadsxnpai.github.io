@@ -1,5 +1,5 @@
-import { EmailScreen } from '@/pages';
+// import { EmailScreen } from '@/pages';
 
-export default function EmailTab() {
-	return <EmailScreen />;
-}
+// export default function EmailTab() {
+// 	return <EmailScreen />;
+// }

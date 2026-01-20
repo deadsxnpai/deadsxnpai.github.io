@@ -36,7 +36,7 @@ export default function TabsLayout() {
 					),
 				}}
 			/>
-			<Tabs.Screen
+			{/* <Tabs.Screen
 				name='vkmail/index'
 				options={{
 					title: 'VK mail',
@@ -48,7 +48,7 @@ export default function TabsLayout() {
 						/>
 					),
 				}}
-			/>
+			/> */}
 			<Tabs.Screen
 				name='moodle/index'
 				options={{
