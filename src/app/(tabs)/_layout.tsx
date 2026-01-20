@@ -13,7 +13,7 @@ export default function TabLayout() {
 			<Tabs.Screen
 				name='index'
 				options={{
-					title: 'Главная',
+					title: '',
 					tabBarIcon: ({ color }) => (
 						<IconSymbol
 							size={28}
@@ -26,11 +26,24 @@ export default function TabLayout() {
 			<Tabs.Screen
 				name='profile'
 				options={{
-					title: 'Профиль',
+					title: '',
 					tabBarIcon: ({ color }) => (
 						<IconSymbol
 							size={28}
 							name={'person.fill'}
+							color={color}
+						/>
+					),
+				}}
+			/>
+			<Tabs.Screen
+				name='chatbot'
+				options={{
+					title: '',
+					tabBarIcon: ({ color }) => (
+						<IconSymbol
+							size={28}
+							name={'message.fill'}
 							color={color}
 						/>
 					),
