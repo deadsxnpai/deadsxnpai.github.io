@@ -1,4 +1,5 @@
 import { Button, Container, Typography } from '@/shared';
+import { Colors } from '@/shared/constants/theme';
 import { Header } from '@/widgets';
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
 	},
 	section: {
 		marginTop: 22,
-		backgroundColor: '#fff',
+		backgroundColor: Colors.background,
 		padding: 16,
 		borderRadius: 12,
 		elevation: 3,
