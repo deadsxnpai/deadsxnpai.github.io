@@ -1,5 +1,5 @@
-import { ApolloProvider } from '@/shared/providers/apollo';
-import { AppContextProvider } from '@/shared/providers/app-context';
+import { ApolloProvider } from '@/shared/lib/providers/apollo';
+import { AppContextProvider } from '@/shared/lib/providers/app-context';
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
