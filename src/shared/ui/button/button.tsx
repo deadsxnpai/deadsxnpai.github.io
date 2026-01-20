@@ -44,7 +44,7 @@ export const Button: React.FC<ButtonProps> = ({
 
 const styles = StyleSheet.create({
 	primaryButton: {
-		backgroundColor: Colors.light.primary,
+		backgroundColor: Colors.primary,
 		paddingVertical: 12,
 		paddingHorizontal: 24,
 		borderRadius: 8,
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	secondaryButton: {
-		backgroundColor: Colors.light.secondary,
+		backgroundColor: Colors.secondary,
 		paddingVertical: 12,
 		paddingHorizontal: 24,
 		borderRadius: 8,
@@ -60,12 +60,12 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	primaryText: {
-		color: Colors.light.white,
+		color: Colors.white,
 		fontSize: 16,
 		fontWeight: '600',
 	},
 	secondaryText: {
-		color: Colors.light.text,
+		color: Colors.text,
 		fontSize: 16,
 		fontWeight: '600',
 	},

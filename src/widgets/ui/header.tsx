@@ -19,7 +19,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
 
 const styles = StyleSheet.create({
 	mobileContainer: {
-		backgroundColor: Colors.light.primary,
+		backgroundColor: Colors.primary,
 		paddingTop: 60,
 		paddingBottom: 40,
 		paddingHorizontal: 20,
@@ -27,14 +27,14 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	webContainer: {
-		backgroundColor: Colors.light.primary,
+		backgroundColor: Colors.primary,
 		paddingVertical: 16,
 		paddingHorizontal: 20,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
 	title: {
-		color: Colors.light.white,
+		color: Colors.white,
 		fontSize: 20,
 		fontWeight: 'bold',
 	},

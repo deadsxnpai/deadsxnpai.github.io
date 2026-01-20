@@ -87,27 +87,6 @@ export function CrossPlatformWebView({ url }: CrossPlatformWebViewProps) {
 		}
 	};
 
-	const handleUrlSubmit = () => {
-		let newUrl = inputUrl.trim();
-		if (!newUrl) return;
-
-		// Добавляем протокол если отсутствует
-		if (!newUrl.startsWith('http://') && !newUrl.startsWith('https://')) {
-			newUrl = 'https://' + newUrl;
-		}
-
-		setCurrentUrl(newUrl);
-		setInputUrl(newUrl);
-		setLoading(true);
-
-		// Для нативного WebView
-		if (Platform.OS !== 'web' && webViewRef.current) {
-			webViewRef.current.injectJavaScript(`
-				window.location.href = "${newUrl}";
-			`);
-		}
-	};
-
 	const handleHomePress = () => {
 		setCurrentUrl(url);
 		setInputUrl(url);
@@ -134,7 +113,7 @@ export function CrossPlatformWebView({ url }: CrossPlatformWebViewProps) {
 					<Ionicons
 						name='arrow-back'
 						size={24}
-						color={canGoBack ? Colors.light.primary : Colors.light.secondary}
+						color={canGoBack ? Colors.primary : Colors.secondary}
 					/>
 				</TouchableOpacity>
 
@@ -159,7 +138,7 @@ export function CrossPlatformWebView({ url }: CrossPlatformWebViewProps) {
 					<Ionicons
 						name='arrow-forward'
 						size={24}
-						color={canGoForward ? Colors.light.primary : Colors.light.secondary}
+						color={canGoForward ? Colors.primary : Colors.secondary}
 					/>
 				</TouchableOpacity>
 
@@ -184,7 +163,7 @@ export function CrossPlatformWebView({ url }: CrossPlatformWebViewProps) {
 					<Ionicons
 						name='close'
 						size={24}
-						color={Colors.light.red}
+						color={Colors.red}
 					/>
 				</TouchableOpacity>
 			</View>
@@ -233,7 +212,7 @@ export function CrossPlatformWebView({ url }: CrossPlatformWebViewProps) {
 						<View style={styles.loadingContainer}>
 							<ActivityIndicator
 								size='large'
-								color={Colors.light.primary}
+								color={Colors.primary}
 							/>
 						</View>
 					)}
@@ -263,9 +242,9 @@ const styles = StyleSheet.create({
 	},
 	navContainer: {
 		flexDirection: 'column',
-		backgroundColor: Colors.light.background,
+		backgroundColor: Colors.background,
 		borderBottomWidth: 1,
-		borderBottomColor: Colors.light.border,
+		borderBottomColor: Colors.border,
 		paddingHorizontal: 15,
 		paddingVertical: 10,
 		paddingTop: Platform.OS === 'web' ? 10 : 40,
@@ -283,7 +262,7 @@ const styles = StyleSheet.create({
 		padding: 8,
 		marginRight: 10,
 		borderRadius: 4,
-		backgroundColor: Colors.light.background,
+		backgroundColor: Colors.background,
 		borderWidth: 1,
 		borderColor: '#ddd',
 	},
@@ -293,7 +272,7 @@ const styles = StyleSheet.create({
 	urlInput: {
 		flex: 1,
 		height: 40,
-		backgroundColor: Colors.light.background,
+		backgroundColor: Colors.background,
 		borderWidth: 1,
 		borderColor: '#ddd',
 		borderRadius: 8,
@@ -303,7 +282,7 @@ const styles = StyleSheet.create({
 	},
 	goButton: {
 		height: 40,
-		backgroundColor: Colors.light.primary,
+		backgroundColor: Colors.primary,
 		paddingHorizontal: 16,
 		paddingVertical: 10,
 		borderRadius: 8,

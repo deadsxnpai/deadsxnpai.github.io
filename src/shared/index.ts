@@ -1,6 +1,5 @@
 export * from './api/client';
 export * from './lib/hooks/use-color-scheme';
-export * from './lib/hooks/use-theme-color';
 export * from './lib/providers/apollo';
 export * from './ui/button/button';
 export * from './ui/container/container';
