@@ -27,8 +27,8 @@ export default function RootLayout() {
 			<AppContextProvider>
 				<ThemeProvider value={DefaultTheme}>
 					<Stack screenOptions={{ headerShown: false }}>
-						<Stack.Screen name='(app)' />
 						<Stack.Screen name='(auth)' />
+						<Stack.Screen name='(app)' />
 					</Stack>
 					<StatusBar style='auto' />
 				</ThemeProvider>
