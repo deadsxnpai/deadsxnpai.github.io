@@ -13,7 +13,7 @@ export default function TabsLayout() {
 			<Tabs.Screen
 				name='index'
 				options={{
-					title: '',
+					title: 'Главная',
 					tabBarIcon: ({ color }) => (
 						<IconSymbol
 							size={28}
@@ -26,7 +26,7 @@ export default function TabsLayout() {
 			<Tabs.Screen
 				name='chatbot/index'
 				options={{
-					title: '',
+					title: 'Чат-бот',
 					tabBarIcon: ({ color }) => (
 						<IconSymbol
 							size={28}
@@ -39,7 +39,7 @@ export default function TabsLayout() {
 			<Tabs.Screen
 				name='vkmail/index'
 				options={{
-					title: '',
+					title: 'VK mail',
 					tabBarIcon: ({ color }) => (
 						<IconSymbol
 							size={28}
@@ -52,7 +52,7 @@ export default function TabsLayout() {
 			<Tabs.Screen
 				name='moodle/index'
 				options={{
-					title: '',
+					title: 'Moodle',
 					tabBarIcon: ({ color }) => (
 						<IconSymbol
 							size={28}
