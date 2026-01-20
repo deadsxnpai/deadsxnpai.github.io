@@ -1,3 +1,4 @@
+import { Colors } from '@/shared/constants/theme';
 import React from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 
@@ -18,7 +19,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
 
 const styles = StyleSheet.create({
 	mobileContainer: {
-		backgroundColor: '#007AFF',
+		backgroundColor: Colors.light.primary,
 		paddingTop: 60,
 		paddingBottom: 40,
 		paddingHorizontal: 20,
@@ -26,14 +27,14 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	webContainer: {
-		backgroundColor: '#007AFF',
+		backgroundColor: Colors.light.primary,
 		paddingVertical: 16,
 		paddingHorizontal: 20,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
 	title: {
-		color: '#FFFFFF',
+		color: Colors.light.white,
 		fontSize: 20,
 		fontWeight: 'bold',
 	},

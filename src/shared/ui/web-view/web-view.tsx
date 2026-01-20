@@ -1,3 +1,4 @@
+import { Colors } from '@/shared/constants/theme';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useRef, useState } from 'react';
 import {
@@ -133,7 +134,7 @@ export function CrossPlatformWebView({ url }: CrossPlatformWebViewProps) {
 					<Ionicons
 						name='arrow-back'
 						size={24}
-						color={canGoBack ? '#007AFF' : '#999'}
+						color={canGoBack ? Colors.light.primary : Colors.light.secondary}
 					/>
 				</TouchableOpacity>
 
@@ -158,7 +159,7 @@ export function CrossPlatformWebView({ url }: CrossPlatformWebViewProps) {
 					<Ionicons
 						name='arrow-forward'
 						size={24}
-						color={canGoForward ? '#007AFF' : '#999'}
+						color={canGoForward ? Colors.light.primary : Colors.light.secondary}
 					/>
 				</TouchableOpacity>
 
@@ -183,7 +184,7 @@ export function CrossPlatformWebView({ url }: CrossPlatformWebViewProps) {
 					<Ionicons
 						name='close'
 						size={24}
-						color='#FF3B30'
+						color={Colors.light.red}
 					/>
 				</TouchableOpacity>
 			</View>
@@ -232,7 +233,7 @@ export function CrossPlatformWebView({ url }: CrossPlatformWebViewProps) {
 						<View style={styles.loadingContainer}>
 							<ActivityIndicator
 								size='large'
-								color='#007AFF'
+								color={Colors.light.primary}
 							/>
 						</View>
 					)}
@@ -262,9 +263,9 @@ const styles = StyleSheet.create({
 	},
 	navContainer: {
 		flexDirection: 'column',
-		backgroundColor: '#f5f5f5',
+		backgroundColor: Colors.light.background,
 		borderBottomWidth: 1,
-		borderBottomColor: '#ddd',
+		borderBottomColor: Colors.light.border,
 		paddingHorizontal: 15,
 		paddingVertical: 10,
 		paddingTop: Platform.OS === 'web' ? 10 : 40,
@@ -282,7 +283,7 @@ const styles = StyleSheet.create({
 		padding: 8,
 		marginRight: 10,
 		borderRadius: 4,
-		backgroundColor: '#fff',
+		backgroundColor: Colors.light.background,
 		borderWidth: 1,
 		borderColor: '#ddd',
 	},
@@ -292,7 +293,7 @@ const styles = StyleSheet.create({
 	urlInput: {
 		flex: 1,
 		height: 40,
-		backgroundColor: '#fff',
+		backgroundColor: Colors.light.background,
 		borderWidth: 1,
 		borderColor: '#ddd',
 		borderRadius: 8,
@@ -302,7 +303,7 @@ const styles = StyleSheet.create({
 	},
 	goButton: {
 		height: 40,
-		backgroundColor: '#007AFF',
+		backgroundColor: Colors.light.primary,
 		paddingHorizontal: 16,
 		paddingVertical: 10,
 		borderRadius: 8,

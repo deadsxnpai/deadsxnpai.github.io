@@ -1,3 +1,4 @@
+import { Colors } from '@/shared/constants/theme';
 import React from 'react';
 import {
 	StyleSheet,
@@ -43,7 +44,7 @@ export const Button: React.FC<ButtonProps> = ({
 
 const styles = StyleSheet.create({
 	primaryButton: {
-		backgroundColor: '#007AFF',
+		backgroundColor: Colors.light.primary,
 		paddingVertical: 12,
 		paddingHorizontal: 24,
 		borderRadius: 8,
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	secondaryButton: {
-		backgroundColor: '#E5E5EA',
+		backgroundColor: Colors.light.secondary,
 		paddingVertical: 12,
 		paddingHorizontal: 24,
 		borderRadius: 8,
@@ -59,12 +60,12 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	primaryText: {
-		color: '#FFFFFF',
+		color: Colors.light.white,
 		fontSize: 16,
 		fontWeight: '600',
 	},
 	secondaryText: {
-		color: '#000000',
+		color: Colors.light.text,
 		fontSize: 16,
 		fontWeight: '600',
 	},
