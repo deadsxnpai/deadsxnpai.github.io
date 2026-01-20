@@ -1,11 +1,9 @@
-import { Button } from '@/shared/ui/button/button';
-import { Container } from '@/shared/ui/container/container';
-import { Typography } from '@/shared/ui/typography/typography';
-import { Header } from '@/widgets/ui/header';
+import { Button, Container, Typography } from '@/shared';
+import { Header } from '@/widgets';
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
-export default function HomeScreen() {
+export function HomeScreen() {
 	return (
 		<Container>
 			<Header title='TSU mobile app' />

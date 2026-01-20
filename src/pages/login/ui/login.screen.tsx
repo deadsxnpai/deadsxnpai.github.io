@@ -1,9 +1,8 @@
-import { Container } from '@/shared/ui/container/container';
-import { Typography } from '@/shared/ui/typography/typography';
+import { Container, Typography } from '@/shared';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-export default function LoginScreen() {
+export function LoginScreen() {
 	return (
 		<Container>
 			<View style={styles.content}>

@@ -4,6 +4,7 @@ import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import { Platform } from 'react-native';
 
 export const unstable_settings = {
 	anchor: '(app)',
@@ -12,6 +13,12 @@ export const unstable_settings = {
 export default function RootLayout() {
 	useEffect(() => {
 		SplashScreen.hideAsync();
+	}, []);
+
+	useEffect(() => {
+		if (Platform.OS === 'web') {
+			document.title = 'ЛК ТГУ';
+		}
 	}, []);
 
 	return (

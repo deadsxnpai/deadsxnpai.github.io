@@ -1,5 +1,5 @@
-import ProfileScreen from '@/pages/profile/ui/profile.screen';
+import { ChatbotScreen } from '@/pages';
 
 export default function ChatBotTab() {
-	return <ProfileScreen />;
+	return <ChatbotScreen />;
 }

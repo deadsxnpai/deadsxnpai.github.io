@@ -23,6 +23,8 @@ const MAPPING = {
 	'chevron.right': 'chevron-right',
 	'person.fill': 'person',
 	'message.fill': 'message',
+	'envelope.fill': 'mail',
+	'books.vertical.fill': 'menu-book',
 } as IconMapping;
 
 /**

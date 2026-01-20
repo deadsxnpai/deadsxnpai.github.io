@@ -24,19 +24,6 @@ export default function TabsLayout() {
 				}}
 			/>
 			<Tabs.Screen
-				name='profile/index'
-				options={{
-					title: '',
-					tabBarIcon: ({ color }) => (
-						<IconSymbol
-							size={28}
-							name={'person.fill'}
-							color={color}
-						/>
-					),
-				}}
-			/>
-			<Tabs.Screen
 				name='chatbot/index'
 				options={{
 					title: '',
@@ -44,6 +31,32 @@ export default function TabsLayout() {
 						<IconSymbol
 							size={28}
 							name={'message.fill'}
+							color={color}
+						/>
+					),
+				}}
+			/>
+			<Tabs.Screen
+				name='vkmail/index'
+				options={{
+					title: '',
+					tabBarIcon: ({ color }) => (
+						<IconSymbol
+							size={28}
+							name={'envelope.fill'}
+							color={color}
+						/>
+					),
+				}}
+			/>
+			<Tabs.Screen
+				name='moodle/index'
+				options={{
+					title: '',
+					tabBarIcon: ({ color }) => (
+						<IconSymbol
+							size={28}
+							name={'books.vertical.fill'}
 							color={color}
 						/>
 					),

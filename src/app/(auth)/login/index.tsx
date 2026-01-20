@@ -1,4 +1,4 @@
-import LoginScreen from '@/pages/login/ui/login.screen';
+import { LoginScreen } from '@/pages';
 
 export default function Login() {
 	return <LoginScreen />;

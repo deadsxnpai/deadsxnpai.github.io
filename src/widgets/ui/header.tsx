@@ -19,7 +19,8 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
 const styles = StyleSheet.create({
 	mobileContainer: {
 		backgroundColor: '#007AFF',
-		paddingVertical: 40,
+		paddingTop: 60,
+		paddingBottom: 40,
 		paddingHorizontal: 20,
 		alignItems: 'center',
 		justifyContent: 'center',

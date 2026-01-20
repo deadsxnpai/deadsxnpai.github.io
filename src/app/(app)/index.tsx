@@ -1,4 +1,4 @@
-import HomeScreen from '@/pages/home/ui/home.screen';
+import { HomeScreen } from '@/pages';
 
 export default function TabIndex() {
 	return <HomeScreen />;

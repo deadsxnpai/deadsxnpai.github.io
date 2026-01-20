@@ -23,4 +23,5 @@ export const EndPoints = {
 	vkcloud: `https://cloud.mail.ru`,
 	chatbot: `https://jivo.chat/OMAS4HokqF`,
 	chatbotStudent: `https://jivo.chat/QoInfbNA9f`,
+	moodle: `${BASE_URL}/moodle`,
 };
