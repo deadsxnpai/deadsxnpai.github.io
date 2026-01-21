@@ -5,6 +5,23 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { Platform } from 'react-native';
 
+const InitialLayoyt = () => {
+	const isAuth = false;
+	return (
+		<Stack screenOptions={{ headerShown: false }}>
+			<Stack.Protected guard={isAuth}>
+				<Stack.Screen name='(tabs)' />
+			</Stack.Protected>
+
+			<Stack.Protected guard={!isAuth}>
+				<Stack.Screen name='(auth)' />
+			</Stack.Protected>
+
+			<Stack.Screen name='+not-found' />
+		</Stack>
+	);
+};
+
 export default function RootLayout() {
 	useEffect(() => {
 		SplashScreen.hideAsync();
@@ -20,11 +37,7 @@ export default function RootLayout() {
 		<ApolloProvider>
 			<AppContextProvider>
 				<ThemeProvider value={DefaultTheme}>
-					<Stack screenOptions={{ headerShown: false }}>
-						<Stack.Screen name='(auth)' />
-						<Stack.Screen name='(tabs)' />
-						<Stack.Screen name='+not-found' />
-					</Stack>
+					<InitialLayoyt />
 					<StatusBar style='auto' />
 				</ThemeProvider>
 			</AppContextProvider>
