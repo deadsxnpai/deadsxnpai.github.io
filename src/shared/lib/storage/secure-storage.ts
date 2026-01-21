@@ -6,9 +6,7 @@ import { Platform } from 'react-native';
 class SecureStorage {
 	private prefix = '@app_';
 
-	// Helper to sanitize keys for SecureStore (removes invalid characters)
 	private sanitizeKey(key: string): string {
-		// Remove all characters except alphanumeric, ., -, and _
 		return key.replace(/[^a-zA-Z0-9._-]/g, '_');
 	}
 
@@ -32,7 +30,6 @@ class SecureStorage {
 		if (Platform.OS === 'web') {
 			await AsyncStorage.setItem(fullKey, value);
 		} else {
-			// Validate value is not empty
 			if (!value || value.trim().length === 0) {
 				throw new Error('Cannot store empty value in SecureStore');
 			}
@@ -62,13 +59,11 @@ class SecureStorage {
 		}
 	}
 
-	// Auth-specific methods
 	async saveAuthData(
 		accessToken: string,
 		refreshToken: string,
 		user: any,
 	): Promise<void> {
-		// Validate tokens before storing
 		if (!accessToken || accessToken.trim().length === 0) {
 			throw new Error('Invalid access token');
 		}
@@ -132,14 +127,10 @@ class SecureStorage {
 
 	async clearAll(): Promise<void> {
 		if (Platform.OS === 'web') {
-			// For web, clear all AsyncStorage items with our prefix
 			const keys = await AsyncStorage.getAllKeys();
 			const ourKeys = keys.filter((key) => key.startsWith(this.prefix));
 			await AsyncStorage.multiRemove(ourKeys);
 		} else {
-			// For native, we can only remove items one by one
-			// You might want to track your keys in a separate list
-			// For now, just remove known keys
 			await this.clearAuthData();
 		}
 	}

@@ -24,7 +24,7 @@ export default function TabsLayout() {
 				}}
 			/>
 			<Tabs.Screen
-				name='chatbot/index'
+				name='chatbot'
 				options={{
 					title: 'Чат-бот',
 					tabBarIcon: ({ color }) => (
@@ -37,7 +37,7 @@ export default function TabsLayout() {
 				}}
 			/>
 			<Tabs.Screen
-				name='moodle/index'
+				name='moodle'
 				options={{
 					title: 'Moodle',
 					tabBarIcon: ({ color }) => (
