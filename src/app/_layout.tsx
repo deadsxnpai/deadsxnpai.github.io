@@ -5,8 +5,8 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { Platform } from 'react-native';
 
-const InitialLayoyt = () => {
-	const isAuth = false;
+const InitialLayoyt = async () => {
+	const isAuth = true;
 	return (
 		<Stack screenOptions={{ headerShown: false }}>
 			<Stack.Protected guard={isAuth}>
