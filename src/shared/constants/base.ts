@@ -10,10 +10,10 @@ export const BASE_URL = `https://${DOMAIN}`;
 export const dev = 'lk-dev.tsutmb.ru/api';
 export const isDev = DOMAIN_API === dev;
 
-export const platform = detectPlatform();
+export const PLATFORM = detectPlatform();
 
 export const getAuthRedirect = () => {
-	if (platform === 'web') {
+	if (PLATFORM === 'web') {
 		if (typeof window !== 'undefined') {
 			return window.location.hostname === 'localhost'
 				? 'http://localhost:8081'
@@ -26,7 +26,7 @@ export const getAuthRedirect = () => {
 };
 
 export const getLogoutRedirect = () => {
-	if (platform === 'web') {
+	if (PLATFORM === 'web') {
 		if (typeof window !== 'undefined') {
 			return window.location.hostname === 'localhost'
 				? 'http://localhost:8081/login'
