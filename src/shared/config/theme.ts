@@ -20,6 +20,7 @@ export const Colors = {
 	border: '#ddd',
 	white: white,
 	secondPrimary: '#A92B5E',
+	gray: '#666',
 };
 
 export const Fonts = Platform.select({

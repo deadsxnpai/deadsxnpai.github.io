@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 		marginBottom: 8,
 	},
 	description: {
-		color: '#666',
+		color: Colors.gray,
 		marginBottom: 16,
 	},
 	spacer: {
