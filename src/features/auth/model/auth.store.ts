@@ -1,7 +1,7 @@
 import { parseGroups } from '@/entities/user/lib/parse-groups';
 import type { User } from '@/entities/user/model/user';
 import { http } from '@/shared/api';
-import { BASE_URL } from '@/shared/config/base';
+import { BASE_URL_API } from '@/shared/config/base';
 import { create } from 'zustand';
 
 type AuthState = {
@@ -9,7 +9,6 @@ type AuthState = {
 	groups: string[];
 	isAuth: boolean;
 	loading: boolean;
-
 	checkAuth: () => Promise<void>;
 	logout: () => Promise<void>;
 };
@@ -21,11 +20,9 @@ export const useAuthStore = create<AuthState>((set) => ({
 	loading: true,
 
 	checkAuth: async () => {
+		set({ loading: true });
 		try {
-			set({ loading: true });
-
-			const user = await http<User>(`${BASE_URL}/userinfo`);
-
+			const user: any = await http<User>(`${BASE_URL_API}/userinfo`);
 			set({
 				user,
 				groups: parseGroups(user.groups),
@@ -43,7 +40,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 	},
 
 	logout: async () => {
-		await http(`${BASE_URL}/endSession`);
+		await http(`${BASE_URL_API}/endSession`);
 		set({ user: null, groups: [], isAuth: false });
 	},
 }));

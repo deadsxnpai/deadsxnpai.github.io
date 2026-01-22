@@ -15,7 +15,7 @@ const InitialLayoyt = () => {
 	}, []);
 
 	if (loading) return null;
-	console.log('isAuth', isAuth);
+
 	const test = true;
 	return (
 		<Stack screenOptions={{ headerShown: false }}>
