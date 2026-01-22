@@ -9,10 +9,6 @@ import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import * as SecureStore from 'expo-secure-store';
 
-/* -------------------------------------------------------------------------- */
-/*                               Auth Helpers                                 */
-/* -------------------------------------------------------------------------- */
-
 export const getAccessToken = async (): Promise<Record<string, string>> => {
 	try {
 		const token = await SecureStore.getItemAsync('access_token');
@@ -23,18 +19,10 @@ export const getAccessToken = async (): Promise<Record<string, string>> => {
 	}
 };
 
-/* -------------------------------------------------------------------------- */
-/*                                HTTP Link                                   */
-/* -------------------------------------------------------------------------- */
-
 const httpLink = new HttpLink({
 	uri: `${BASE_URL}/graphql`,
 	credentials: 'include',
 });
-
-/* -------------------------------------------------------------------------- */
-/*                              WebSocket Link                                */
-/* -------------------------------------------------------------------------- */
 
 const wsLink = new WebSocketLink({
 	uri: `ws://${DOMAIN}/graphql`,
@@ -46,10 +34,6 @@ const wsLink = new WebSocketLink({
 		},
 	},
 });
-
-/* -------------------------------------------------------------------------- */
-/*                               Error Link                                   */
-/* -------------------------------------------------------------------------- */
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
 	if (graphQLErrors) {
@@ -65,10 +49,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 	}
 });
 
-/* -------------------------------------------------------------------------- */
-/*                                Auth Link                                   */
-/* -------------------------------------------------------------------------- */
-
 const authLink = setContext(async (_, { headers }) => {
 	const tokenHeaders = await getAccessToken();
 	return {
@@ -78,10 +58,6 @@ const authLink = setContext(async (_, { headers }) => {
 		},
 	};
 });
-
-/* -------------------------------------------------------------------------- */
-/*                             Split Link (WS)                                 */
-/* -------------------------------------------------------------------------- */
 
 const splitLink = split(
 	({ query }) => {
@@ -94,10 +70,6 @@ const splitLink = split(
 	wsLink,
 	httpLink,
 );
-
-/* -------------------------------------------------------------------------- */
-/*                              Apollo Client                                 */
-/* -------------------------------------------------------------------------- */
 
 export const apolloClient = new ApolloClient({
 	link: ApolloLink.from([errorLink, authLink, splitLink]),

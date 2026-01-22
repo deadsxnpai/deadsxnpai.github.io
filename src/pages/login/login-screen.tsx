@@ -1,7 +1,6 @@
-import { CrossPlatformWebView } from '@/shared';
-import { EndPoints } from '@/shared/config/base';
+import { LoginWebView } from '@/features/auth';
 import React from 'react';
 
 export function LoginScreen() {
-	return <CrossPlatformWebView url={EndPoints.auth} />;
+	return <LoginWebView />;
 }

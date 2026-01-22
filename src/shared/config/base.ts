@@ -1,9 +1,16 @@
 export const DOMAIN = 'lk.tsutmb.ru/api'; // prod
-// export const DOMAIN = "lk-dev.tsutmb.ru/api"; // for tests
+import { getAuthRedirect } from '@/shared/lib/platform/get-auth-redirect';
+import { getLogoutRedirect } from '@/shared/lib/platform/get-logout-redirect';
 
 export const BASE_URL: string = `https://${DOMAIN}`;
-export const AUTH_URL: string = `${BASE_URL}/auth?redirect=tsumobile://app/`;
-export const END_SESSION_URL: string = `${BASE_URL}/endSession?redirect=tsumobile://app/logout`;
+
+export const AUTH_URL: string = `${BASE_URL}/auth?redirect=${encodeURIComponent(
+	getAuthRedirect(),
+)}`;
+
+export const END_SESSION_URL: string = `${BASE_URL}/endSession?redirect=${encodeURIComponent(
+	getLogoutRedirect(),
+)}`;
 
 export const dev: string = 'lk-dev.tsutmb.ru/api';
 export const isDev: boolean = DOMAIN === dev;
@@ -18,4 +25,5 @@ export const EndPoints = {
 	chatbot: `https://jivo.chat/OMAS4HokqF`,
 	chatbotStudent: `https://jivo.chat/QoInfbNA9f`,
 	moodle: `${BASE_URL}/moodle`,
-};
+} as const;
+
