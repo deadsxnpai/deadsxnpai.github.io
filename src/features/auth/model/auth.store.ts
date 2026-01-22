@@ -44,7 +44,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 			// 	isAuth: true,
 			// });
 
-			set({ isAuth: true });
+			set({ isAuth: true, loading: false });
 		} catch (err) {
 			set({ user: null, groups: [], isAuth: false });
 		} finally {
