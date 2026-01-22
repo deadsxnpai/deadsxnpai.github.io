@@ -5,8 +5,8 @@ export type AppPlatform =
 	| 'ios'
 	| 'android'
 	| 'web'
-	| 'telegramWeb'
-	| 'telegramMobile'
+	| 'tgWeb'
+	| 'tgMobile'
 	| 'unknown';
 
 /**
@@ -22,11 +22,11 @@ export const detectPlatform = (): AppPlatform => {
 		if (typeof window !== 'undefined') {
 			// Telegram WebApp detection
 			const tg = (window as any).Telegram?.WebApp;
-			if (tg) return 'telegramWeb';
+			if (tg) return 'tgWeb';
 
 			// Optional: detect if in Telegram mobile browser (not WebApp)
 			const userAgent = window.navigator.userAgent.toLowerCase();
-			if (userAgent.includes('telegram')) return 'telegramMobile';
+			if (userAgent.includes('telegram')) return 'tgMobile';
 		}
 		return 'web';
 	}

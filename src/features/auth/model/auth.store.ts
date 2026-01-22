@@ -26,7 +26,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 			set({ loading: true });
 			const platform = detectPlatform();
 			// Telegram Web App
-			if (platform === 'telegramWeb' || platform === 'telegramMobile') {
+			if (platform === 'tgWeb' || platform === 'tgMobile') {
 				console.log('[Auth] Starting auth to TG app');
 				const tg = (window as any).Telegram?.WebApp;
 
