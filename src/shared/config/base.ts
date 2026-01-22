@@ -1,6 +1,6 @@
+import { getAuthRedirect, getLogoutRedirect } from '@/shared/lib';
+
 export const DOMAIN = 'lk.tsutmb.ru/api'; // prod
-import { getAuthRedirect } from '@/shared/lib/platform/get-auth-redirect';
-import { getLogoutRedirect } from '@/shared/lib/platform/get-logout-redirect';
 
 export const BASE_URL: string = `https://${DOMAIN}`;
 
@@ -26,4 +26,3 @@ export const EndPoints = {
 	chatbotStudent: `https://jivo.chat/QoInfbNA9f`,
 	moodle: `${BASE_URL}/moodle`,
 } as const;
-
