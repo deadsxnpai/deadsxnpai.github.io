@@ -6,7 +6,7 @@ export const http = async <T>(
 		credentials: 'include', // 🍪 SSO
 		...init,
 	});
-	console.log('res', res);
+
 	if (!res.ok) {
 		throw new Error(res.status.toString());
 	}
