@@ -1,6 +1,6 @@
 // lib/config/endpoints.ts
 export const DOMAIN = process.env.REACT_APP_URL;
-import { Platform } from 'react-native';
+import { detectPlatform } from '@/shared/lib/platform/get-platform';
 
 export const DOMAIN_API = 'lk-dev.tsutmb.ru/api';
 export const BASE_URL_API = `https://${DOMAIN_API}`;
@@ -10,8 +10,10 @@ export const BASE_URL = `https://${DOMAIN}`;
 export const dev = 'lk-dev.tsutmb.ru/api';
 export const isDev = DOMAIN_API === dev;
 
+export const platform = detectPlatform();
+
 export const getAuthRedirect = () => {
-	if (Platform.OS === 'web') {
+	if (platform === 'web') {
 		if (typeof window !== 'undefined') {
 			return window.location.hostname === 'localhost'
 				? 'http://localhost:8081'
@@ -24,7 +26,7 @@ export const getAuthRedirect = () => {
 };
 
 export const getLogoutRedirect = () => {
-	if (Platform.OS === 'web') {
+	if (platform === 'web') {
 		if (typeof window !== 'undefined') {
 			return window.location.hostname === 'localhost'
 				? 'http://localhost:8081/login'

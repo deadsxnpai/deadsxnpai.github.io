@@ -75,5 +75,7 @@ export const apolloClient = new ApolloClient({
 	link: ApolloLink.from([errorLink, authLink, splitLink]),
 	cache: new InMemoryCache(),
 	queryDeduplication: false,
-	connectToDevTools: isDev,
+	devtools: {
+		enabled: isDev ? true : false,
+	},
 });
