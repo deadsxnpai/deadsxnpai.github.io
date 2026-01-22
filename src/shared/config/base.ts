@@ -1,4 +1,5 @@
-import { getAuthRedirect, getLogoutRedirect } from '@/shared/lib';
+import { getAuthRedirect } from '@/shared/lib/platform/get-auth-redirect';
+import { getLogoutRedirect } from '@/shared/lib/platform/get-logout-redirect';
 
 export const DOMAIN = 'lk.tsutmb.ru/api'; // prod
 

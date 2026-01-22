@@ -9,7 +9,12 @@ export const LoginWebView = () => {
 
 	if (Platform.OS === 'web') {
 		useEffect(() => {
-			checkAuth();
+			const url = new URL(window.location.href);
+			if (url.searchParams.get('code') || url.pathname === '/') {
+				checkAuth();
+			} else {
+				window.location.href = EndPoints.auth;
+			}
 		}, []);
 		return null;
 	}
