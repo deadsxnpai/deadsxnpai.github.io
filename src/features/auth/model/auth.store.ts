@@ -1,7 +1,7 @@
 import { parseGroups } from '@/entities/user/lib/parse-groups';
-import type { User } from '@/entities/user/model/user';
+import { User } from '@/entities/user/model/user';
 import { http } from '@/shared/api';
-import { BASE_URL_API } from '@/shared/config/base';
+import { BASE_URL } from '@/shared/config/base';
 import { create } from 'zustand';
 
 type AuthState = {
@@ -20,27 +20,42 @@ export const useAuthStore = create<AuthState>((set) => ({
 	loading: true,
 
 	checkAuth: async () => {
-		set({ loading: true });
 		try {
-			const user: any = await http<User>(`${BASE_URL_API}/userinfo`);
-			set({
-				user,
-				groups: parseGroups(user.groups),
-				isAuth: true,
-			});
-		} catch {
-			set({
-				user: null,
-				groups: [],
-				isAuth: false,
-			});
+			set({ loading: true });
+
+			// Telegram Web App
+			const tg = (window as any).Telegram?.WebApp;
+
+			if (tg && tg.initData) {
+				const user = tg.initDataUnsafe.user;
+				set({
+					user,
+					groups: parseGroups(user.groups || 'guest'),
+					isAuth: true,
+				});
+				return;
+			}
+
+			// обычный SSO (WebView / Mobile)
+			// const user: any = await http<User>(`${BASE_URL_API}/userinfo`);
+			// set({
+			// 	user,
+			// 	groups: parseGroups(user.groups || 'guest'),
+			// 	isAuth: true,
+			// });
+
+			set({ isAuth: true });
+		} catch (err) {
+			set({ user: null, groups: [], isAuth: false });
 		} finally {
 			set({ loading: false });
 		}
 	},
 
 	logout: async () => {
-		await http(`${BASE_URL_API}/endSession`);
+		try {
+			await http(`${BASE_URL}/endSession`);
+		} catch {}
 		set({ user: null, groups: [], isAuth: false });
 	},
 }));

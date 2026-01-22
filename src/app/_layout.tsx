@@ -1,4 +1,4 @@
-import { useAuth, useAuthStore } from '@/features';
+import { useAuthStore } from '@/features';
 import { Loader } from '@/shared';
 import { ApolloProvider, AppContextProvider } from '@/shared/lib';
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
@@ -8,8 +8,7 @@ import { useEffect } from 'react';
 import { Platform } from 'react-native';
 
 const InitialLayoyt = () => {
-	const { isAuth, loading } = useAuth();
-	const checkAuth = useAuthStore((s) => s.checkAuth);
+	const { isAuth, loading, checkAuth } = useAuthStore();
 
 	useEffect(() => {
 		checkAuth();
@@ -17,15 +16,15 @@ const InitialLayoyt = () => {
 
 	if (loading) return <Loader />;
 
-	const test = true;
 	return (
 		<Stack screenOptions={{ headerShown: false }}>
-			<Stack.Protected guard={test}>
+			<Stack.Protected guard={isAuth}>
 				<Stack.Screen name='(tabs)' />
 			</Stack.Protected>
 
-			<Stack.Protected guard={!test}>
+			<Stack.Protected guard={!isAuth}>
 				<Stack.Screen name='(auth)' />
+				<Stack.Screen name='(telegram)' />
 			</Stack.Protected>
 
 			<Stack.Screen name='+not-found' />
