@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
 	},
 	section: {
 		marginTop: '60%',
-
 		padding: 16,
 		borderRadius: 12,
 		elevation: 3,
