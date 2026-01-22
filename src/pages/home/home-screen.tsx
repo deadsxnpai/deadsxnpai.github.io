@@ -1,51 +1,44 @@
-import { Button, Container, Typography } from '@/shared';
+import { Button, Typography } from '@/shared';
 import { Colors } from '@/shared/config/theme';
-import { Header } from '@/widgets';
+import { MainLayout } from '@/shared/layouts';
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 export function HomeScreen() {
 	return (
-		<Container>
-			<Header title='' />
-			<ScrollView style={styles.content}>
-				<View style={styles.section}>
-					<Typography
-						variant='h1'
-						style={styles.title}>
-						Welcome to FSD Structure
-					</Typography>
-					<Typography
-						variant='body'
-						style={styles.description}>
-						This is a simple Expo app with Feature-Sliced Design architecture
-					</Typography>
-				</View>
+		<MainLayout>
+			<View style={styles.section}>
+				<Typography
+					variant='h1'
+					style={styles.title}>
+					Welcome to FSD Structure
+				</Typography>
+				<Typography
+					variant='body'
+					style={styles.description}>
+					This is a simple Expo app with Feature-Sliced Design architecture
+				</Typography>
+			</View>
 
-				<View style={styles.section}>
-					<Typography variant='h2'>Shared UI Components</Typography>
-					<Button
-						title='Primary Button'
-						onPress={() => console.log('Clicked!')}
-						variant='primary'
-					/>
-					<View style={styles.spacer} />
-					<Button
-						title='Secondary Button'
-						onPress={() => console.log('Clicked!')}
-						variant='secondary'
-					/>
-				</View>
-			</ScrollView>
-		</Container>
+			<View style={styles.section}>
+				<Typography variant='h2'>Shared UI Components</Typography>
+				<Button
+					title='Primary Button'
+					onPress={() => console.log('Clicked!')}
+					variant='primary'
+				/>
+				<View style={styles.spacer} />
+				<Button
+					title='Secondary Button'
+					onPress={() => console.log('Clicked!')}
+					variant='secondary'
+				/>
+			</View>
+		</MainLayout>
 	);
 }
 
 const styles = StyleSheet.create({
-	content: {
-		flex: 1,
-		paddingHorizontal: 16,
-	},
 	section: {
 		marginTop: 22,
 		backgroundColor: Colors.background,
