@@ -1,4 +1,4 @@
-import { Colors } from '@/shared/config/theme';
+import { Colors } from '@/shared/constants/theme';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useRef, useState } from 'react';
 import {

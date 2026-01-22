@@ -1,4 +1,4 @@
-import { EndPoints } from '@/shared/config/base';
+import { EndPoints } from '@/shared/constants/base';
 import { useEffect, useRef } from 'react';
 import { Platform } from 'react-native';
 import { WebView } from 'react-native-webview';
@@ -21,11 +21,11 @@ export const LoginWebView = () => {
 				checkAuth().finally(() => {
 					const isAuthed = useAuthStore.getState().isAuth;
 					if (!isAuthed) {
-						window.location.href = EndPoints.auth;
+						window.location.href = EndPoints.auth();
 					}
 				});
 			} else {
-				window.location.href = EndPoints.auth;
+				window.location.href = EndPoints.auth();
 			}
 		}, []);
 
@@ -35,7 +35,7 @@ export const LoginWebView = () => {
 	// NATIVE
 	return (
 		<WebView
-			source={{ uri: EndPoints.auth }}
+			source={{ uri: EndPoints.auth() }}
 			onNavigationStateChange={(nav) => {
 				if (
 					!hasCheckedRef.current &&

@@ -3,14 +3,11 @@
 	"main": "expo-router/entry",
 	"version": "1.0.0",
 	"scripts": {
-		"start": "expo start",
-		"reset-project": "node ./scripts/reset-project.js",
-		"android": "expo start --android",
-		"ios": "expo start --ios",
-		"web": "expo start --web",
-		"lint": "expo lint",
-		"build:web": "expo export:web",
-		"dev": "expo start --localhost"
+		"start": "env-cmd -f .env.dev expo start",
+		"start:nocache": "env-cmd -f .env.dev expo start -c",
+		"dev": "env-cmd -f .env.dev expo start --localhost",
+		"build:prod": "env-cmd -f .env.prod expo export:web",
+		"build:dev": "env-cmd -f .env.dev expo export:web"
 	},
 	"dependencies": {
 		"@apollo/client": "^3.9.7",
@@ -19,6 +16,7 @@
 		"@react-navigation/bottom-tabs": "^7.10.1",
 		"@react-navigation/elements": "^2.6.3",
 		"@react-navigation/native": "^7.1.8",
+		"env-cmd": "^11.0.0",
 		"expo": "~54.0.31",
 		"expo-application": "~7.0.8",
 		"expo-auth-session": "^7.0.10",

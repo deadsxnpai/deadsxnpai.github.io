@@ -1,5 +1,5 @@
 import { Container } from '@/shared';
-import { Colors } from '@/shared/config/theme';
+import { Colors } from '@/shared/constants/theme';
 import { Header, HeaderProps } from '@/widgets';
 import React, { ReactNode } from 'react';
 import {

@@ -1,4 +1,4 @@
-import { Colors } from '@/shared/config/theme';
+import { Colors } from '@/shared/constants/theme';
 import React from 'react';
 import {
 	StyleSheet,

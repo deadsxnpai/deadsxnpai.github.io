@@ -1,7 +1,8 @@
 import { parseGroups } from '@/entities/user/lib/parse-groups';
 import { User } from '@/entities/user/model/user';
 import { http } from '@/shared/api';
-import { BASE_URL } from '@/shared/config/base';
+import { BASE_URL } from '@/shared/constants/base';
+import { detectPlatform } from '@/shared/lib/platform/get-platform';
 import { create } from 'zustand';
 
 type AuthState = {
@@ -21,31 +22,37 @@ export const useAuthStore = create<AuthState>((set) => ({
 
 	checkAuth: async () => {
 		try {
+			console.log('[Auth] Starting auth process');
 			set({ loading: true });
-
+			const platform = detectPlatform();
 			// Telegram Web App
-			const tg = (window as any).Telegram?.WebApp;
+			if (platform === 'telegramWeb' || platform === 'telegramMobile') {
+				console.log('[Auth] Starting auth to TG app');
+				const tg = (window as any).Telegram?.WebApp;
 
-			if (tg && tg.initData) {
-				const user = tg.initDataUnsafe.user;
+				if (tg && tg.initData) {
+					const user = tg.initDataUnsafe.user;
+					set({
+						user,
+						groups: parseGroups(user.groups || 'guest'),
+						isAuth: true,
+						loading: false,
+					});
+					return;
+				}
+			} else if (platform === 'ios' || platform === 'android') {
+				console.log('[Auth] Starting auth to mobile app');
+				set({ isAuth: true, loading: false });
+			} else if (platform === 'web') {
+				console.log('[Auth] Starting auth to web mobile app');
+				//todo realize how to auth check
 				set({
-					user,
-					groups: parseGroups(user.groups || 'guest'),
 					isAuth: true,
+					loading: false,
 				});
-				return;
 			}
-
-			// обычный SSO (WebView / Mobile)
-			// const user: any = await http<User>(`${BASE_URL_API}/userinfo`);
-			// set({
-			// 	user,
-			// 	groups: parseGroups(user.groups || 'guest'),
-			// 	isAuth: true,
-			// });
-
-			set({ isAuth: true, loading: false });
 		} catch (err) {
+			console.log(`[Auth] Error ${err}`);
 			set({ user: null, groups: [], isAuth: false });
 		} finally {
 			set({ loading: false });

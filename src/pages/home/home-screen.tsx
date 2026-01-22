@@ -1,5 +1,5 @@
 import { Button, Typography } from '@/shared';
-import { Colors } from '@/shared/config/theme';
+import { Colors } from '@/shared/constants/theme';
 import { MainLayout } from '@/shared/layouts';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';

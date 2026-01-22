@@ -1,4 +1,4 @@
-import { Colors } from '@/shared/config/theme';
+import { Colors } from '@/shared/constants/theme';
 import { IconSymbol } from '@/shared/ui/icon-symbol/icon-symbol';
 import { Tabs } from 'expo-router';
 import React from 'react';
