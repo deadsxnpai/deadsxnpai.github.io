@@ -1,4 +1,5 @@
-import { useAuth, useAuthStore } from '@/features/auth';
+import { useAuth, useAuthStore } from '@/features';
+import { Loader } from '@/shared';
 import { ApolloProvider, AppContextProvider } from '@/shared/lib';
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { SplashScreen, Stack } from 'expo-router';
@@ -14,7 +15,7 @@ const InitialLayoyt = () => {
 		checkAuth();
 	}, []);
 
-	if (loading) return null;
+	if (loading) return <Loader />;
 
 	const test = true;
 	return (
