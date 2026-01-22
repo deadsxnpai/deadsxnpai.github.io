@@ -26,8 +26,10 @@ export default function NotFoundScreen() {
 
 const styles = StyleSheet.create({
 	section: {
-		marginTop: 50,
-		padding: 16,
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		height: '100%',
 		borderRadius: 12,
 		elevation: 3,
 	},
