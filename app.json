@@ -7,19 +7,25 @@
 		"scheme": "tsumobile",
 		"userInterfaceStyle": "automatic",
 		"newArchEnabled": true,
+		
 		"ios": {
-			"supportsTablet": true
+			"supportsTablet": true,
+			"bundleIdentifier": "com.tsu.mobile",
+			"deploymentTarget": "15.1"
 		},
+		
 		"android": {
+			"package": "com.tsu.mobile",
 			"adaptiveIcon": {
+				"foregroundImage": "./assets/adaptive-icon.png",
 				"backgroundColor": "#E6F4FE"
-			},
-			"edgeToEdgeEnabled": true,
-			"predictiveBackGestureEnabled": false
+			}
 		},
+		
 		"web": {
 			"output": "static"
 		},
+		
 		"plugins": [
 			"expo-router",
 			[
@@ -33,8 +39,20 @@
 					}
 				}
 			],
-			"expo-head"
+			"expo-head",
+			[
+				"expo-build-properties",
+				{
+					"ios": {
+						"deploymentTarget": "15.1"
+					},
+					"android": {
+						"minSdkVersion": 29
+					}
+				}
+			]
 		],
+		
 		"experiments": {
 			"typedRoutes": true,
 			"reactCompiler": true

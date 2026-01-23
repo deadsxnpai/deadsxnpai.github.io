@@ -1,14 +1,10 @@
-// lib/config/endpoints.ts
-export const DOMAIN = process.env.REACT_APP_URL;
 import { detectPlatform } from '@/shared/lib/platform/get-platform';
+export const DOMAIN: string = 'lk-dev.tsutmb.ru';
 
-export const DOMAIN_API = 'lk-dev.tsutmb.ru/api';
-export const BASE_URL_API = `https://${DOMAIN_API}`;
-
-export const BASE_URL = `https://${DOMAIN}`;
+export const BASE_URL = `https://${DOMAIN}/api`;
 
 export const dev = 'lk-dev.tsutmb.ru/api';
-export const isDev = DOMAIN_API === dev;
+export const isDev = BASE_URL === dev;
 
 export const PLATFORM = detectPlatform();
 
@@ -40,15 +36,15 @@ export const getLogoutRedirect = () => {
 
 export const EndPoints = {
 	auth: () =>
-		`${BASE_URL_API}/auth?redirect=${encodeURIComponent(getAuthRedirect())}`,
+		`${BASE_URL}/auth?redirect=${encodeURIComponent(getAuthRedirect())}`,
 	endSession: () =>
-		`${BASE_URL_API}/endSession?redirect=${encodeURIComponent(getLogoutRedirect())}`,
-	avatar: `${BASE_URL_API}/files/avatar`,
-	recordbook: `${BASE_URL_API}/files/recordbooks`,
-	userpic: `${BASE_URL_API}/files/userpic`,
+		`${BASE_URL}/endSession?redirect=${encodeURIComponent(getLogoutRedirect())}`,
+	avatar: `${BASE_URL}/files/avatar`,
+	recordbook: `${BASE_URL}/files/recordbooks`,
+	userpic: `${BASE_URL}/files/userpic`,
 	vkmail: `https://biz.mail.ru/login/tsutmb.ru`,
 	vkcloud: `https://cloud.mail.ru`,
 	chatbot: `https://jivo.chat/OMAS4HokqF`,
 	chatbotStudent: `https://jivo.chat/QoInfbNA9f`,
-	moodle: `${BASE_URL_API}/moodle`,
+	moodle: `${BASE_URL}/moodle`,
 } as const;

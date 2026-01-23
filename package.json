@@ -3,11 +3,10 @@
 	"main": "expo-router/entry",
 	"version": "1.0.0",
 	"scripts": {
-		"start": "env-cmd -f .env.dev expo start",
-		"start:nocache": "env-cmd -f .env.dev expo start -c",
-		"dev": "env-cmd -f .env.dev expo start --localhost",
-		"build:prod": "env-cmd -f .env.prod expo export:web",
-		"build:dev": "env-cmd -f .env.dev expo export:web"
+		"start": "expo start",
+		"start:nocache": "expo start -c",
+		"dev": "expo start --localhost",
+		"build": "export:web"
 	},
 	"dependencies": {
 		"@apollo/client": "^3.9.7",
@@ -20,6 +19,7 @@
 		"expo": "~54.0.31",
 		"expo-application": "~7.0.8",
 		"expo-auth-session": "^7.0.10",
+		"expo-build-properties": "^1.0.10",
 		"expo-constants": "~18.0.13",
 		"expo-crypto": "^15.0.8",
 		"expo-device": "~8.0.10",

@@ -1,7 +1,23 @@
-export const http = async <T>(input: RequestInfo): Promise<T | null> => {
+// @/shared/api/http.ts
+import { BASE_URL } from '@/shared/constants/base';
+
+export const http = async <T>(
+	input: RequestInfo,
+	options?: RequestInit,
+): Promise<T | null> => {
 	try {
-		const res = await fetch(input, {
+		const url =
+			typeof input === 'string' && !input.startsWith('http')
+				? `${BASE_URL}${input}`
+				: input;
+
+		const res = await fetch(url, {
+			...options,
 			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json',
+				...options?.headers,
+			},
 		});
 
 		if (!res.ok) {
