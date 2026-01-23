@@ -1,10 +1,21 @@
 import { Button, Typography } from '@/shared';
 import { Colors } from '@/shared/constants/theme';
 import { MainLayout } from '@/shared/layouts';
+import { ErrorView } from '@/widgets/error-view/error-view';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 export function HomeScreen() {
+	const error = false;
+	if (error) {
+		return (
+			<ErrorView
+				error={{
+					message: 'ошибка при запросе',
+				}}
+			/>
+		);
+	}
 	return (
 		<MainLayout>
 			<View style={styles.section}>

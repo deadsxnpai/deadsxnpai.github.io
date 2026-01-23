@@ -23,7 +23,7 @@ export const Colors = {
 	gray: '#666',
 	black: '#000',
 	error: '#A92B5E',
-	surface: '#f8f9fa',
+	surface: '#E5E5EA',
 };
 
 export const Fonts = Platform.select({
