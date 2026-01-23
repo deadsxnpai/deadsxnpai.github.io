@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 import { Platform } from 'react-native';
 
 const InitialLayoyt = () => {
-	const { isAuth, loading, checkAuth, groups, user } = useAuthStore();
+	const { isAuth, loading, checkAuth, user } = useAuthStore();
 
 	useEffect(() => {
 		checkAuth();
