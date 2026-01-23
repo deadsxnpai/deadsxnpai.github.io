@@ -18,7 +18,7 @@ export const ErrorView = ({ error, onRetry }: any) => {
 				<View style={styles.enhancedErrorContainer}>
 					<View style={styles.iconWrapper}>
 						<IconSymbol
-							size={32}
+							size={50}
 							name={getErrorIcon(error)}
 							color={Colors.error || Colors.primary}
 						/>
