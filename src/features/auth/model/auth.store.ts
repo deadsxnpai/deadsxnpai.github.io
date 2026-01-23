@@ -36,7 +36,6 @@ export const useAuthStore = create<AuthState>((set) => ({
 		set({ loading: true, error: undefined });
 		try {
 			const PLATFORM = detectPlatform();
-
 			if (PLATFORM === 'web') {
 				const user = await http.get<User>('/userinfo');
 				set({
