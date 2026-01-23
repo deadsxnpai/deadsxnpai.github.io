@@ -1,5 +1,5 @@
-import { Button, Container, Typography } from '@/shared';
-import { Header } from '@/widgets';
+import { Button, Typography } from '@/shared';
+import { MainLayout } from '@/shared/layouts';
 import { router } from 'expo-router';
 import { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -19,8 +19,7 @@ export const TelegramLogin = () => {
 	}, []);
 
 	return (
-		<Container>
-			<Header title='' />
+		<MainLayout>
 			<View style={styles.section}>
 				<Typography
 					variant='h1'
@@ -33,7 +32,7 @@ export const TelegramLogin = () => {
 					variant='primary'
 				/>
 			</View>
-		</Container>
+		</MainLayout>
 	);
 };
 
