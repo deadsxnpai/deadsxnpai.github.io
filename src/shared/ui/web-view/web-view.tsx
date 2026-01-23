@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
 		borderBottomColor: Colors.border,
 		paddingHorizontal: 15,
 		paddingVertical: 10,
-		paddingTop: Platform.OS === 'web' ? 10 : 40,
+		paddingTop: Platform.OS === 'web' ? 10 : 60,
 	},
 	navButtons: {
 		flexDirection: 'row',

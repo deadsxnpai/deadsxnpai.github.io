@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 	mobileContainer: {
 		backgroundColor: Colors.primary,
 		paddingTop: 60,
-		paddingBottom: 40,
+		paddingBottom: 10,
 		paddingHorizontal: 20,
 		alignItems: 'flex-start',
 		justifyContent: 'flex-start',

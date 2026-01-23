@@ -1,13 +1,12 @@
 // app/+not-found.tsx
-import { Button, Container, Typography } from '@/shared';
-import { Header } from '@/widgets';
+import { Button, Typography } from '@/shared';
+import { MainLayout } from '@/shared/layouts';
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
 export default function NotFoundScreen() {
 	return (
-		<Container>
-			<Header title='' />
+		<MainLayout>
 			<View style={styles.section}>
 				<Typography
 					variant='h1'
@@ -20,7 +19,7 @@ export default function NotFoundScreen() {
 					variant='primary'
 				/>
 			</View>
-		</Container>
+		</MainLayout>
 	);
 }
 
