@@ -59,11 +59,7 @@ class SecureStorage {
 		}
 	}
 
-	async saveAuthData(
-		accessToken: string,
-		refreshToken: string,
-		user: any,
-	): Promise<void> {
+	async saveAuthData(accessToken: string, refreshToken: string): Promise<void> {
 		if (!accessToken || accessToken.trim().length === 0) {
 			throw new Error('Invalid access token');
 		}
@@ -71,33 +67,28 @@ class SecureStorage {
 		await Promise.all([
 			this.setItem('access_token', accessToken),
 			this.setItem('refresh_token', refreshToken || ''),
-			this.setItem('user_data', JSON.stringify(user || {})),
 		]);
 	}
 
 	async getAuthData(): Promise<{
 		accessToken: string | null;
 		refreshToken: string | null;
-		user: any | null;
 	}> {
 		try {
-			const [accessToken, refreshToken, userData] = await Promise.all([
+			const [accessToken, refreshToken] = await Promise.all([
 				this.getItem('access_token'),
 				this.getItem('refresh_token'),
-				this.getItem('user_data'),
 			]);
 
 			return {
 				accessToken,
 				refreshToken,
-				user: userData ? JSON.parse(userData) : null,
 			};
 		} catch (error) {
 			console.error('Error getting auth data:', error);
 			return {
 				accessToken: null,
 				refreshToken: null,
-				user: null,
 			};
 		}
 	}
@@ -107,11 +98,9 @@ class SecureStorage {
 			await Promise.all([
 				this.removeItem('access_token'),
 				this.removeItem('refresh_token'),
-				this.removeItem('user_data'),
 			]);
 		} catch (error) {
 			console.error('Error clearing auth data:', error);
-			// Continue even if there's an error
 		}
 	}
 
@@ -119,7 +108,6 @@ class SecureStorage {
 		return await this.getItem('access_token');
 	}
 
-	// Additional helper methods
 	async hasItem(key: string): Promise<boolean> {
 		const value = await this.getItem(key);
 		return value !== null && value !== undefined;
