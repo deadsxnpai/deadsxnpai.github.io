@@ -24,9 +24,9 @@ export const useAuthStore = create<AuthState>((set) => ({
 		try {
 			console.log('[Auth] Starting auth process');
 			set({ loading: true });
-			const platform = detectPlatform();
+			const PLATFORM = detectPlatform();
 			// Telegram Web App
-			if (platform === 'tgWeb' || platform === 'tgMobile') {
+			if (PLATFORM === 'tgWeb' || PLATFORM === 'tgMobile') {
 				console.log('[Auth] Starting auth to TG app');
 				const tg = (window as any).Telegram?.WebApp;
 
@@ -40,10 +40,10 @@ export const useAuthStore = create<AuthState>((set) => ({
 					});
 					return;
 				}
-			} else if (platform === 'ios' || platform === 'android') {
+			} else if (PLATFORM === 'ios' || PLATFORM === 'android') {
 				console.log('[Auth] Starting auth to mobile app');
 				set({ isAuth: true, loading: false });
-			} else if (platform === 'web') {
+			} else if (PLATFORM === 'web') {
 				console.log('[Auth] Starting auth to web mobile app');
 				//todo realize how to auth check
 				set({
