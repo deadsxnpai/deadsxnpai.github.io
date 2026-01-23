@@ -8,14 +8,14 @@ import { useEffect } from 'react';
 import { Platform } from 'react-native';
 
 const InitialLayoyt = () => {
-	const { isAuth, loading, checkAuth } = useAuthStore();
+	const { isAuth, loading, checkAuth, groups, user } = useAuthStore();
 
 	useEffect(() => {
 		checkAuth();
 	}, []);
 
 	if (loading) return <Loader />;
-
+	console.log('[LOG]', user);
 	return (
 		<Stack screenOptions={{ headerShown: false }}>
 			<Stack.Protected guard={isAuth}>
