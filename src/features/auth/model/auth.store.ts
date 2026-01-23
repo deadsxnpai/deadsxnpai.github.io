@@ -36,19 +36,17 @@ export const useAuthStore = create<AuthState>((set) => ({
 						user,
 						groups: parseGroups(user.groups || 'guest'),
 						isAuth: true,
-						loading: false,
 					});
 					return;
 				}
 			} else if (PLATFORM === 'ios' || PLATFORM === 'android') {
 				console.log('[Auth] Starting auth to mobile app');
-				set({ isAuth: true, loading: false });
+				set({ isAuth: true });
 			} else if (PLATFORM === 'web') {
 				console.log('[Auth] Starting auth to web mobile app');
 				//todo realize how to auth check
 				set({
 					isAuth: true,
-					loading: false,
 				});
 			}
 		} catch (err) {
