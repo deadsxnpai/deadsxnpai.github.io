@@ -21,6 +21,7 @@ export const Colors = {
 	white: white,
 	secondPrimary: '#A92B5E',
 	gray: '#666',
+	black: '#000',
 };
 
 export const Fonts = Platform.select({

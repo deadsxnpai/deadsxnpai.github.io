@@ -1,4 +1,5 @@
 import { Colors } from '@/shared/constants/theme';
+import { MainLayout } from '@/shared/layouts';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useRef, useState } from 'react';
 import {
@@ -177,67 +178,72 @@ export function CrossPlatformWebView({
 	);
 
 	return (
-		<View style={styles.container}>
-			<NavigationButtons />
-			{/* Веб-контент */}
-			{Platform.OS === 'web' ? (
-				// Iframe для веб-платформы
-				<iframe
-					ref={iframeRef}
-					key={currentUrl}
-					src={currentUrl}
-					style={styles.webIframe}
-					title='Web Content'
-					onLoad={handleIframeLoad}
-					onLoadStart={() => setLoading(true)}
-					sandbox='allow-same-origin allow-scripts allow-forms allow-popups allow-modals'
-					allow='accelerometer; autoplay; clipboard-write; encrypted-media; geolocation; gyroscope; picture-in-picture'
-					allowFullScreen
-				/>
-			) : (
-				// Нативный WebView для iOS/Android
-				<WebView
-					ref={webViewRef}
-					source={{ uri: currentUrl }}
-					style={styles.webview}
-					injectedJavaScript={injectedJavaScript}
-					injectedJavaScriptBeforeContentLoaded={
-						injectedJavaScriptBeforeContentLoaded
-					}
-					onNavigationStateChange={(navState) => {
-						setCanGoBack(navState.canGoBack);
-						setCanGoForward(navState.canGoForward);
-						setCurrentUrl(navState.url);
-						setInputUrl(navState.url);
-					}}
-					onLoadStart={() => setLoading(true)}
-					onLoadEnd={() => setLoading(false)}
-					onError={(syntheticEvent) => {
-						const { nativeEvent } = syntheticEvent;
-						console.warn('WebView error: ', nativeEvent);
-						setLoading(false);
-					}}
-					startInLoadingState={true}
-					renderLoading={() => (
-						<View style={styles.loadingContainer}>
-							<ActivityIndicator
-								size='large'
-								color={Colors.primary}
-							/>
-						</View>
-					)}
-					// Дополнительные пропсы для лучшего UX
-					allowsBackForwardNavigationGestures={true}
-					scalesPageToFit={true}
-					javaScriptEnabled={true}
-					domStorageEnabled={true}
-				/>
-			)}
-		</View>
+		<MainLayout contentStyle={styles.content}>
+			<View style={styles.container}>
+				<NavigationButtons />
+				{/* Веб-контент */}
+				{Platform.OS === 'web' ? (
+					// Iframe для веб-платформы
+					<iframe
+						ref={iframeRef}
+						key={currentUrl}
+						src={currentUrl}
+						style={styles.webIframe}
+						title='Web Content'
+						onLoad={handleIframeLoad}
+						onLoadStart={() => setLoading(true)}
+						sandbox='allow-same-origin allow-scripts allow-forms allow-popups allow-modals'
+						allow='accelerometer; autoplay; clipboard-write; encrypted-media; geolocation; gyroscope; picture-in-picture'
+						allowFullScreen
+					/>
+				) : (
+					// Нативный WebView для iOS/Android
+					<WebView
+						ref={webViewRef}
+						source={{ uri: currentUrl }}
+						style={styles.webview}
+						injectedJavaScript={injectedJavaScript}
+						injectedJavaScriptBeforeContentLoaded={
+							injectedJavaScriptBeforeContentLoaded
+						}
+						onNavigationStateChange={(navState) => {
+							setCanGoBack(navState.canGoBack);
+							setCanGoForward(navState.canGoForward);
+							setCurrentUrl(navState.url);
+							setInputUrl(navState.url);
+						}}
+						onLoadStart={() => setLoading(true)}
+						onLoadEnd={() => setLoading(false)}
+						onError={(syntheticEvent) => {
+							const { nativeEvent } = syntheticEvent;
+							console.warn('WebView error: ', nativeEvent);
+							setLoading(false);
+						}}
+						startInLoadingState={true}
+						renderLoading={() => (
+							<View style={styles.loadingContainer}>
+								<ActivityIndicator
+									size='large'
+									color={Colors.primary}
+								/>
+							</View>
+						)}
+						// Дополнительные пропсы для лучшего UX
+						allowsBackForwardNavigationGestures={true}
+						scalesPageToFit={true}
+						javaScriptEnabled={true}
+						domStorageEnabled={true}
+					/>
+				)}
+			</View>
+		</MainLayout>
 	);
 }
 
 const styles = StyleSheet.create({
+	content: {
+		paddingHorizontal: 0,
+	},
 	container: {
 		flex: 1,
 		backgroundColor: '#fff',
@@ -257,7 +263,7 @@ const styles = StyleSheet.create({
 		borderBottomColor: Colors.border,
 		paddingHorizontal: 15,
 		paddingVertical: 10,
-		paddingTop: Platform.OS === 'web' ? 10 : 60,
+		// paddingTop: Platform.OS === 'web' ? 10 : 60,
 	},
 	navButtons: {
 		flexDirection: 'row',

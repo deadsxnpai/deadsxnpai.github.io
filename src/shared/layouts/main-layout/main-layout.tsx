@@ -61,7 +61,7 @@ export function MainLayout({
 	return (
 		<View style={[styles.flex, containerStyle]}>
 			<StatusBar
-				barStyle='dark-content'
+				barStyle={'light-content'}
 				backgroundColor={Colors.background}
 			/>
 			<Container>
