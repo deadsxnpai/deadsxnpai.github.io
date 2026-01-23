@@ -10,50 +10,85 @@ type AuthState = {
 	groups: string[];
 	isAuth: boolean;
 	loading: boolean;
+	error?: string;
+
 	checkAuth: () => Promise<void>;
+	validateLogin: () => Promise<User>;
 	logout: () => Promise<void>;
 };
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set, get) => ({
 	user: null,
 	groups: [],
 	isAuth: false,
 	loading: true,
+	error: undefined,
 
-	checkAuth: async () => {
+	// 🔐 backend session check (RTKQ-like)
+	validateLogin: async () => {
 		try {
-			console.log('[Auth] Starting auth process');
-			set({ loading: true });
+			const res = await fetch(`${BASE_URL}/userinfo`, {
+				credentials: 'include',
+			});
+			if (!res.ok) {
+				throw new Error('Not authenticated');
+			}
+			return res.json();
+		} catch (e) {
+			console.log(e);
+		}
+	},
+
+	// 🧠 auth orchestrator
+	checkAuth: async () => {
+		console.log('[Auth] checkAuth start');
+		set({ loading: true, error: undefined });
+
+		try {
 			const PLATFORM = detectPlatform();
-			// Telegram Web App
+
+			// 🟣 Telegram Web App
 			if (PLATFORM === 'tgWeb' || PLATFORM === 'tgMobile') {
-				console.log('[Auth] Starting auth to TG app');
 				const tg = (window as any).Telegram?.WebApp;
 
-				if (tg && tg.initData) {
-					const user = tg.initDataUnsafe.user;
-					set({
-						user,
-						groups: parseGroups(user.groups || 'guest'),
-						isAuth: true,
-					});
-					return;
+				if (!tg?.initDataUnsafe?.user) {
+					throw new Error('TG user not found');
 				}
-			} else if (PLATFORM === 'ios' || PLATFORM === 'android') {
-				console.log('[Auth] Starting auth to mobile app');
-				set({ isAuth: true });
-			} else if (PLATFORM === 'web') {
-				console.log('[Auth] Starting auth to web mobile app');
-				//todo realize how to auth check
+
+				const user = tg.initDataUnsafe.user;
+
 				set({
+					user,
+					groups: parseGroups(user.groups || 'guest'),
 					isAuth: true,
+					loading: false,
 				});
+				return;
 			}
-		} catch (err) {
-			console.log(`[Auth] Error ${err}`);
-			set({ user: null, groups: [], isAuth: false });
-		} finally {
-			set({ loading: false });
+
+			// 📱 Mobile / 🌐 Web → backend
+			if (PLATFORM === 'ios' || PLATFORM === 'android' || PLATFORM === 'web') {
+				const user = await get().validateLogin();
+
+				set({
+					user,
+					groups: parseGroups(user.groups || 'guest'),
+					isAuth: true,
+					loading: false,
+				});
+				return;
+			}
+
+			throw new Error('Unknown platform');
+		} catch (err: any) {
+			console.log('[Auth] error', err.message);
+			set({
+				user: null,
+				groups: [],
+				isAuth: false,
+				loading: false,
+				error: err.message,
+			});
 		}
 	},
 
@@ -61,6 +96,11 @@ export const useAuthStore = create<AuthState>((set) => ({
 		try {
 			await http(`${BASE_URL}/endSession`);
 		} catch {}
-		set({ user: null, groups: [], isAuth: false });
+
+		set({
+			user: null,
+			groups: [],
+			isAuth: false,
+		});
 	},
 }));
