@@ -1,7 +1,6 @@
-import { Button, Typography } from '@/shared';
+import { Button, ErrorView, Typography } from '@/shared';
 import { Colors } from '@/shared/constants/theme';
 import { MainLayout } from '@/shared/layouts';
-import { ErrorView } from '@/widgets/error-view/error-view';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 

@@ -1,5 +1,6 @@
 export * from './ui/button/button';
 export * from './ui/container/container';
+export * from './ui/error-view/error-view';
 export * from './ui/icon-symbol/icon-symbol';
 export * from './ui/loader/loader';
 export * from './ui/spacer/spacer';
