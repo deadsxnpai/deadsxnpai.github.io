@@ -1,5 +1,5 @@
 import { parseGroups } from '@/entities/user/lib/parse-groups';
-import { User } from '@/entities/user/model/user';
+import { User } from '@/entities/user/model/user.model';
 import { http } from '@/shared/api/http/http';
 import { BASE_URL } from '@/shared/constants/base';
 import { secureStorage } from '@/shared/lib';
