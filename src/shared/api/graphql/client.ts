@@ -27,7 +27,7 @@ const httpLink = new HttpLink({
 
 const wsLink = new GraphQLWsLink(
 	createClient({
-		url: `ws://${DOMAIN}/graphql`,
+		url: `wss://${DOMAIN}/graphql`,
 		keepAlive: 10_000,
 		shouldRetry(err) {
 			console.log('shouldRetry', err);
