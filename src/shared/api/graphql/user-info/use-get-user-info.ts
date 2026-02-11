@@ -6,7 +6,14 @@ const ME = gql(`
   }
 `);
 
-export const useMe = () =>
-	useQuery(ME, {
+export const useMe = () => {
+	const res = useQuery(ME, {
 		fetchPolicy: 'network-only',
 	});
+	const { data, loading, error } = res;
+	return {
+		data,
+		loading,
+		error,
+	};
+};

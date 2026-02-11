@@ -5,9 +5,10 @@ import { ApolloLink, HttpLink, split } from '@apollo/client';
 import { BASE_URL, DOMAIN, isDev } from '@/shared/constants/base';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
-import { WebSocketLink } from '@apollo/client/link/ws';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { getMainDefinition } from '@apollo/client/utilities';
 import * as SecureStore from 'expo-secure-store';
+import { createClient } from 'graphql-ws';
 
 export const getAccessToken = async (): Promise<Record<string, string>> => {
 	try {
@@ -24,16 +25,33 @@ const httpLink = new HttpLink({
 	credentials: 'include',
 });
 
-const wsLink = new WebSocketLink({
-	uri: `ws://${DOMAIN}/graphql`,
-	options: {
-		reconnect: true,
-		connectionParams: async () => {
-			const tokenHeaders = await getAccessToken();
-			return tokenHeaders;
+const wsLink = new GraphQLWsLink(
+	createClient({
+		url: `ws://${DOMAIN}/graphql`,
+		keepAlive: 10_000,
+		shouldRetry(err) {
+			console.log('shouldRetry', err);
+			return true;
 		},
-	},
-});
+
+		on: {
+			connected: (socket, payload) => {
+				console.log('connected:', socket);
+				console.log('payload:', payload);
+			},
+			ping: (recv) => {
+				console.log('ping', recv);
+			},
+			pong: (recv) => {
+				console.log('pong', recv);
+			},
+			error: (err: any) => {
+				console.error('Socket err', err.code);
+			},
+			closed: (err) => {},
+		},
+	}),
+);
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
 	if (graphQLErrors) {
