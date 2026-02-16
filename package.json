@@ -6,7 +6,8 @@
 		"start": "expo start",
 		"start:nocache": "expo start -c",
 		"dev": "expo start --localhost",
-		"build": "export:web"
+		"build:web": "expo export --platform web",
+		"build:mobile": "expo export"
 	},
 	"dependencies": {
 		"@apollo/client": "^3.9.7",
