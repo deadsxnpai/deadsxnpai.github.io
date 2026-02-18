@@ -1,6 +1,6 @@
-import { CrossPlatformWebView } from '@/shared';
-import { EndPoints } from '@/shared/constants/base';
+// import { CrossPlatformWebView } from '@/shared';
+// import { EndPoints } from '@/shared/constants/base';
 
-export default function MoodleTab() {
-	return <CrossPlatformWebView url={EndPoints.moodle} />;
-}
+// export default function MoodleTab() {
+// 	return <CrossPlatformWebView url={EndPoints.moodle} />;
+// }

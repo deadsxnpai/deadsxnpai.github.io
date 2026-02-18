@@ -27,7 +27,7 @@ export default function TabsLayout() {
 				}}
 			/>
 
-			<Tabs.Screen
+			{/* <Tabs.Screen
 				name='moodle'
 				options={{
 					title: 'Moodle',
@@ -39,7 +39,7 @@ export default function TabsLayout() {
 						/>
 					),
 				}}
-			/>
+			/> */}
 		</Tabs>
 	);
 }
