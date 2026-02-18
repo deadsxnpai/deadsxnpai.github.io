@@ -26,20 +26,6 @@ export default function TabsLayout() {
 					),
 				}}
 			/>
-
-			{/* <Tabs.Screen
-				name='moodle'
-				options={{
-					title: 'Moodle',
-					tabBarIcon: ({ color }) => (
-						<IconSymbol
-							size={28}
-							name={'books.vertical.fill'}
-							color={color}
-						/>
-					),
-				}}
-			/> */}
 		</Tabs>
 	);
 }

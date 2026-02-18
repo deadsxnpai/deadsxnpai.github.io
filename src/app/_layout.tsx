@@ -42,7 +42,6 @@ const InitialLayout = () => {
 			</Stack.Protected>
 
 			<Stack.Protected guard={!isAuth}>
-				<Stack.Screen name='(auth)' />
 				<Stack.Screen name='(max)' />
 			</Stack.Protected>
 

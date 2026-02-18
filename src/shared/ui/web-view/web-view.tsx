@@ -17,6 +17,11 @@ interface CrossPlatformWebViewProps {
 	injectedJavaScriptBeforeContentLoaded?: string; // JS to inject before content loads
 }
 
+//todo moodle page
+// export default function MoodleTab() {
+// 	return <CrossPlatformWebView url={EndPoints.moodle} />;
+// }
+
 export function CrossPlatformWebView({
 	url,
 	injectedJavaScript,
