@@ -1,5 +1,6 @@
-import { MoodleScreen } from '@/pages';
+import { CrossPlatformWebView } from '@/shared';
+import { EndPoints } from '@/shared/constants/base';
 
 export default function MoodleTab() {
-	return <MoodleScreen />;
+	return <CrossPlatformWebView url={EndPoints.moodle} />;
 }

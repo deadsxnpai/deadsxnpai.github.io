@@ -3,6 +3,7 @@
  * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
  */
 
+import { Theme } from '@react-navigation/native';
 import { Platform } from 'react-native';
 
 const tintColorLight = '#013D83';
@@ -51,3 +52,33 @@ export const Fonts = Platform.select({
 		mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
 	},
 });
+
+export const DefaultTheme: Theme = {
+	dark: false,
+	colors: {
+		primary: 'rgb(0, 122, 255)',
+		background: 'rgb(242, 242, 242)',
+		card: 'rgb(255, 255, 255)',
+		text: 'rgb(28, 28, 30)',
+		border: 'rgb(216, 216, 216)',
+		notification: 'rgb(255, 59, 48)',
+	},
+	fonts: {
+		regular: {
+			fontFamily: '',
+			fontWeight: 'normal',
+		},
+		medium: {
+			fontFamily: '',
+			fontWeight: 'normal',
+		},
+		bold: {
+			fontFamily: '',
+			fontWeight: 'normal',
+		},
+		heavy: {
+			fontFamily: '',
+			fontWeight: 'normal',
+		},
+	},
+};
