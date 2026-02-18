@@ -29,7 +29,7 @@ export default function MaxAuthScreen() {
 				isMaxUser: true,
 			};
 
-			router.replace('/(tabs)/home');
+			router.replace('/(tabs)');
 		}
 	}, [maxUser]);
 
