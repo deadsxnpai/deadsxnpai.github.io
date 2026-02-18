@@ -6,7 +6,7 @@ import { ErrorView } from '@/widgets/error-view';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-export function HomeScreenTab() {
+export default function HomeScreenTab() {
 	const me = useMe();
 	console.log('me', me);
 	const error = false;

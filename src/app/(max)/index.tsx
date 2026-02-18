@@ -1,3 +1,4 @@
+import { useAuthStore } from '@/features';
 import { useMaxAuth } from '@/features/auth/hooks/useMaxAuth';
 import { Colors } from '@/shared/constants/theme';
 
@@ -12,6 +13,7 @@ import {
 } from 'react-native';
 
 export default function MaxAuthScreen() {
+	const { checkAuth } = useAuthStore();
 	const { maxInitialized, maxUser, isMaxEnvironment } = useMaxAuth();
 
 	// Автоматическая авторизация при получении пользователя из MAX
@@ -27,7 +29,7 @@ export default function MaxAuthScreen() {
 				isMaxUser: true,
 			};
 
-			router.replace('/(tabs)');
+			router.replace('/(tabs)/home');
 		}
 	}, [maxUser]);
 
@@ -56,12 +58,13 @@ export default function MaxAuthScreen() {
 						// Отправляем запрос на авторизацию
 						console.log('window.WebApp', window.WebApp);
 						if (window.WebApp) {
-							window.WebApp.sendData(
-								JSON.stringify({
-									action: 'auth_request',
-									timestamp: Date.now(),
-								}),
-							);
+							// window.WebApp.sendData(
+							// 	JSON.stringify({
+							// 		action: 'auth_request',
+							// 		timestamp: Date.now(),
+							// 	}),
+							// );
+							checkAuth();
 						}
 					}}>
 					<Text style={styles.buttonText}>Продолжить с MAX</Text>
