@@ -46,7 +46,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 					loading: false,
 				});
 				if (user) {
-					router.replace('/(tabs)');
+					router.replace('/(tabs)/home');
 				} else {
 					router.replace('/(max)');
 				}
