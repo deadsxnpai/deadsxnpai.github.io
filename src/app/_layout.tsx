@@ -1,8 +1,9 @@
 import { useAuthStore } from '@/features';
 import { useMaxAuth } from '@/features/auth/hooks/useMaxAuth';
 import { Loader } from '@/shared';
+import { AppDefaultTheme } from '@/shared/constants/theme';
 import { ApolloProvider, AppContextProvider } from '@/shared/lib';
-import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { ThemeProvider } from '@react-navigation/native';
 import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
@@ -64,7 +65,7 @@ export default function RootLayout() {
 	return (
 		<ApolloProvider>
 			<AppContextProvider>
-				<ThemeProvider value={DefaultTheme}>
+				<ThemeProvider value={AppDefaultTheme}>
 					<MaxInitializer>
 						<InitialLayout />
 					</MaxInitializer>

@@ -53,32 +53,32 @@ export const Fonts = Platform.select({
 	},
 });
 
-export const DefaultTheme: Theme = {
+export const AppDefaultTheme: Theme = {
 	dark: false,
 	colors: {
-		primary: 'rgb(0, 122, 255)',
-		background: 'rgb(242, 242, 242)',
-		card: 'rgb(255, 255, 255)',
-		text: 'rgb(28, 28, 30)',
-		border: 'rgb(216, 216, 216)',
-		notification: 'rgb(255, 59, 48)',
+		primary: Colors.primary,
+		background: Colors.background,
+		card: Colors.white,
+		text: Colors.text,
+		border: Colors.border,
+		notification: Colors.red,
 	},
 	fonts: {
 		regular: {
-			fontFamily: '',
-			fontWeight: 'normal',
+			fontFamily: Fonts.sans,
+			fontWeight: '400',
 		},
 		medium: {
-			fontFamily: '',
-			fontWeight: 'normal',
+			fontFamily: Fonts.sans,
+			fontWeight: '500',
 		},
 		bold: {
-			fontFamily: '',
-			fontWeight: 'normal',
+			fontFamily: Fonts.sans,
+			fontWeight: '700',
 		},
 		heavy: {
-			fontFamily: '',
-			fontWeight: 'normal',
+			fontFamily: Fonts.sans,
+			fontWeight: '800',
 		},
 	},
 };
