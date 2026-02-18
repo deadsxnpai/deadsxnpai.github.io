@@ -4,6 +4,7 @@ import { http } from '@/shared/api/http/http';
 import { BASE_URL } from '@/shared/constants/base';
 import { secureStorage } from '@/shared/lib';
 import { detectPlatform } from '@/shared/lib/platform/get-platform';
+import { router } from 'expo-router';
 import { create } from 'zustand';
 
 const getCookieManager = async () => {
@@ -44,7 +45,11 @@ export const useAuthStore = create<AuthState>((set) => ({
 					isAuth: true,
 					loading: false,
 				});
-
+				if (user) {
+					router.replace('/(tabs)');
+				} else {
+					router.replace('/(max)');
+				}
 				return;
 			}
 

@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { Platform } from 'react-native';
 import { WebView } from 'react-native-webview';
 
-export const LoginScreen = () => {
+export default function LoginScreen() {
 	const checkAuth = useAuthStore((s) => s.checkAuth);
 	const hasCheckedRef = useRef(false);
 
@@ -47,4 +47,4 @@ export const LoginScreen = () => {
 			}}
 		/>
 	);
-};
+}
