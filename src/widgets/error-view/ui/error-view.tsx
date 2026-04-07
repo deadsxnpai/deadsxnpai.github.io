@@ -20,6 +20,66 @@ interface ErrorViewProps {
 	hideErrorDetails?: boolean;
 }
 
+// Helper to check if error is ApolloError
+const isApolloError = (error: any): boolean => {
+	return (
+		error &&
+		(error.name === 'ApolloError' ||
+			error.graphQLErrors !== undefined ||
+			error.networkError !== undefined ||
+			error.protocolErrors !== undefined)
+	);
+};
+
+// Helper to extract meaningful message from ApolloError
+const getApolloErrorMessage = (error: any): string => {
+	if (!error) return 'Неизвестная ошибка Apollo';
+
+	// Check for GraphQL errors
+	if (error.graphQLErrors && error.graphQLErrors.length > 0) {
+		const graphQLError = error.graphQLErrors[0];
+		if (graphQLError.message) {
+			// Check for user-friendly messages in extensions
+			if (graphQLError.extensions?.userMessage) {
+				return graphQLError.extensions.userMessage;
+			}
+			if (graphQLError.extensions?.userFriendlyMessage) {
+				return graphQLError.extensions.userFriendlyMessage;
+			}
+			return graphQLError.message;
+		}
+	}
+
+	// Check for network error
+	if (error.networkError) {
+		if (error.networkError.message === 'Failed to fetch') {
+			return 'Не удалось соединиться с сервером. Проверьте интернет-соединение.';
+		}
+		if (error.networkError.result?.message) {
+			return error.networkError.result.message;
+		}
+		if (error.networkError.message) {
+			return error.networkError.message;
+		}
+		return 'Проблема с сетью. Проверьте подключение к интернету.';
+	}
+
+	// Check for protocol errors
+	if (error.protocolErrors && error.protocolErrors.length > 0) {
+		return error.protocolErrors[0].message || 'Ошибка протокола связи';
+	}
+
+	// Check for client errors
+	if (error.clientErrors && error.clientErrors.length > 0) {
+		return error.clientErrors[0].message || 'Ошибка клиентской части';
+	}
+
+	// Fallback to default message
+	if (error.message) return error.message;
+
+	return 'Произошла ошибка при выполнении запроса';
+};
+
 export const ErrorView: React.FC<ErrorViewProps> = ({
 	error,
 	title = 'Что-то пошло не так',
@@ -34,6 +94,13 @@ export const ErrorView: React.FC<ErrorViewProps> = ({
 	const getErrorMessage = (): string => {
 		if (!error) return 'Неизвестная ошибка';
 		if (typeof error === 'string') return error;
+
+		// Handle ApolloError specifically
+		if (isApolloError(error)) {
+			return getApolloErrorMessage(error);
+		}
+
+		// Handle other error types
 		if (error?.userMessage || error?.userFriendlyMessage)
 			return error.userMessage || error.userFriendlyMessage;
 		if (error?.message) return error.message;
@@ -46,6 +113,50 @@ export const ErrorView: React.FC<ErrorViewProps> = ({
 
 	const getErrorDetails = (): string | null => {
 		if (!error || hideErrorDetails) return null;
+
+		// For ApolloError, provide more structured details
+		if (isApolloError(error)) {
+			const details: any = {
+				type: 'ApolloError',
+				message: error.message,
+			};
+
+			if (error.graphQLErrors?.length > 0) {
+				details.graphQLErrors = error.graphQLErrors.map((err: any) => ({
+					message: err.message,
+					path: err.path,
+					extensions: err.extensions,
+				}));
+			}
+
+			if (error.networkError) {
+				details.networkError = {
+					message: error.networkError.message,
+					statusCode: error.networkError.statusCode,
+					response: error.networkError.response,
+				};
+			}
+
+			if (error.protocolErrors?.length > 0) {
+				details.protocolErrors = error.protocolErrors;
+			}
+
+			if (error.clientErrors?.length > 0) {
+				details.clientErrors = error.clientErrors;
+			}
+
+			if (error.cause) {
+				details.cause = error.cause;
+			}
+
+			try {
+				return JSON.stringify(details, null, 2);
+			} catch {
+				return 'Не удалось отобразить детали Apollo ошибки';
+			}
+		}
+
+		// For regular errors
 		try {
 			return JSON.stringify(error, null, 2);
 		} catch {
@@ -53,9 +164,51 @@ export const ErrorView: React.FC<ErrorViewProps> = ({
 		}
 	};
 
-	type ErrorType = 'network' | 'auth' | 'not-found' | 'server' | 'general';
+	type ErrorType =
+		| 'network'
+		| 'auth'
+		| 'not-found'
+		| 'server'
+		| 'graphql'
+		| 'general';
 
 	const getErrorType = (): ErrorType => {
+		// Check for ApolloError specific types
+		if (isApolloError(error)) {
+			// Check GraphQL errors for specific status codes
+			if (error.graphQLErrors?.length > 0) {
+				const graphQLError = error.graphQLErrors[0];
+				const extensions = graphQLError.extensions || {};
+
+				if (
+					extensions.code === 'UNAUTHENTICATED' ||
+					extensions.statusCode === 401
+				) {
+					return 'auth';
+				}
+				if (extensions.code === 'NOT_FOUND' || extensions.statusCode === 404) {
+					return 'not-found';
+				}
+				if (
+					extensions.code === 'INTERNAL_SERVER_ERROR' ||
+					extensions.statusCode === 500
+				) {
+					return 'server';
+				}
+				// GraphQL specific error
+				return 'graphql';
+			}
+
+			// Check network error
+			if (error.networkError) {
+				if (error.networkError.statusCode === 401) return 'auth';
+				if (error.networkError.statusCode === 404) return 'not-found';
+				if (error.networkError.statusCode === 500) return 'server';
+				return 'network';
+			}
+		}
+
+		// Regular error handling
 		if (error?.networkError) return 'network';
 		if (error?.code === 'NETWORK_ERROR') return 'network';
 		if (error?.statusCode === 401 || error?.code === 'UNAUTHORIZED')
@@ -96,6 +249,13 @@ export const ErrorView: React.FC<ErrorViewProps> = ({
 					title: 'Проблема на сервере',
 					subtitle: 'Сервер временно недоступен. Попробуйте позже',
 				};
+			case 'graphql':
+				return {
+					icon: 'doc.text.magnifyingglass' as IconSymbolName,
+					color: Colors.warning,
+					title: 'Ошибка запроса',
+					subtitle: getErrorMessage(),
+				};
 			default:
 				return {
 					icon: 'exclamationmark.triangle.fill' as IconSymbolName,
@@ -108,6 +268,7 @@ export const ErrorView: React.FC<ErrorViewProps> = ({
 
 	const config = getErrorConfig();
 	const errorDetails = getErrorDetails();
+	const isApollo = isApolloError(error);
 
 	return (
 		<FullScreenLayout
@@ -140,6 +301,22 @@ export const ErrorView: React.FC<ErrorViewProps> = ({
 						style={styles.subtitle}>
 						{config.subtitle}
 					</Typography>
+
+					{/* Apollo-specific hint */}
+					{isApollo && error?.networkError?.message === 'Failed to fetch' && (
+						<View style={styles.apolloHint}>
+							<IconSymbol
+								name='info.circle'
+								size={16}
+								color={Colors.warning}
+							/>
+							<Typography
+								variant='caption'
+								style={styles.apolloHintText}>
+								Проверьте URL GraphQL эндпоинта и CORS настройки сервера
+							</Typography>
+						</View>
+					)}
 
 					{/* Helpful Tips */}
 					<View style={styles.tipsContainer}>
@@ -275,7 +452,6 @@ const styles = StyleSheet.create({
 		color: Colors.text,
 		flexShrink: 1,
 	},
-
 	subtitle: {
 		textAlign: 'center',
 		marginBottom: 32,
@@ -318,8 +494,8 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		color: Colors.text,
 		lineHeight: 18,
-		flexShrink: 1, // allows text to shrink
-		flexWrap: 'wrap', // wrap inside container
+		flexShrink: 1,
+		flexWrap: 'wrap',
 		includeFontPadding: false,
 	},
 	buttonsContainer: { width: '100%', gap: 12, marginBottom: 24 },
@@ -329,5 +505,18 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		gap: 8,
+	},
+	apolloHint: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		backgroundColor: `${Colors.warning}20`,
+		padding: 12,
+		borderRadius: 8,
+		marginBottom: 24,
+		gap: 8,
+	},
+	apolloHintText: {
+		flex: 1,
+		color: Colors.warning,
 	},
 });
