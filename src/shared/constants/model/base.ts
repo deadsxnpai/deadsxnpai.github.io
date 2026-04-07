@@ -32,7 +32,7 @@ export const EndPoints = {
 
 export const getAuthUrl = (options?: { initData?: string }) => {
 	if (options?.initData) {
-		return `${BASE_URL}/auth?redirect=${encodeURIComponent(`https://t.me/deadsxnpai_claw_bot`)}&tgInitData=${encodeURIComponent(
+		return `${BASE_URL}/auth?redirect=${encodeURIComponent(`https://t.me/deadsxnpai_claw_bot/tsuapp`)}&tgInitData=${encodeURIComponent(
 			options.initData,
 		)}`;
 	}
