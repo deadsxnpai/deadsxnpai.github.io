@@ -18,7 +18,6 @@ import { Platform } from 'react-native';
 const InitialLayout = () => {
 	const { data, loading, error } = useMe();
 	const isLogged = useAuth();
-	// const setUser = useAuthStore((state) => state.setUser);
 	const { setUser, setRole } = useAuthActions();
 
 	useEffect(() => {

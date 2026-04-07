@@ -1,10 +1,22 @@
+import { getAuthUrl } from '@/shared/constants/model/base';
 import { Colors } from '@/shared/constants/model/theme';
 import { FullScreenLayout } from '@/shared/layouts';
-import { Typography } from '@/shared/ui';
+import { detectPlatform } from '@/shared/lib';
+import { isTgPlatform } from '@/shared/lib/platform/get-platform';
+import { Button, Typography } from '@/shared/ui';
+import { retrieveRawInitData } from '@tma.js/sdk';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Linking, StyleSheet, View } from 'react-native';
 
 export default function AuthOnlyMaxScreen() {
+	const handleLogin = () => {
+		const platform = detectPlatform();
+		if (isTgPlatform(platform)) {
+			const initData = retrieveRawInitData();
+			const url = getAuthUrl({ initData });
+			Linking.openURL(url);
+		}
+	};
 	return (
 		<FullScreenLayout>
 			<View style={styles.section}>
@@ -19,6 +31,11 @@ export default function AuthOnlyMaxScreen() {
 					На данном этапе аутентификация доступна только в Max.
 				</Typography>
 			</View>
+			<Button
+				title='Связть Telegram и ЛК'
+				onPress={handleLogin}
+			/>
+			;
 		</FullScreenLayout>
 	);
 }

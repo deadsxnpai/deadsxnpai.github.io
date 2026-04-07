@@ -23,7 +23,7 @@
 		"env-cmd": "^11.0.0",
 		"expo": "~54.0.31",
 		"expo-application": "~7.0.8",
-		"expo-auth-session": "^7.0.10",
+		"expo-auth-session": "^55.0.12",
 		"expo-build-properties": "^1.0.10",
 		"expo-constants": "~18.0.13",
 		"expo-crypto": "^15.0.8",
