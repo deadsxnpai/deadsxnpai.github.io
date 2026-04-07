@@ -3,10 +3,11 @@ import { create } from 'zustand';
 
 interface AuthState {
 	user: User | null;
-	role: string | null; // role can start as null
+	role: string | null;
 	isLogged: boolean;
 	setUser: (user: User | null) => void;
 	setRole: (role: string | null) => void;
+	logout: () => void; // Add logout
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -15,4 +16,5 @@ export const useAuthStore = create<AuthState>((set) => ({
 	isLogged: false,
 	setUser: (user) => set({ user, isLogged: !!user }),
 	setRole: (role) => set({ role }),
+	logout: () => set({ user: null, role: null, isLogged: false }),
 }));

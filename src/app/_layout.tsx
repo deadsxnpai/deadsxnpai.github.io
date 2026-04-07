@@ -15,6 +15,16 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { Platform } from 'react-native';
 
+const isUnauthorizedError = (error: any): boolean => {
+	return (
+		error?.graphQLErrors?.some(
+			(err: any) =>
+				err.extensions?.code === 'UNAUTHENTICATED' ||
+				err.extensions?.statusCode === 401,
+		) || error?.networkError?.statusCode === 401
+	);
+};
+
 const InitialLayout = () => {
 	const { data, loading, error } = useMe();
 	const isLogged = useAuth();
@@ -30,7 +40,7 @@ const InitialLayout = () => {
 	}, [data, setUser, setRole]);
 
 	if (loading) return <Loader />;
-	if (error) return <ErrorView error={error} />;
+	if (error && !isUnauthorizedError(error)) return <ErrorView error={error} />;
 
 	return (
 		<Stack screenOptions={{ headerShown: false }}>
