@@ -5,57 +5,102 @@ import { detectPlatform } from '@/shared/lib';
 import { isTgPlatform } from '@/shared/lib/platform/get-platform';
 import { Button, Typography } from '@/shared/ui';
 import { retrieveRawInitData } from '@tma.js/sdk';
-import React from 'react';
+import React, { useState } from 'react';
 import { Linking, StyleSheet, View } from 'react-native';
 
 export default function AuthOnlyMaxScreen() {
-	const handleLogin = () => {
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState<string | null>(null);
+
+	const handleLogin = async () => {
 		const platform = detectPlatform();
-		if (isTgPlatform(platform)) {
+
+		if (!isTgPlatform(platform)) {
+			setError(
+				'Вход доступен только через Telegram. Откройте приложение внутри Telegram.',
+			);
+			return;
+		}
+
+		try {
+			setLoading(true);
+			setError(null);
+
 			const initData = retrieveRawInitData();
+
+			if (!initData) {
+				throw new Error('Не удалось получить данные Telegram');
+			}
+
 			const url = getAuthUrl({ initData });
-			Linking.openURL(url);
+
+			await Linking.openURL(url);
+		} catch (e) {
+			setError('Ошибка входа. Попробуйте ещё раз.');
+		} finally {
+			setLoading(false);
 		}
 	};
+
 	return (
 		<FullScreenLayout>
-			<View style={styles.section}>
+			<View style={styles.container}>
 				<Typography
 					variant='h1'
 					style={styles.title}>
-					Вход доступен только через Max.
+					Вход в личный кабинет
 				</Typography>
+
 				<Typography
 					variant='body'
 					style={styles.description}>
-					На данном этапе аутентификация доступна только в Max.
+					Для входа используйте Telegram. Мы автоматически свяжем ваш аккаунт с
+					системой через SSO.
 				</Typography>
+
+				{error && (
+					<View style={styles.errorBox}>
+						<Typography style={styles.errorText}>{error}</Typography>
+					</View>
+				)}
+
+				<Button
+					title={loading ? 'Открываем...' : 'Войти через Telegram'}
+					onPress={handleLogin}
+				/>
 			</View>
-			<Button
-				title='Связть Telegram и ЛК'
-				onPress={handleLogin}
-			/>
-			;
 		</FullScreenLayout>
 	);
 }
 
 const styles = StyleSheet.create({
-	section: {
-		marginTop: 22,
+	container: {
+		marginTop: 24,
 		backgroundColor: Colors.background,
-		padding: 16,
-		borderRadius: 12,
-		elevation: 3,
+		padding: 20,
+		borderRadius: 16,
+		elevation: 4,
 	},
+
 	title: {
-		marginBottom: 8,
+		marginBottom: 10,
 	},
+
 	description: {
 		color: Colors.gray,
+		marginBottom: 20,
+		lineHeight: 20,
+	},
+
+	errorBox: {
+		backgroundColor: '#ffe5e5',
+		padding: 12,
+		borderRadius: 10,
 		marginBottom: 16,
 	},
-	spacer: {
-		height: 12,
+
+	errorText: {
+		color: '#b00020',
+		fontSize: 14,
 	},
 });
