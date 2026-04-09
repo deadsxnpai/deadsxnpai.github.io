@@ -2,6 +2,7 @@ export { Button } from './button/button';
 export { Container } from './container/container';
 export { IconSymbol } from './icon-symbol/icon-symbol';
 export { UserImage } from './image/image';
+export { InfoView } from './info-view/info-view';
 export { Loader } from './loader/loader';
 export { Spacer } from './spacer/spacer';
 export { Typography } from './typography/typography';

@@ -13,7 +13,7 @@ export default function TabsLayout() {
 			<Tabs.Screen
 				name='index'
 				options={{
-					title: '',
+					title: ' ',
 					tabBarIcon: ({ color }) => (
 						<IconSymbol
 							size={28}
@@ -24,16 +24,9 @@ export default function TabsLayout() {
 				}}
 			/>
 			<Tabs.Screen
-				name='test'
+				name='student'
 				options={{
-					title: '',
-					tabBarIcon: ({ color }) => (
-						<IconSymbol
-							size={28}
-							name={'message.fill'}
-							color={color}
-						/>
-					),
+					href: null,
 				}}
 			/>
 		</Tabs>

@@ -27,6 +27,7 @@ export const Colors = {
 	surface: '#E5E5EA',
 	warning: '#ffa94d',
 	info: '#f5f5f5',
+	light: '#6B96CC',
 };
 
 export const Fonts = Platform.select({
