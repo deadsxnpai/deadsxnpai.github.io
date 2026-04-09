@@ -6,7 +6,7 @@ import { isTgPlatform } from '@/shared/lib/platform/get-platform';
 import { Button, Typography } from '@/shared/ui';
 import { retrieveRawInitData } from '@tma.js/sdk';
 import React, { useState } from 'react';
-import { Linking, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 export default function AuthOnlyMaxScreen() {
 	const [loading, setLoading] = useState(false);
@@ -34,7 +34,11 @@ export default function AuthOnlyMaxScreen() {
 
 			const url = getAuthUrl({ initData });
 
-			await Linking.openURL(url);
+			if (window.Telegram?.WebApp) {
+				window.Telegram.WebApp.openLink(url);
+			} else {
+				window.open(url, '_blank');
+			}
 		} catch (e) {
 			setError('Ошибка входа. Попробуйте ещё раз.');
 		} finally {
