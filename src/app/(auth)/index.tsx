@@ -12,7 +12,7 @@ import { retrieveRawInitData } from '@tma.js/sdk';
 import React, { useState } from 'react';
 import { Linking, StyleSheet, View } from 'react-native';
 
-export default function AuthOnlyMaxScreen() {
+export default function AuthScreen() {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
