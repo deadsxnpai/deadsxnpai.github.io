@@ -34,7 +34,7 @@ export const ProfileView = ({ style, ...infoStyles }: InfoViewStyles) => {
 		<View style={[styles.container, style]}>
 			<UserImage
 				id={user?.data.id}
-				style={{ width: 40, height: 40, borderRadius: 50 }}
+				style={{ width: 45, height: 45, borderRadius: 50 }}
 			/>
 			{renderInfoView()}
 		</View>
