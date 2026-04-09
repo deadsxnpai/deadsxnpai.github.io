@@ -1,46 +1,15 @@
-import { getUserType } from '@/entities/user';
-import {
-	mapAuthMeToUser,
-	useAuth,
-	useAuthActions,
-	useMe,
-} from '@/features/auth';
+import { useAuth } from '@/features/auth';
 import { AppDefaultTheme } from '@/shared/constants/model/theme';
 import { ApolloProvider, AppContextProvider } from '@/shared/lib';
-import { Loader } from '@/shared/ui';
-import { ErrorView } from '@/widgets/error-view';
+import { AuthProvider } from '@/shared/lib/providers/auth.provider';
 import { ThemeProvider } from '@react-navigation/native';
 import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { Platform } from 'react-native';
 
-const isUnauthorizedError = (error: any): boolean => {
-	return (
-		error?.graphQLErrors?.some(
-			(err: any) =>
-				err.extensions?.code === 'UNAUTHENTICATED' ||
-				err.extensions?.statusCode === 401,
-		) || error?.networkError?.statusCode === 401
-	);
-};
-
 const InitialLayout = () => {
-	const { data, loading, error } = useMe();
 	const isLogged = useAuth();
-	const { setUser, setRole } = useAuthActions();
-
-	useEffect(() => {
-		if (data !== undefined) {
-			const user = mapAuthMeToUser(data);
-			setUser(user);
-			const role = getUserType(user.groups);
-			setRole(role);
-		}
-	}, [data, setUser, setRole]);
-
-	if (loading) return <Loader />;
-	if (error && !isUnauthorizedError(error)) return <ErrorView error={error} />;
 
 	return (
 		<Stack screenOptions={{ headerShown: false }}>
@@ -72,8 +41,10 @@ export default function RootLayout() {
 		<ApolloProvider>
 			<AppContextProvider>
 				<ThemeProvider value={AppDefaultTheme}>
-					<InitialLayout />
-					<StatusBar style='auto' />
+					<AuthProvider>
+						<InitialLayout />
+						<StatusBar style='auto' />
+					</AuthProvider>
 				</ThemeProvider>
 			</AppContextProvider>
 		</ApolloProvider>
