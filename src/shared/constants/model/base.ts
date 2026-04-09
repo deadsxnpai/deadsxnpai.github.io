@@ -1,10 +1,7 @@
-import * as Linking from 'expo-linking';
-
 const APP_ENV: string = 'dev';
 const DOMAIN: string = 'lk-dev.tsutmb.ru';
 const protocol = APP_ENV === 'local' ? 'http' : 'https';
 const BASE_URL = `${protocol}://${DOMAIN}/api`;
-const redirectBase = Linking.createURL('');
 const dev = 'lk-dev.tsutmb.ru';
 
 export const isDev = DOMAIN === dev;
@@ -20,10 +17,6 @@ export const EndPoints = {
 	reference: `${BASE_URL}/files/references`,
 	spy: `${BASE_URL}/spy/set`,
 	userpic: `${BASE_URL}/files/userpic`,
-	auth: `${BASE_URL}/auth?redirect=${encodeURIComponent(`/auth/telegram`)}`,
-	endSession: `${BASE_URL}/endSession?redirect=${encodeURIComponent(
-		`${redirectBase}login`,
-	)}`,
 	vkmail: `https://biz.mail.ru/login/tsutmb.ru`,
 	vkcloud: `https://cloud.mail.ru`,
 	chatbot: `https://jivo.chat/OMAS4HokqF`,
