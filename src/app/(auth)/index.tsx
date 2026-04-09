@@ -131,14 +131,14 @@ const styles = StyleSheet.create({
 	},
 
 	errorBox: {
-		backgroundColor: '#ffe5e5',
+		backgroundColor: Colors.info,
 		padding: 12,
 		borderRadius: 10,
 		marginBottom: 16,
 	},
 
 	errorText: {
-		color: '#b00020',
+		color: Colors.red,
 		fontSize: 14,
 	},
 });
