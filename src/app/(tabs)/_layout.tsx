@@ -23,6 +23,19 @@ export default function TabsLayout() {
 					),
 				}}
 			/>
+			<Tabs.Screen
+				name='test'
+				options={{
+					title: '',
+					tabBarIcon: ({ color }) => (
+						<IconSymbol
+							size={28}
+							name={'message.fill'}
+							color={color}
+						/>
+					),
+				}}
+			/>
 		</Tabs>
 	);
 }
