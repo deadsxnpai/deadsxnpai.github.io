@@ -118,11 +118,13 @@ export default function AuthScreen() {
 
 const styles = StyleSheet.create({
 	container: {
-		marginTop: 24,
-		backgroundColor: Colors.background,
-		padding: 20,
-		borderRadius: 16,
-		elevation: 4,
+		position: 'absolute',
+		top: '50%',
+		left: '50%',
+		transform: [{ translateX: '-50%' }, { translateY: '-50%' }],
+		width: '90%',
+		maxWidth: 400,
+		marginTop: 0,
 	},
 
 	title: {
