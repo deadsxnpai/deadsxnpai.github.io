@@ -1,7 +1,7 @@
 import { useUser } from '@/features/auth';
 import { InfoViewStyles } from '@/features/profile/model/types';
 import { StudentInfoView } from '@/features/profile/ui/student-info-view';
-import { Loader, UserImage } from '@/shared/ui';
+import { InfoView, Loader, UserImage } from '@/shared/ui';
 import { StyleSheet, View } from 'react-native';
 
 export const ProfileView = ({ style, ...infoStyles }: InfoViewStyles) => {
@@ -20,6 +20,14 @@ export const ProfileView = ({ style, ...infoStyles }: InfoViewStyles) => {
 				/>
 			);
 		}
+		return (
+			<InfoView
+				header={`${user?.data.firstName || ''} ${user?.data.lastName || ''}`.trim()}
+				subtitle={'Пользователь'}
+				info={''}
+				{...infoStyles}
+			/>
+		);
 	};
 
 	return (
