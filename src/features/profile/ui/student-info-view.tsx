@@ -1,5 +1,6 @@
 import { useStudentInfo } from '@/features/profile/api/hooks/use-student-info';
 import { InfoViewStyles } from '@/features/profile/model/types';
+import { Colors } from '@/shared/constants';
 import { InfoView, Loader } from '@/shared/ui';
 import { Text, View } from 'react-native';
 
@@ -16,7 +17,7 @@ export const StudentInfoView = ({
 	if (!data || error) {
 		return (
 			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-				<Text>Нет данных о студенте</Text>
+				<Text style={{ color: Colors.white }}>Нет данных о студенте</Text>
 			</View>
 		);
 	}
