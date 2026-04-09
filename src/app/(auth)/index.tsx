@@ -1,3 +1,4 @@
+import { closeTelegramWebApp } from '@/features/auth';
 import { getAuthUrl } from '@/shared/constants/model/base';
 import { Colors } from '@/shared/constants/model/theme';
 import { FullScreenLayout } from '@/shared/layouts';
@@ -38,7 +39,11 @@ export default function AuthScreen() {
 
 			const url = getAuthUrl({ initData });
 
-			await Linking.openURL(url);
+			closeTelegramWebApp();
+
+			setTimeout(() => {
+				Linking.openURL(url);
+			}, 100);
 		} catch (e) {
 			setError('Ошибка входа. Попробуйте ещё раз.');
 		} finally {
