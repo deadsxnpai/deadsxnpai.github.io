@@ -80,6 +80,20 @@ export default function AuthScreen() {
 		}
 	};
 
+	const handleLoginSSO = async () => {
+		try {
+			setLoading(true);
+			setError(null);
+			const url = getAuthUrl();
+
+			await Linking.openURL(url);
+		} catch (e) {
+			setError('Ошибка входа. Попробуйте ещё раз.');
+		} finally {
+			setLoading(false);
+		}
+	};
+
 	return (
 		<FullScreenLayout>
 			<View style={styles.container}>
@@ -110,6 +124,11 @@ export default function AuthScreen() {
 					style={{ marginTop: 15 }}
 					title={loading ? 'Открываем...' : 'Войти через Max'}
 					onPress={handleLoginMax}
+				/>
+				<Button
+					style={{ marginTop: 15 }}
+					title={loading ? 'Открываем...' : 'Войти через SSO'}
+					onPress={handleLoginSSO}
 				/>
 			</View>
 		</FullScreenLayout>

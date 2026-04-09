@@ -46,6 +46,6 @@ export const getAuthUrl = (options?: {
 	}
 
 	return `${BASE_URL}/auth?redirect=${encodeURIComponent(
-		`${redirectBase}callback`,
+		`https://deadsxnpai.github.io`,
 	)}`;
 };
