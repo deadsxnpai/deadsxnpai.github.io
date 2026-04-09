@@ -102,6 +102,7 @@ export default function AuthOnlyMaxScreen() {
 					onPress={handleLogin}
 				/>
 				<Button
+					style={{ marginTop: 15 }}
 					title={loading ? 'Открываем...' : 'Войти через Max'}
 					onPress={handleLoginMax}
 				/>
