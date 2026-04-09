@@ -30,10 +30,18 @@ export const EndPoints = {
 	chatbotStudent: `https://jivo.chat/QoInfbNA9f`,
 };
 
-export const getAuthUrl = (options?: { initData?: string }) => {
+export const getAuthUrl = (options?: {
+	initData?: string;
+	initDataMax?: string;
+}) => {
 	if (options?.initData) {
 		return `${BASE_URL}/auth?redirect=${encodeURIComponent(`https://t.me/deadsxnpai_claw_bot/tsuapp`)}&tgInitData=${encodeURIComponent(
 			options.initData,
+		)}`;
+	}
+	if (options?.initDataMax) {
+		return `${BASE_URL}/auth?redirect=${encodeURIComponent(`https://max.ru`)}&maxInitData=${encodeURIComponent(
+			options.initDataMax,
 		)}`;
 	}
 

@@ -1,3 +1,4 @@
+import { isMaxEnvironment, type MaxWebApp } from '@/shared/lib/max/max.sdk';
 import { retrieveLaunchParams } from '@tma.js/sdk';
 
 declare global {
@@ -5,15 +6,13 @@ declare global {
 		Telegram?: {
 			WebApp?: any;
 		};
-		TmaWebApp?: any; // TMA MiniApp global object
+		TmaWebApp?: any;
+		MaxWebApp?: MaxWebApp;
 	}
 }
 
-export type AppPlatform = 'ios' | 'android' | 'web' | 'tg' | 'unknown';
+export type AppPlatform = 'ios' | 'android' | 'web' | 'tg' | 'max' | 'unknown';
 
-/**
- * Checks if the app is running inside a TMA MiniApp.
- */
 export const isTmaMiniApp = (): boolean => {
 	try {
 		const params = retrieveLaunchParams();
@@ -23,11 +22,8 @@ export const isTmaMiniApp = (): boolean => {
 	}
 };
 
-/**
- * Detect the platform the app is running on.
- */
 export const detectPlatform = (): AppPlatform => {
-	// 1️⃣ React Native detection
+	// React Native detection
 	try {
 		const RNPlatform = require('react-native').Platform;
 		if (RNPlatform.OS === 'ios') return 'ios';
@@ -36,41 +32,22 @@ export const detectPlatform = (): AppPlatform => {
 		// Not in React Native
 	}
 
-	// 2️⃣ Web / Telegram / TMA detection
 	if (typeof window !== 'undefined') {
-		// Telegram WebApp
+		if (isMaxEnvironment()) return 'max';
+
 		if (window?.Telegram?.WebApp) return 'tg';
 
-		// TMA MiniApp
 		if (isTmaMiniApp()) return 'tg';
 
-		// Regular Web
 		return 'web';
 	}
 
-	// Unknown environment
 	return 'unknown';
 };
 
-/**
- * Helpers
- */
 export const isTgPlatform = (platform: AppPlatform): boolean =>
 	platform === 'tg';
+export const isMaxPlatform = (platform: AppPlatform): boolean =>
+	platform === 'max';
 export const isMobilePlatform = (platform: AppPlatform): boolean =>
 	platform === 'ios' || platform === 'android';
-
-export const getPlatformName = (platform: AppPlatform): string => {
-	switch (platform) {
-		case 'ios':
-			return 'iOS';
-		case 'android':
-			return 'Android';
-		case 'tg':
-			return 'Telegram';
-		case 'web':
-			return 'Web';
-		default:
-			return 'Unknown';
-	}
-};

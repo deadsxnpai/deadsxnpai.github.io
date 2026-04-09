@@ -2,11 +2,15 @@ import { getAuthUrl } from '@/shared/constants/model/base';
 import { Colors } from '@/shared/constants/model/theme';
 import { FullScreenLayout } from '@/shared/layouts';
 import { detectPlatform } from '@/shared/lib';
-import { isTgPlatform } from '@/shared/lib/platform/get-platform';
+import { getMaxInitData } from '@/shared/lib/max/max.sdk';
+import {
+	isMaxPlatform,
+	isTgPlatform,
+} from '@/shared/lib/platform/get-platform';
 import { Button, Typography } from '@/shared/ui';
 import { retrieveRawInitData } from '@tma.js/sdk';
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Linking, StyleSheet, View } from 'react-native';
 
 export default function AuthOnlyMaxScreen() {
 	const [loading, setLoading] = useState(false);
@@ -34,11 +38,36 @@ export default function AuthOnlyMaxScreen() {
 
 			const url = getAuthUrl({ initData });
 
-			if (window.Telegram?.WebApp) {
-				window.Telegram.WebApp.openLink(url);
-			} else {
-				window.open(url, '_blank');
+			await Linking.openURL(url);
+		} catch (e) {
+			setError('Ошибка входа. Попробуйте ещё раз.');
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	const handleLoginMax = async () => {
+		const platform = detectPlatform();
+
+		if (!isMaxPlatform(platform)) {
+			setError(
+				'Вход доступен только через Max. Откройте приложение внутри Max.',
+			);
+			return;
+		}
+
+		try {
+			setLoading(true);
+			setError(null);
+			const initDataMax = getMaxInitData();
+
+			if (!initDataMax) {
+				throw new Error('Не удалось получить данные Max');
 			}
+
+			const url = getAuthUrl({ initDataMax });
+
+			await Linking.openURL(url);
 		} catch (e) {
 			setError('Ошибка входа. Попробуйте ещё раз.');
 		} finally {
@@ -58,8 +87,8 @@ export default function AuthOnlyMaxScreen() {
 				<Typography
 					variant='body'
 					style={styles.description}>
-					Для входа используйте Telegram. Мы автоматически свяжем ваш аккаунт с
-					системой через SSO.
+					Для входа используйте Telegram или Max. Мы автоматически свяжем ваш
+					аккаунт с системой через SSO.
 				</Typography>
 
 				{error && (
@@ -71,6 +100,10 @@ export default function AuthOnlyMaxScreen() {
 				<Button
 					title={loading ? 'Открываем...' : 'Войти через Telegram'}
 					onPress={handleLogin}
+				/>
+				<Button
+					title={loading ? 'Открываем...' : 'Войти через Max'}
+					onPress={handleLoginMax}
 				/>
 			</View>
 		</FullScreenLayout>
