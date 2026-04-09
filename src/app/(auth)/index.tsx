@@ -7,6 +7,7 @@ import { getMaxInitData } from '@/shared/lib/max/max.sdk';
 import {
 	isMaxPlatform,
 	isTgPlatform,
+	isWeb,
 } from '@/shared/lib/platform/get-platform';
 import { Button, Typography } from '@/shared/ui';
 import { retrieveRawInitData } from '@tma.js/sdk';
@@ -81,6 +82,14 @@ export default function AuthScreen() {
 	};
 
 	const handleLoginSSO = async () => {
+		const platform = detectPlatform();
+
+		if (!isWeb(platform)) {
+			setError(
+				'Вход доступен только через Web-браузер. Откройте приложение внутри Web-браузера.',
+			);
+			return;
+		}
 		try {
 			setLoading(true);
 			setError(null);

@@ -51,3 +51,4 @@ export const isMaxPlatform = (platform: AppPlatform): boolean =>
 	platform === 'max';
 export const isMobilePlatform = (platform: AppPlatform): boolean =>
 	platform === 'ios' || platform === 'android';
+export const isWeb = (platform: AppPlatform): boolean => platform === 'web';
