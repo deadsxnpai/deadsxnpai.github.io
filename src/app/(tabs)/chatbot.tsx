@@ -1,47 +1,61 @@
+import React, { useEffect, useMemo, useState } from 'react';
+
 import { useUser } from '@/features/auth';
 import { EndPoints } from '@/shared/constants';
 import { findContact, formatPhoneNumber } from '@/shared/lib';
 import { CrossPlatformWebView } from '@/shared/ui';
 
-import React, { useEffect, useState } from 'react';
+const DEFAULT_PHONE = '+79000000000';
 
 const ChatbotScreen = () => {
+	const { data: userData, email, email_work, groups } = useUser() || {};
 	const [uri, setUri] = useState<string | null>(null);
-	const user = useUser();
 
-	const phone = findContact(user?.data?.contacts, {
-		kind_contact_information: 'ТелефонМобильныйФизическиеЛица',
-	});
+	const isEmployee = useMemo(() => groups?.includes('employee'), [groups]);
 
-	const isEmployee = user?.groups?.some((group: any) => group === 'employee');
+	const phone = useMemo(() => {
+		const contact = findContact(userData?.contacts, {
+			kind_contact_information: 'ТелефонМобильныйФизическиеЛица',
+		});
 
-	const injectedJavaScript = `
-    (function() {
-      function waitForJivo() {
-        if (typeof jivo_api !== 'undefined') {
-          jivo_api.setContactInfo({
-            name: "${user?.data?.fullName || 'Guest'}",
-            email: "${user?.email && isEmployee ? user?.email_work : user?.email || ''}",
-            phone: "${phone !== '--' ? formatPhoneNumber(phone) : '+79000000000'}",
-            description: "User profile information"
-          });
-        } else {
-          setTimeout(waitForJivo, 100);
+		return contact !== '--' ? formatPhoneNumber(contact) : DEFAULT_PHONE;
+	}, [userData]);
+
+	const userInfo = useMemo(() => {
+		return {
+			name: userData?.fullName || 'Guest',
+			email: isEmployee ? email_work || '' : email || '',
+			phone,
+		};
+	}, [userData, email, email_work, isEmployee, phone]);
+
+	const injectedJavaScript = useMemo(() => {
+		return `
+      (function() {
+        function waitForJivo() {
+          if (typeof jivo_api !== 'undefined') {
+            jivo_api.setContactInfo({
+              name: "${userInfo.name}",
+              email: "${userInfo.email}",
+              phone: "${userInfo.phone}",
+              description: "User profile information"
+            });
+          } else {
+            setTimeout(waitForJivo, 100);
+          }
         }
-      }
-      waitForJivo();
-    })();
-  `;
+        waitForJivo();
+      })();
+    `;
+	}, [userInfo]);
 
 	useEffect(() => {
-		if (user) {
-			setUri(isEmployee ? EndPoints.chatbot : EndPoints.chatbotStudent);
-		}
-	}, [user, isEmployee]);
+		if (!userData) return;
 
-	if (!uri) {
-		return null;
-	}
+		setUri(isEmployee ? EndPoints.chatbot : EndPoints.chatbotStudent);
+	}, [userData, isEmployee]);
+
+	if (!uri) return null;
 
 	return (
 		<CrossPlatformWebView
