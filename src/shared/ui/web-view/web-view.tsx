@@ -75,6 +75,7 @@ export function CrossPlatformWebView({
 		setLoading(true);
 	};
 
+	// Функции навигации для нативного WebView
 	const handleNativeBack = () => {
 		if (webViewRef.current && canGoBack) {
 			webViewRef.current.goBack();
@@ -180,8 +181,9 @@ export function CrossPlatformWebView({
 		<MainLayout contentStyle={styles.content}>
 			<View style={styles.container}>
 				<NavigationButtons />
-
+				{/* Веб-контент */}
 				{Platform.OS === 'web' ? (
+					// Iframe для веб-платформы
 					<iframe
 						ref={iframeRef}
 						key={currentUrl}
@@ -195,6 +197,7 @@ export function CrossPlatformWebView({
 						allowFullScreen
 					/>
 				) : (
+					// Нативный WebView для iOS/Android
 					<WebView
 						ref={webViewRef}
 						source={{ uri: currentUrl }}
@@ -225,6 +228,7 @@ export function CrossPlatformWebView({
 								/>
 							</View>
 						)}
+						// Дополнительные пропсы для лучшего UX
 						allowsBackForwardNavigationGestures={true}
 						scalesPageToFit={true}
 						javaScriptEnabled={true}
