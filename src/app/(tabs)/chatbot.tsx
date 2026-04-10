@@ -60,7 +60,6 @@ const ChatbotScreen = () => {
 	return (
 		<CrossPlatformWebView
 			url={uri}
-			injectedJavaScript={injectedJavaScript}
 			injectedJavaScriptBeforeContentLoaded={injectedJavaScript}
 		/>
 	);

@@ -1,4 +1,3 @@
-// Updated CrossPlatformWebView component for Telegram Mini App
 import { Colors } from '@/shared/constants/model/theme';
 import { MainLayout } from '@/shared/layouts/main-layout/main-layout';
 import { Ionicons } from '@expo/vector-icons';
@@ -14,8 +13,8 @@ import { WebView } from 'react-native-webview';
 
 interface CrossPlatformWebViewProps {
 	url: string;
-	injectedJavaScript?: string;
-	injectedJavaScriptBeforeContentLoaded?: string;
+	injectedJavaScript?: string; // JavaScript to inject on page load
+	injectedJavaScriptBeforeContentLoaded?: string; // JS to inject before content loads
 }
 
 export function CrossPlatformWebView({
@@ -30,16 +29,11 @@ export function CrossPlatformWebView({
 	const [canGoForward, setCanGoForward] = useState(false);
 	const [history, setHistory] = useState<string[]>([url]);
 	const [historyIndex, setHistoryIndex] = useState(0);
-	const [htmlContent, setHtmlContent] = useState<string | null>(null);
 
 	const iframeRef: any = useRef(null);
 	const webViewRef: any = useRef(null);
 
-	// Detect if running in Telegram Mini App
-	const isTelegramWebView =
-		typeof window !== 'undefined' &&
-		(window as any).TelegramWebviewProxy !== undefined;
-
+	// Обновляем историю при загрузке URL
 	useEffect(() => {
 		if (Platform.OS === 'web') {
 			const newHistory = [...history.slice(0, historyIndex + 1), currentUrl];
@@ -50,64 +44,7 @@ export function CrossPlatformWebView({
 		}
 	}, [currentUrl]);
 
-	// For Telegram WebView, fetch and inject content with scripts
-	useEffect(() => {
-		if (Platform.OS === 'web' && isTelegramWebView && injectedJavaScript) {
-			fetchAndInjectContent(currentUrl);
-		}
-	}, [currentUrl, isTelegramWebView]);
-
-	const fetchAndInjectContent = async (targetUrl: string) => {
-		try {
-			setLoading(true);
-			const response = await fetch(targetUrl);
-			let html = await response.text();
-
-			// Inject JavaScript before content loads
-			if (injectedJavaScriptBeforeContentLoaded) {
-				html = html.replace(
-					'</head>',
-					`<script>${injectedJavaScriptBeforeContentLoaded}</script></head>`,
-				);
-			}
-
-			if (injectedJavaScript) {
-				const injectScript = `
-					<script>
-						(function() {
-							${injectedJavaScript}
-						})();
-					</script>
-				`;
-				html = html.replace('</body>', `${injectScript}</body>`);
-			}
-
-			setHtmlContent(html);
-			setLoading(false);
-		} catch (error) {
-			console.error('Failed to fetch and inject content:', error);
-			setLoading(false);
-			// Fallback to iframe
-			setHtmlContent(null);
-		}
-	};
-
-	const handleIframeLoad = () => {
-		setLoading(false);
-
-		// Alternative injection for regular iframe (non-Telegram)
-		if (!isTelegramWebView && injectedJavaScript && iframeRef.current) {
-			try {
-				const iframeWindow = iframeRef.current.contentWindow;
-				const script = iframeWindow.document.createElement('script');
-				script.textContent = injectedJavaScript;
-				iframeWindow.document.head?.appendChild(script);
-			} catch (error) {
-				console.warn('Failed to inject into iframe:', error);
-			}
-		}
-	};
-
+	// Функции навигации для веб-платформы
 	const handleWebBack = () => {
 		if (historyIndex > 0) {
 			const newIndex = historyIndex - 1;
@@ -116,9 +53,6 @@ export function CrossPlatformWebView({
 			setCurrentUrl(prevUrl);
 			setInputUrl(prevUrl);
 			setLoading(true);
-			if (isTelegramWebView && injectedJavaScript) {
-				fetchAndInjectContent(prevUrl);
-			}
 		}
 	};
 
@@ -130,22 +64,15 @@ export function CrossPlatformWebView({
 			setCurrentUrl(nextUrl);
 			setInputUrl(nextUrl);
 			setLoading(true);
-			if (isTelegramWebView && injectedJavaScript) {
-				fetchAndInjectContent(nextUrl);
-			}
 		}
 	};
 
 	const handleWebReload = () => {
-		if (isTelegramWebView && injectedJavaScript) {
-			fetchAndInjectContent(currentUrl);
-		} else {
-			setCurrentUrl((prev) => {
-				const separator = prev.includes('?') ? '&' : '?';
-				return `${prev}${separator}t=${Date.now()}`;
-			});
-			setLoading(true);
-		}
+		setCurrentUrl((prev) => {
+			const separator = prev.includes('?') ? '&' : '?';
+			return `${prev}${separator}t=${Date.now()}`;
+		});
+		setLoading(true);
 	};
 
 	const handleNativeBack = () => {
@@ -171,15 +98,15 @@ export function CrossPlatformWebView({
 		setInputUrl(url);
 		setLoading(true);
 
-		if (Platform.OS !== 'web') {
-			if (webViewRef.current) {
-				webViewRef.current.injectJavaScript(`
-					window.location.href = "${url}";
-				`);
-			}
-		} else if (isTelegramWebView && injectedJavaScript) {
-			fetchAndInjectContent(url);
+		if (Platform.OS !== 'web' && webViewRef.current) {
+			webViewRef.current.injectJavaScript(`
+				window.location.href = "${url}";
+			`);
 		}
+	};
+
+	const handleIframeLoad = () => {
+		setLoading(false);
 	};
 
 	const NavigationButtons = () => (
@@ -249,12 +176,25 @@ export function CrossPlatformWebView({
 		</View>
 	);
 
-	// Render for native platforms
-	if (Platform.OS !== 'web') {
-		return (
-			<MainLayout contentStyle={styles.content}>
-				<View style={styles.container}>
-					<NavigationButtons />
+	return (
+		<MainLayout contentStyle={styles.content}>
+			<View style={styles.container}>
+				<NavigationButtons />
+
+				{Platform.OS === 'web' ? (
+					<iframe
+						ref={iframeRef}
+						key={currentUrl}
+						src={currentUrl}
+						style={styles.webIframe}
+						title='Web Content'
+						onLoad={handleIframeLoad}
+						onLoadStart={() => setLoading(true)}
+						sandbox='allow-same-origin allow-scripts allow-forms allow-popups allow-modals'
+						allow='accelerometer; autoplay; clipboard-write; encrypted-media; geolocation; gyroscope; picture-in-picture'
+						allowFullScreen
+					/>
+				) : (
 					<WebView
 						ref={webViewRef}
 						source={{ uri: currentUrl }}
@@ -290,40 +230,6 @@ export function CrossPlatformWebView({
 						javaScriptEnabled={true}
 						domStorageEnabled={true}
 					/>
-				</View>
-			</MainLayout>
-		);
-	}
-
-	// Render for web (including Telegram Mini App)
-	return (
-		<MainLayout contentStyle={styles.content}>
-			<View style={styles.container}>
-				<NavigationButtons />
-				{isTelegramWebView && htmlContent ? (
-					<iframe
-						ref={iframeRef}
-						srcDoc={htmlContent}
-						style={styles.webIframe}
-						title='Web Content'
-						onLoad={handleIframeLoad}
-						sandbox='allow-same-origin allow-scripts allow-forms allow-popups allow-modals allow-popups-to-escape-sandbox'
-						allow='accelerometer; autoplay; clipboard-write; encrypted-media; geolocation; gyroscope; picture-in-picture'
-						allowFullScreen
-					/>
-				) : (
-					<iframe
-						ref={iframeRef}
-						key={currentUrl}
-						src={currentUrl}
-						style={styles.webIframe}
-						title='Web Content'
-						onLoad={handleIframeLoad}
-						onLoadStart={() => setLoading(true)}
-						sandbox='allow-same-origin allow-scripts allow-forms allow-popups allow-modals allow-popups-to-escape-sandbox'
-						allow='accelerometer; autoplay; clipboard-write; encrypted-media; geolocation; gyroscope; picture-in-picture'
-						allowFullScreen
-					/>
 				)}
 			</View>
 		</MainLayout>
@@ -353,10 +259,15 @@ const styles = StyleSheet.create({
 		borderBottomColor: Colors.border,
 		paddingHorizontal: 15,
 		paddingVertical: 10,
+		// paddingTop: Platform.OS === 'web' ? 10 : 60,
 	},
 	navButtons: {
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
+		alignItems: 'center',
+	},
+	urlContainer: {
+		flexDirection: 'row',
 		alignItems: 'center',
 	},
 	navButton: {
@@ -370,9 +281,34 @@ const styles = StyleSheet.create({
 	disabledButton: {
 		opacity: 0.5,
 	},
+	urlInput: {
+		flex: 1,
+		height: 40,
+		backgroundColor: Colors.background,
+		borderWidth: 1,
+		borderColor: '#ddd',
+		borderRadius: 8,
+		paddingHorizontal: 12,
+		marginRight: 8,
+		fontSize: 14,
+	},
+	goButton: {
+		height: 40,
+		backgroundColor: Colors.primary,
+		paddingHorizontal: 16,
+		paddingVertical: 10,
+		borderRadius: 8,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	goButtonText: {
+		color: '#fff',
+		fontWeight: '600',
+		fontSize: 14,
+	},
 	loadingContainer: {
 		position: 'absolute',
-		top: 60,
+		top: Platform.OS === 'web' ? 60 : 0,
 		left: 0,
 		right: 0,
 		bottom: 0,
@@ -380,5 +316,22 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		backgroundColor: 'rgba(255, 255, 255, 0.9)',
 		zIndex: 1000,
+	},
+	loadingText: {
+		marginTop: 12,
+		marginBottom: 20,
+		fontSize: 16,
+		color: '#666',
+	},
+	cancelButton: {
+		backgroundColor: Colors.secondPrimary,
+		paddingHorizontal: 20,
+		paddingVertical: 10,
+		borderRadius: 8,
+	},
+	cancelButtonText: {
+		color: '#fff',
+		fontWeight: '600',
+		fontSize: 14,
 	},
 });
