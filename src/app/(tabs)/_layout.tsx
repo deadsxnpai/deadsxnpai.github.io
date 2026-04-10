@@ -1,9 +1,11 @@
+import { useGetRole } from '@/features/auth/model/auth.selectors';
 import { Colors } from '@/shared/constants/model/theme';
 import { IconSymbol } from '@/shared/ui/icon-symbol/icon-symbol';
 import { Tabs } from 'expo-router';
 import React from 'react';
 
 export default function TabsLayout() {
+	const role = useGetRole();
 	return (
 		<Tabs
 			screenOptions={{
@@ -23,6 +25,7 @@ export default function TabsLayout() {
 					),
 				}}
 			/>
+
 			<Tabs.Screen
 				name='student'
 				options={{
