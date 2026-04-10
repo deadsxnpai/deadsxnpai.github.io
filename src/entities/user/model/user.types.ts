@@ -30,6 +30,7 @@ export interface UserData {
 export interface User {
 	id: string;
 	email: string;
+	email_work: string;
 	sub?: string;
 	groups: string[];
 	data: UserData;

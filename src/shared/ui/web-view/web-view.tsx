@@ -13,13 +13,9 @@ import { WebView } from 'react-native-webview';
 
 interface CrossPlatformWebViewProps {
 	url: string;
-	injectedJavaScript?: string; // JavaScript to inject on page load
-	injectedJavaScriptBeforeContentLoaded?: string; // JS to inject before content loads
+	injectedJavaScript?: string;
+	injectedJavaScriptBeforeContentLoaded?: string;
 }
-
-// export default function MoodleTab() {
-// 	return <CrossPlatformWebView url={EndPoints.moodle} />;
-// }
 
 export function CrossPlatformWebView({
 	url,
@@ -37,7 +33,6 @@ export function CrossPlatformWebView({
 	const iframeRef: any = useRef(null);
 	const webViewRef: any = useRef(null);
 
-	// Обновляем историю при загрузке URL
 	useEffect(() => {
 		if (Platform.OS === 'web') {
 			const newHistory = [...history.slice(0, historyIndex + 1), currentUrl];
@@ -48,7 +43,6 @@ export function CrossPlatformWebView({
 		}
 	}, [currentUrl]);
 
-	// Функции навигации для веб-платформы
 	const handleWebBack = () => {
 		if (historyIndex > 0) {
 			const newIndex = historyIndex - 1;
@@ -79,7 +73,6 @@ export function CrossPlatformWebView({
 		setLoading(true);
 	};
 
-	// Функции навигации для нативного WebView
 	const handleNativeBack = () => {
 		if (webViewRef.current && canGoBack) {
 			webViewRef.current.goBack();
@@ -185,9 +178,7 @@ export function CrossPlatformWebView({
 		<MainLayout contentStyle={styles.content}>
 			<View style={styles.container}>
 				<NavigationButtons />
-				{/* Веб-контент */}
 				{Platform.OS === 'web' ? (
-					// Iframe для веб-платформы
 					<iframe
 						ref={iframeRef}
 						key={currentUrl}
@@ -201,7 +192,6 @@ export function CrossPlatformWebView({
 						allowFullScreen
 					/>
 				) : (
-					// Нативный WebView для iOS/Android
 					<WebView
 						ref={webViewRef}
 						source={{ uri: currentUrl }}
@@ -232,7 +222,6 @@ export function CrossPlatformWebView({
 								/>
 							</View>
 						)}
-						// Дополнительные пропсы для лучшего UX
 						allowsBackForwardNavigationGestures={true}
 						scalesPageToFit={true}
 						javaScriptEnabled={true}
@@ -267,7 +256,6 @@ const styles = StyleSheet.create({
 		borderBottomColor: Colors.border,
 		paddingHorizontal: 15,
 		paddingVertical: 10,
-		// paddingTop: Platform.OS === 'web' ? 10 : 60,
 	},
 	navButtons: {
 		flexDirection: 'row',

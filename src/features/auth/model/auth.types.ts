@@ -33,6 +33,7 @@ export type DataMe = {
 export type AuthMeResponse = {
 	access_token: string;
 	email: string;
+	email_work: string;
 	sub?: string;
 	groups: string[];
 	data: DataMe;

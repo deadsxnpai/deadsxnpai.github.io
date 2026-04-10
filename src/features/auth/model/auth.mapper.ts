@@ -5,6 +5,7 @@ export const mapAuthMeToUser = (api: AuthMeResponse): User => ({
 	id: api.data.guid,
 	sub: api.sub,
 	email: api.email,
+	email_work: api.email_work,
 	groups: api.groups,
 	data: {
 		id: api.data.guid,

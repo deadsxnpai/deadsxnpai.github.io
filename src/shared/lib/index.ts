@@ -1,3 +1,4 @@
+export { findContact, formatPhoneNumber } from './helper/utils';
 export { useColorScheme } from './hooks/use-color-scheme';
 export { detectPlatform } from './platform/get-platform';
 export { ApolloProvider } from './providers/apollo-provider';

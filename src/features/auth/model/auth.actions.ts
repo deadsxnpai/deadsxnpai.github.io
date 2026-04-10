@@ -1,4 +1,4 @@
-import { useAuthStore } from '@/features/auth';
+import { useAuthStore } from '@/features/auth/model/auth.store';
 
 export const useAuthActions = () => {
 	const setUser = useAuthStore((state) => state.setUser);
