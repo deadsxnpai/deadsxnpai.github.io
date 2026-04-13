@@ -1,5 +1,4 @@
 // Fallback for using MaterialIcons on Android and web.
-
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { SymbolViewProps, SymbolWeight } from 'expo-symbols';
 import { ComponentProps } from 'react';
@@ -9,7 +8,7 @@ type IconMapping = Record<
 	SymbolViewProps['name'],
 	ComponentProps<typeof MaterialIcons>['name']
 >;
-type IconSymbolName = keyof typeof MAPPING;
+export type IconSymbolName = keyof typeof MAPPING;
 
 /**
  * Add your SF Symbols to Material Icons mappings here.
@@ -21,11 +20,19 @@ const MAPPING = {
 	'paperplane.fill': 'send',
 	'chevron.left.forwardslash.chevron.right': 'code',
 	'chevron.right': 'chevron-right',
+	'chevron.up': 'expand-less',
+	'chevron.down': 'expand-more',
 	'person.fill': 'person',
 	'message.fill': 'message',
 	'envelope.fill': 'mail',
 	'books.vertical.fill': 'menu-book',
 	'exclamationmark.triangle.fill': 'error',
+	'wifi.exclamationmark': 'wifi',
+	'lock.fill': 'lock',
+	'questionmark.circle.fill': 'help',
+	'ant.fill': 'bug-report',
+	repeat: 'refresh',
+	clock: 'lock-clock',
 } as IconMapping;
 
 /**

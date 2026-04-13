@@ -1,4 +1,4 @@
-import { Colors } from '@/shared/constants/theme';
+import { Colors } from '@/shared/constants/model/theme';
 import React from 'react';
 import { Image, Platform, StyleSheet, Text, View } from 'react-native';
 

@@ -1,48 +1,24 @@
-import { useAuthStore } from '@/features';
-import { useMaxAuth } from '@/features/auth/hooks/useMaxAuth';
-import { Loader } from '@/shared';
-import { AppDefaultTheme } from '@/shared/constants/theme';
+import { useAuth } from '@/features/auth';
+import { AppDefaultTheme } from '@/shared/constants/model/theme';
 import { ApolloProvider, AppContextProvider } from '@/shared/lib';
+import { AuthProvider } from '@/shared/lib/providers/auth.provider';
 import { ThemeProvider } from '@react-navigation/native';
 import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
-import { Platform, Text, View } from 'react-native';
-
-// Компонент для инициализации MAX
-const MaxInitializer = ({ children }: { children: React.ReactNode }) => {
-	const { maxInitialized, isMaxEnvironment } = useMaxAuth();
-
-	// Показываем загрузку пока MAX инициализируется
-	if (isMaxEnvironment && !maxInitialized) {
-		return (
-			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-				<Loader />
-				<Text style={{ marginTop: 10 }}>Подключение к MAX...</Text>
-			</View>
-		);
-	}
-
-	return <>{children}</>;
-};
+import { Platform } from 'react-native';
 
 const InitialLayout = () => {
-	const { isAuth, loading, checkAuth } = useAuthStore();
-
-	useEffect(() => {
-		checkAuth();
-	}, []);
-
-	if (loading) return <Loader />;
+	const isLogged = useAuth();
 
 	return (
 		<Stack screenOptions={{ headerShown: false }}>
-			<Stack.Protected guard={isAuth}>
+			<Stack.Protected guard={isLogged}>
 				<Stack.Screen name='(tabs)' />
 			</Stack.Protected>
 
-			<Stack.Protected guard={!isAuth}>
-				<Stack.Screen name='(max)' />
+			<Stack.Protected guard={!isLogged}>
+				<Stack.Screen name='(auth)' />
 			</Stack.Protected>
 
 			<Stack.Screen name='+not-found' />
@@ -65,10 +41,10 @@ export default function RootLayout() {
 		<ApolloProvider>
 			<AppContextProvider>
 				<ThemeProvider value={AppDefaultTheme}>
-					<MaxInitializer>
+					<AuthProvider>
 						<InitialLayout />
-					</MaxInitializer>
-					<StatusBar style='auto' />
+						<StatusBar style='auto' />
+					</AuthProvider>
 				</ThemeProvider>
 			</AppContextProvider>
 		</ApolloProvider>

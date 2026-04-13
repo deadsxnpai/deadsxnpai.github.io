@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import { Colors } from '@/shared/constants/theme';
+import { Colors } from '@/shared/constants/model/theme';
 import React from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
 

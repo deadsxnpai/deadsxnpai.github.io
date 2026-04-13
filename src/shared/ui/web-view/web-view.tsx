@@ -1,5 +1,5 @@
-import { Colors } from '@/shared/constants/theme';
-import { MainLayout } from '@/shared/layouts/main-layout/main-layout';
+import { Colors } from '@/shared/constants/model/theme';
+import { FullScreenLayout } from '@/shared/layouts';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useRef, useState } from 'react';
 import {
@@ -16,11 +16,6 @@ interface CrossPlatformWebViewProps {
 	injectedJavaScript?: string; // JavaScript to inject on page load
 	injectedJavaScriptBeforeContentLoaded?: string; // JS to inject before content loads
 }
-
-//todo moodle page
-// export default function MoodleTab() {
-// 	return <CrossPlatformWebView url={EndPoints.moodle} />;
-// }
 
 export function CrossPlatformWebView({
 	url,
@@ -183,7 +178,7 @@ export function CrossPlatformWebView({
 	);
 
 	return (
-		<MainLayout contentStyle={styles.content}>
+		<FullScreenLayout contentStyle={styles.content}>
 			<View style={styles.container}>
 				<NavigationButtons />
 				{/* Веб-контент */}
@@ -241,7 +236,7 @@ export function CrossPlatformWebView({
 					/>
 				)}
 			</View>
-		</MainLayout>
+		</FullScreenLayout>
 	);
 }
 

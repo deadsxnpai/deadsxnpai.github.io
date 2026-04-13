@@ -1,35 +1,54 @@
-// lib/platform/detect.ts
-import { Platform as RNPlatform } from 'react-native';
+import { isMaxEnvironment, type MaxWebApp } from '@/shared/lib/max/max.sdk';
+import { retrieveLaunchParams } from '@tma.js/sdk';
 
-export type AppPlatform =
-	| 'ios'
-	| 'android'
-	| 'web'
-	| 'tgWeb'
-	| 'tgMobile'
-	| 'unknown';
+declare global {
+	interface Window {
+		Telegram?: {
+			WebApp?: any;
+		};
+		TmaWebApp?: any;
+		MaxWebApp?: MaxWebApp;
+	}
+}
 
-/**
- * Detects the platform/environment the app is running in.
- */
+export type AppPlatform = 'ios' | 'android' | 'web' | 'tg' | 'max' | 'unknown';
+
+export const isTmaMiniApp = (): boolean => {
+	try {
+		const params = retrieveLaunchParams();
+		return params?.tgWebAppPlatform !== null;
+	} catch {
+		return false;
+	}
+};
+
 export const detectPlatform = (): AppPlatform => {
-	// Mobile native platforms
-	if (RNPlatform.OS === 'ios') return 'ios';
-	if (RNPlatform.OS === 'android') return 'android';
+	// React Native detection
+	try {
+		const RNPlatform = require('react-native').Platform;
+		if (RNPlatform.OS === 'ios') return 'ios';
+		if (RNPlatform.OS === 'android') return 'android';
+	} catch {
+		// Not in React Native
+	}
 
-	// Web platform
-	if (RNPlatform.OS === 'web') {
-		if (typeof window !== 'undefined') {
-			// Telegram WebApp detection
-			const tg = (window as any).Telegram?.WebApp;
-			if (tg) return 'tgWeb';
+	if (typeof window !== 'undefined') {
+		if (isMaxEnvironment()) return 'max';
 
-			// Optional: detect if in Telegram mobile browser (not WebApp)
-			const userAgent = window.navigator.userAgent.toLowerCase();
-			if (userAgent.includes('telegram')) return 'tgMobile';
-		}
+		if (window?.Telegram?.WebApp) return 'tg';
+
+		if (isTmaMiniApp()) return 'tg';
+
 		return 'web';
 	}
 
 	return 'unknown';
 };
+
+export const isTgPlatform = (platform: AppPlatform): boolean =>
+	platform === 'tg';
+export const isMaxPlatform = (platform: AppPlatform): boolean =>
+	platform === 'max';
+export const isMobilePlatform = (platform: AppPlatform): boolean =>
+	platform === 'ios' || platform === 'android';
+export const isWeb = (platform: AppPlatform): boolean => platform === 'web';

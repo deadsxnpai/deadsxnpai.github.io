@@ -7,7 +7,9 @@
 		"start:nocache": "expo start -c",
 		"dev": "expo start --localhost",
 		"build:web": "expo export --platform web",
-		"build:mobile": "expo export"
+		"build:mobile": "expo export",
+		"deploy": "npm run build:web && gh-pages -d dist",
+		"deploy:clean": "npm run build:web && gh-pages -d dist -t true"
 	},
 	"dependencies": {
 		"@apollo/client": "^3.9.7",
@@ -17,10 +19,11 @@
 		"@react-navigation/bottom-tabs": "^7.10.1",
 		"@react-navigation/elements": "^2.6.3",
 		"@react-navigation/native": "^7.1.8",
+		"@tma.js/sdk": "^3.1.7",
 		"env-cmd": "^11.0.0",
 		"expo": "~54.0.31",
 		"expo-application": "~7.0.8",
-		"expo-auth-session": "^7.0.10",
+		"expo-auth-session": "^55.0.12",
 		"expo-build-properties": "^1.0.10",
 		"expo-constants": "~18.0.13",
 		"expo-crypto": "^15.0.8",
@@ -60,6 +63,7 @@
 		"@types/react": "~19.1.0",
 		"eslint": "^9.25.0",
 		"eslint-config-expo": "~10.0.0",
+		"gh-pages": "^6.3.0",
 		"typescript": "~5.9.2"
 	},
 	"private": true
