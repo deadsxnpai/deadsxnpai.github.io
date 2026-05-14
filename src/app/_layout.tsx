@@ -1,30 +1,24 @@
-import { useAuthStore } from '@/features';
-import { Loader } from '@/shared';
+import { useAuth } from '@/features/auth';
+import { AppDefaultTheme } from '@/shared/constants/model/theme';
 import { ApolloProvider, AppContextProvider } from '@/shared/lib';
-import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { AuthProvider } from '@/shared/lib/providers/auth.provider';
+import { ThemeProvider } from '@react-navigation/native';
 import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { Platform } from 'react-native';
 
-const InitialLayoyt = () => {
-	const { isAuth, loading, checkAuth, user } = useAuthStore();
+const InitialLayout = () => {
+	const isLogged = useAuth();
 
-	useEffect(() => {
-		checkAuth();
-	}, []);
-
-	if (loading) return <Loader />;
-	console.log('[LOG]', user);
 	return (
 		<Stack screenOptions={{ headerShown: false }}>
-			<Stack.Protected guard={isAuth}>
+			<Stack.Protected guard={isLogged}>
 				<Stack.Screen name='(tabs)' />
 			</Stack.Protected>
 
-			<Stack.Protected guard={!isAuth}>
+			<Stack.Protected guard={!isLogged}>
 				<Stack.Screen name='(auth)' />
-				<Stack.Screen name='(telegram)' />
 			</Stack.Protected>
 
 			<Stack.Screen name='+not-found' />
@@ -46,9 +40,11 @@ export default function RootLayout() {
 	return (
 		<ApolloProvider>
 			<AppContextProvider>
-				<ThemeProvider value={DefaultTheme}>
-					<InitialLayoyt />
-					<StatusBar style='auto' />
+				<ThemeProvider value={AppDefaultTheme}>
+					<AuthProvider>
+						<InitialLayout />
+						<StatusBar style='auto' />
+					</AuthProvider>
 				</ThemeProvider>
 			</AppContextProvider>
 		</ApolloProvider>

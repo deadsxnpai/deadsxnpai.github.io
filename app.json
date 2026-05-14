@@ -7,25 +7,27 @@
 		"scheme": "tsumobile",
 		"userInterfaceStyle": "automatic",
 		"newArchEnabled": true,
-		
+
 		"ios": {
 			"supportsTablet": true,
 			"bundleIdentifier": "com.tsu.mobile",
 			"deploymentTarget": "15.1"
 		},
-		
+
 		"android": {
 			"package": "com.tsu.mobile",
 			"adaptiveIcon": {
-				"foregroundImage": "./assets/adaptive-icon.png",
+				"foregroundImage": "./src/shared/assets/logos/favicon.png",
 				"backgroundColor": "#E6F4FE"
 			}
 		},
-		
+
 		"web": {
-			"output": "static"
+			"output": "static",
+			"favicon": "./src/shared/assets/logos/favicon.png",
+			"bundler": "metro"
 		},
-		
+
 		"plugins": [
 			"expo-router",
 			[
@@ -52,7 +54,7 @@
 				}
 			]
 		],
-		
+
 		"experiments": {
 			"typedRoutes": true,
 			"reactCompiler": true

@@ -1,6 +1,6 @@
 // app/+not-found.tsx
-import { Button, Typography } from '@/shared';
 import { MainLayout } from '@/shared/layouts';
+import { Button, Typography } from '@/shared/ui';
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
@@ -15,7 +15,7 @@ export default function NotFoundScreen() {
 				</Typography>
 				<Button
 					title='Вернуться на главную'
-					onPress={() => router.replace('/')}
+					onPress={() => router.replace('/(tabs)')}
 					variant='primary'
 				/>
 			</View>

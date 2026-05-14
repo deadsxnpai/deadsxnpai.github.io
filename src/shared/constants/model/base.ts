@@ -1,0 +1,44 @@
+const APP_ENV: string = 'dev';
+const DOMAIN: string = 'lk-dev.tsutmb.ru';
+const protocol = APP_ENV === 'local' ? 'http' : 'https';
+const BASE_URL = `${protocol}://${DOMAIN}/api`;
+const dev = 'lk-dev.tsutmb.ru';
+
+export const isDev = DOMAIN === dev;
+
+export const EndPoints = {
+	domain: DOMAIN,
+	api: BASE_URL,
+	wss: `${protocol === 'https' ? 'wss' : 'ws'}://${DOMAIN}/api`,
+	avatar: `${BASE_URL}/files/avatar`,
+	upload: `${BASE_URL}/files/commonStorage`,
+	download: `${BASE_URL}/files/uploads`,
+	recordbook: `${BASE_URL}/files/recordbooks`,
+	reference: `${BASE_URL}/files/references`,
+	spy: `${BASE_URL}/spy/set`,
+	userpic: `${BASE_URL}/files/userpic`,
+	vkmail: `https://biz.mail.ru/login/tsutmb.ru`,
+	vkcloud: `https://cloud.mail.ru`,
+	chatbot: `https://jivo.chat/OMAS4HokqF`,
+	chatbotStudent: `https://jivo.chat/QoInfbNA9f`,
+};
+
+export const getAuthUrl = (options?: {
+	initData?: string;
+	initDataMax?: string;
+}) => {
+	if (options?.initData) {
+		return `${BASE_URL}/auth?redirect=${encodeURIComponent(`https://t.me/deadsxnpai_claw_bot/tsuapp`)}&tgInitData=${encodeURIComponent(
+			options.initData,
+		)}`;
+	}
+	if (options?.initDataMax) {
+		return `${BASE_URL}/auth?redirect=${encodeURIComponent(`https://max.ru`)}&maxInitData=${encodeURIComponent(
+			options.initDataMax,
+		)}`;
+	}
+
+	return `${BASE_URL}/auth?redirect=${encodeURIComponent(
+		`https://deadsxnpai.github.io`,
+	)}`;
+};

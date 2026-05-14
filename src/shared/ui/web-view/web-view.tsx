@@ -1,5 +1,5 @@
-import { Colors } from '@/shared/constants/theme';
-import { MainLayout } from '@/shared/layouts/main-layout/main-layout';
+import { Colors } from '@/shared/constants/model/theme';
+import { FullScreenLayout } from '@/shared/layouts';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useRef, useState } from 'react';
 import {
@@ -178,7 +178,7 @@ export function CrossPlatformWebView({
 	);
 
 	return (
-		<MainLayout contentStyle={styles.content}>
+		<FullScreenLayout contentStyle={styles.content}>
 			<View style={styles.container}>
 				<NavigationButtons />
 				{/* Веб-контент */}
@@ -236,7 +236,7 @@ export function CrossPlatformWebView({
 					/>
 				)}
 			</View>
-		</MainLayout>
+		</FullScreenLayout>
 	);
 }
 
