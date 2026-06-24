@@ -9,13 +9,14 @@
     "web": "expo start --web",
     "prebuild": "npx expo prebuild --clean",
     "build:web": "expo export --platform web",
-		"build:mobile": "expo export",
-		"deploy": "npm run build:web && gh-pages -d dist",
-		"deploy:clean": "npm run build:web && gh-pages -d dist -t true"
+    "build:mobile": "expo export",
+    "deploy": "npm run build:web && gh-pages -d dist",
+    "deploy:clean": "npm run build:web && gh-pages -d dist -t true"
   },
   "dependencies": {
     "@apollo/client": "^3.9.0",
     "@react-native-cookies/cookies": "react-native-cookies/cookies",
+    "@tma.js/sdk": "^3.2.3",
     "expo": "~56.0.0",
     "expo-dev-client": "^56.0.20",
     "expo-head": "^0.0.20",
