@@ -29,7 +29,7 @@ const RootLayoutNav = () => {
 
 		// 1. Если не залогинен и не в группе авторизации — на логин
 		if (!isAuthenticated && !inAuthGroup) {
-			router.replace('(auth)');
+			router.replace('/(auth)/login');
 		} else if (isAuthenticated) {
 			const expectedGroup = role === 'employee' ? '(employee)' : '(student)';
 
