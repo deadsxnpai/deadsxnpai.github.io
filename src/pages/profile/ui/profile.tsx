@@ -84,7 +84,7 @@ export const ProfilePage = () => {
 					</TouchableOpacity>
 				</View>
 				
-				{/* Дополнительный отступ снизу для TabBar */}
+				
 				<View style={styles.bottomSpacer} />
 			</ScrollView>
 		</SafeAreaView>
