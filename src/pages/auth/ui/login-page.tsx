@@ -31,7 +31,6 @@ export const LoginPage = () => {
 			);
 			return;
 		}
-
 		try {
 			const initData = retrieveRawInitData();
 			setIsTgLoading(true);
