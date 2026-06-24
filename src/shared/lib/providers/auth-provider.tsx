@@ -4,19 +4,12 @@ import { EndPoints } from '@/shared/constants/endpoints';
 import { Platform } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import * as WebBrowser from 'expo-web-browser';
-import {
-	AuthMeResponse,
-	User,
-	UserInfoResponse,
-	UserRole,
-} from '@/entities/user/model/types';
-import { detectPlatform } from '../platform/get-platfrom';
-import { useMe } from '@/features/auth-by-sso';
+import { UserInfoResponse, UserRole } from '@/entities/user/model/types';
 
 interface AuthContextType {
 	isAuthenticated: boolean;
 	role: UserRole | null;
-	user: UserInfoResponse | User | null;
+	user: UserInfoResponse | null;
 	loading: boolean;
 	checkSession: () => Promise<boolean>;
 	logout: () => void;
@@ -27,24 +20,11 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 	children,
 }) => {
-	const [user, setUser] = useState<UserInfoResponse | User | null>(null);
+	const [user, setUser] = useState<UserInfoResponse | null>(null);
 	const [loading, setLoading] = useState(true);
 	const client = useApolloClient();
 
 	const checkSession = async (): Promise<boolean> => {
-		const platform = detectPlatform();
-		if (platform === 'tg') {
-			const { data, loading, error } = useMe();
-			if (loading) {
-				console.log('loading');
-			}
-			if (error) {
-				console.error('error');
-			}
-			const user = mapAuthMeToUser(data);
-			setUser(user);
-			return true;
-		}
 		setLoading(true);
 		try {
 			let headers: HeadersInit = {
@@ -152,35 +132,3 @@ export const useAuthStore = () => {
 		throw new Error('useAuthStore must be used within AuthProvider');
 	return context;
 };
-
-export const mapAuthMeToUser = (api: AuthMeResponse): User => ({
-	id: api.data.guid,
-	sub: api.sub,
-	email: api.email,
-	email_work: api.email_work,
-	groups: api.groups,
-	data: {
-		id: api.data.guid,
-		fullName: api.data.full_name,
-		firstName: api.data.name,
-		lastName: api.data.surname,
-		middleName: api.data.patronymic,
-		birthDate: api.data.date_of_birth,
-		birthPlace: api.data.place_of_birth,
-		inn: api.data.inn,
-		snils: api.data.snils,
-		gender: api.data.sex,
-		country: api.data.country_name,
-		passport: {
-			type: api.data.document_type,
-			series: api.data.document_series,
-			number: api.data.document_number,
-		},
-		contacts: api.data.contacts.map((c) => ({
-			kind: c.kind_contact_information,
-			type: c.type_contact_information,
-			value: c.value?.value,
-			represent: c.represent,
-		})),
-	},
-});
