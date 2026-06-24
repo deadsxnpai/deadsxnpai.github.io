@@ -15,9 +15,11 @@
   },
   "dependencies": {
     "@apollo/client": "^3.9.0",
+    "@expo/vector-icons": "^15.1.1",
     "@react-native-cookies/cookies": "react-native-cookies/cookies",
     "@tma.js/sdk": "^3.2.3",
     "expo": "~56.0.0",
+    "expo-blur": "~56.0.3",
     "expo-dev-client": "^56.0.20",
     "expo-head": "^0.0.20",
     "expo-linking": "~56.0.14",

@@ -4,12 +4,11 @@ import * as WebBrowser from 'expo-web-browser';
 import * as Linking from 'expo-linking';
 import * as SecureStore from 'expo-secure-store';
 import { getAuthUrl, EndPoints, getRedirectUri } from '@/shared/constants/endpoints';
-import { useAuthStore } from '@/shared/lib/providers/auth-provider';
-
+import { useApolloClient } from '@apollo/client';
 
 export const useSso = () => {
     const [isLoading, setIsLoading] = useState(false);
-    const { checkSession } = useAuthStore();
+    const client = useApolloClient();
 
     const handleSsoLogin = async () => {
         setIsLoading(true);
@@ -56,13 +55,11 @@ export const useSso = () => {
 
                             if (token) {
                                 SecureStore.setItemAsync('access_token', token);
+                                await client.resetStore();
                             }
+
                         }
                     }
-
-                    const isOK = await checkSession();
-
-                    console.log('➡️ checkSession', isOK);
 
                 }
             }

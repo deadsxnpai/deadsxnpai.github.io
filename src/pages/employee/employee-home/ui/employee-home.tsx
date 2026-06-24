@@ -9,6 +9,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from 'expo-router';
 import { useAuthStore } from '@/shared/lib/providers/auth-provider';
+import { Colors } from '@/shared/constants';
 
 export const EmployeeHomePage = () => {
 	const { user, logout } = useAuthStore();
@@ -18,11 +19,11 @@ export const EmployeeHomePage = () => {
 
 	return (
 		<SafeAreaView
-			style={[styles.container, { backgroundColor: theme.colors.background }]}>
+			style={[styles.container, { backgroundColor: Colors.surface }]}>
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<View style={styles.header}>
 					<Text style={styles.badge}>Сотрудник / Преподаватель</Text>
-					<Text style={[styles.title, { color: theme.colors.text }]}>
+					<Text style={[styles.title, { color: Colors.text }]}>
 						Личный кабинет
 					</Text>
 				</View>
@@ -31,10 +32,10 @@ export const EmployeeHomePage = () => {
 					<View
 						style={[
 							styles.card,
-							{ borderLeftWidth: 4, borderLeftColor: theme.colors.primary },
+							{ borderLeftWidth: 4, borderLeftColor: Colors.primary },
 						]}>
 						<Text style={styles.welcomeText}>ФИО сотрудника</Text>
-						<Text style={[styles.nameText, { color: theme.colors.text }]}>
+						<Text style={[styles.nameText, { color: Colors.text }]}>
 							{userData?.full_name || 'Сотрудник ТГУ'}
 						</Text>
 
@@ -85,15 +86,6 @@ export const EmployeeHomePage = () => {
 						))}
 					</View>
 				</View>
-
-				<TouchableOpacity
-					style={[
-						styles.logoutButton,
-						{ backgroundColor: theme.colors.notification },
-					]}
-					onPress={logout}>
-					<Text style={styles.logoutButtonText}>Выйти из системы</Text>
-				</TouchableOpacity>
 			</ScrollView>
 		</SafeAreaView>
 	);
@@ -157,11 +149,4 @@ const styles = StyleSheet.create({
 		flex: 1,
 		textAlign: 'right',
 	},
-	logoutButton: {
-		height: 50,
-		borderRadius: 10,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	logoutButtonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
 });
