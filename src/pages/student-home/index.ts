@@ -1,0 +1,1 @@
+export { StudentHomePage } from './ui/student-home'

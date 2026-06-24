@@ -1,29 +1,48 @@
-import { useAuth } from '@/features/auth';
-import { AppDefaultTheme } from '@/shared/constants/model/theme';
-import { ApolloProvider, AppContextProvider } from '@/shared/lib';
-import { AuthProvider } from '@/shared/lib/providers/auth.provider';
-import { ThemeProvider } from '@react-navigation/native';
-import { SplashScreen, Stack } from 'expo-router';
+import { ApolloProvider } from '@apollo/client';
+import { apolloClient } from '@/shared/api/apollo-client';
+import { AuthProvider, useAuthStore } from '@/entities/user/model/auth.context';
+import { SplashScreen, Stack, router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
-import { Platform } from 'react-native';
+import { Platform, View, ActivityIndicator } from 'react-native';
 
-const InitialLayout = () => {
-	const isLogged = useAuth();
+const NavigationGuard = () => {
+	const { isAuthenticated, loading, role, checkSession } = useAuthStore();
 
-	return (
-		<Stack screenOptions={{ headerShown: false }}>
-			<Stack.Protected guard={isLogged}>
-				<Stack.Screen name='(tabs)' />
-			</Stack.Protected>
+	useEffect(() => {
+		checkSession();
+	}, []);
 
-			<Stack.Protected guard={!isLogged}>
-				<Stack.Screen name='(auth)' />
-			</Stack.Protected>
+	useEffect(() => {
+		if (loading) return;
 
-			<Stack.Screen name='+not-found' />
-		</Stack>
-	);
+		if (!isAuthenticated) {
+			router.replace('/(auth)/login');
+		} else if (role === 'employee') {
+			router.replace('/(employee)/home');
+		} else {
+			router.replace('/(student)/home');
+		}
+	}, [isAuthenticated, loading, role]);
+
+	if (loading) {
+		return (
+			<View
+				style={{
+					flex: 1,
+					justifyContent: 'center',
+					alignItems: 'center',
+					backgroundColor: '#fff',
+				}}>
+				<ActivityIndicator
+					size='large'
+					color='#0066cc'
+				/>
+			</View>
+		);
+	}
+
+	return null;
 };
 
 export default function RootLayout() {
@@ -38,15 +57,12 @@ export default function RootLayout() {
 	}, []);
 
 	return (
-		<ApolloProvider>
-			<AppContextProvider>
-				<ThemeProvider value={AppDefaultTheme}>
-					<AuthProvider>
-						<InitialLayout />
-						<StatusBar style='auto' />
-					</AuthProvider>
-				</ThemeProvider>
-			</AppContextProvider>
+		<ApolloProvider client={apolloClient}>
+			<AuthProvider>
+				<NavigationGuard />
+				<Stack screenOptions={{ headerShown: false }} />
+				<StatusBar style='auto' />
+			</AuthProvider>
 		</ApolloProvider>
 	);
 }

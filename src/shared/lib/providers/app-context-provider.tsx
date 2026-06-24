@@ -1,4 +1,3 @@
-// app/providers/app-context/simplified-provider.tsx
 import { createContext, useCallback, useContext, useState } from 'react';
 import { Alert, Platform, ToastAndroid } from 'react-native';
 
