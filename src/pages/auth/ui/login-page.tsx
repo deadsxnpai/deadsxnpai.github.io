@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSso } from '@/features/auth-by-sso';
-import { Colors } from '@/shared/constants/theme';
+import { Colors } from '@/shared/constants';
 
 const isWeb = Platform.OS === 'web';
 

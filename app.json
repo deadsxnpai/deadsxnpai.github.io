@@ -4,7 +4,7 @@
     "slug": "tsu-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/shared/assets/icon.png",
+    "icon": "./src/shared/assets/logo/favicon.png",
     "userInterfaceStyle": "light",
     "scheme": "tsumobile",
     "platforms": [
@@ -19,15 +19,15 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./src/shared/assets/android-icon-foreground.png",
-        "backgroundImage": "./src/shared/assets/android-icon-background.png",
-        "monochromeImage": "./src/shared/assets/android-icon-monochrome.png"
+        "foregroundImage": "./src/shared/assets/img/android-icon-foreground.png",
+        "backgroundImage": "./src/shared/assets/img/android-icon-background.png",
+        "monochromeImage": "./src/shared/assets/img/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
       "package": "ru.tsutmb.app"
     },
     "web": {
-      "favicon": "./src/shared/assets/favicon.png"
+      "favicon": "./src/shared/assets/logo/favicon.png"
     },
     "plugins": [
       "expo-router",

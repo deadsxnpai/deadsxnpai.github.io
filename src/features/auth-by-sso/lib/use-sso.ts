@@ -3,8 +3,8 @@ import { Platform } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import * as Linking from 'expo-linking';
 import * as SecureStore from 'expo-secure-store';
-import { getAuthUrl, getUrl, EndPoints, getRedirectUri } from '@/shared/constants/endpoints';
-import { useAuthStore } from '@/entities/user/model/auth.context';
+import { getAuthUrl, EndPoints, getRedirectUri } from '@/shared/constants/endpoints';
+import { useAuthStore } from '@/entities/user';
 
 export const useSso = () => {
     const [isLoading, setIsLoading] = useState(false);

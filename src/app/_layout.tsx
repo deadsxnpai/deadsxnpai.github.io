@@ -1,13 +1,17 @@
 import { ApolloProvider } from '@apollo/client';
-import { apolloClient } from '@/shared/api/apollo-client';
-import { AuthProvider, useAuthStore } from '@/entities/user/model/auth.context';
-import { SplashScreen, Stack, router } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
+import { Stack, router, useSegments, SplashScreen } from 'expo-router';
 import { useEffect } from 'react';
-import { Platform, View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, Platform } from 'react-native';
+import { apolloClient } from '@/shared/api';
+import { AuthProvider, useAuthStore } from '@/entities/user';
+import { StatusBar } from 'expo-status-bar';
 
-const NavigationGuard = () => {
+// Предотвращаем скрытие сплеш-скрина до завершения загрузки
+SplashScreen.preventAutoHideAsync();
+
+const RootLayoutNav = () => {
 	const { isAuthenticated, loading, role, checkSession } = useAuthStore();
+	const segments = useSegments();
 
 	useEffect(() => {
 		checkSession();
@@ -15,34 +19,32 @@ const NavigationGuard = () => {
 
 	useEffect(() => {
 		if (loading) return;
+		if (isAuthenticated && role === null) return;
 
-		if (!isAuthenticated) {
+		const currentGroup = segments[0]; // Например, "(employee)" или "(student)"
+		const inAuthGroup = currentGroup === '(auth)';
+
+		// 1. Если не залогинен и не в группе авторизации — на логин
+		if (!isAuthenticated && !inAuthGroup) {
 			router.replace('/(auth)/login');
-		} else if (role === 'employee') {
-			router.replace('/(employee)/home');
-		} else {
-			router.replace('/(student)/home');
+		} else if (isAuthenticated) {
+			const expectedGroup = role === 'employee' ? '(employee)' : '(student)';
+
+			if (currentGroup !== expectedGroup && !inAuthGroup) {
+				router.replace(`/${expectedGroup}` as any);
+			}
 		}
-	}, [isAuthenticated, loading, role]);
+	}, [isAuthenticated, loading, role, segments]);
 
 	if (loading) {
 		return (
-			<View
-				style={{
-					flex: 1,
-					justifyContent: 'center',
-					alignItems: 'center',
-					backgroundColor: '#fff',
-				}}>
-				<ActivityIndicator
-					size='large'
-					color='#0066cc'
-				/>
+			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+				<ActivityIndicator size='large' />
 			</View>
 		);
 	}
 
-	return null;
+	return <Stack screenOptions={{ headerShown: false }} />;
 };
 
 export default function RootLayout() {
@@ -59,8 +61,7 @@ export default function RootLayout() {
 	return (
 		<ApolloProvider client={apolloClient}>
 			<AuthProvider>
-				<NavigationGuard />
-				<Stack screenOptions={{ headerShown: false }} />
+				<RootLayoutNav />
 				<StatusBar style='auto' />
 			</AuthProvider>
 		</ApolloProvider>
