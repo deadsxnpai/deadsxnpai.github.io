@@ -23,10 +23,6 @@ export const LoginPage = () => {
 	const [isTgLoading, setIsTgLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
-	useEffect(() => {
-		initWebApps();
-	}, []);
-
 	const handleTelegramLogin = async () => {
 		const platform = detectPlatform();
 
