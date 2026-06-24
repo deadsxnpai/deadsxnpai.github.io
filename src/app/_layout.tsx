@@ -25,7 +25,7 @@ const RootLayoutNav = () => {
 		if (isAuthenticated && role === null) return;
 
 		const currentGroup = segments[0];
-		const inAuthGroup = currentGroup === '(auth)';
+		const inAuthGroup = currentGroup === '/(auth)/login';
 
 		// 1. Если не залогинен и не в группе авторизации — на логин
 		if (!isAuthenticated && !inAuthGroup) {
