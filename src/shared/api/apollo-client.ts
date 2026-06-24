@@ -12,9 +12,21 @@ import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { createClient } from 'graphql-ws';
 import { Platform } from 'react-native';
-
+import { detectPlatform, isTgPlatform } from '../lib';
+import { retrieveRawInitData } from '@tma.js/sdk';
 
 export const getAuthHeaders = async (): Promise<Record<string, string>> => {
+    const platform = detectPlatform();
+
+    if (isTgPlatform(platform)) {
+        const initData = retrieveRawInitData();
+        if (initData) {
+            return { Authorization: `tma ${initData}` };
+        }
+        console.warn('No initData in Telegram WebApp');
+        return {};
+    }
+
     try {
         let token: string | null = null;
 

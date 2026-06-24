@@ -11,7 +11,9 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSso } from '@/features/auth-by-sso';
 import { Colors, getAuthUrl } from '@/shared/constants';
-import { getAuthData, initWebApps } from '@/shared/lib/sdk/web-apps.sdk';
+import { initWebApps } from '@/shared/lib/sdk/web-apps.sdk';
+import { detectPlatform, isTgPlatform } from '@/shared/lib';
+import { retrieveRawInitData } from '@tma.js/sdk';
 
 const isWeb = Platform.OS === 'web';
 
@@ -26,14 +28,17 @@ export const LoginPage = () => {
 	}, []);
 
 	const handleTelegramLogin = async () => {
-		const initData = getAuthData();
+		const platform = detectPlatform();
 
-		if (!initData) {
-			setError('Вход через Telegram возможен только из приложения Telegram.');
+		if (!isTgPlatform(platform)) {
+			setError(
+				'Вход доступен только через Telegram. Откройте приложение внутри Telegram.',
+			);
 			return;
 		}
 
 		try {
+			const initData = retrieveRawInitData();
 			setIsTgLoading(true);
 			setError(null);
 

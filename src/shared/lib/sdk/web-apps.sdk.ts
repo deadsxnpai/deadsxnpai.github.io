@@ -1,22 +1,17 @@
 // Определяем интерфейсы для обоих SDK
-interface MaxWebApp {
+export interface MaxWebApp {
     initData?: string;
     ready: () => void;
     expand: () => void;
 }
 
-interface TelegramWebApp {
+export interface TelegramWebApp {
     initData: string;
     ready: () => void;
     expand: () => void;
 }
 
-declare global {
-    interface Window {
-        MaxWebApp?: MaxWebApp;
-        Telegram?: { WebApp: TelegramWebApp };
-    }
-}
+
 
 // Загрузка любого внешнего скрипта
 const loadScript = (src: string): Promise<void> => {
