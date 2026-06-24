@@ -11,7 +11,6 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSso } from '@/features/auth-by-sso';
 import { Colors, getAuthUrl } from '@/shared/constants';
-import { initWebApps } from '@/shared/lib/sdk/web-apps.sdk';
 import { detectPlatform, isTgPlatform } from '@/shared/lib';
 import { retrieveRawInitData } from '@tma.js/sdk';
 

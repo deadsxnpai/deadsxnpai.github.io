@@ -24,12 +24,12 @@ const RootLayoutNav = () => {
 		if (loading) return;
 		if (isAuthenticated && role === null) return;
 
-		const currentGroup = segments[0]; // Например, "(employee)" или "(student)"
+		const currentGroup = segments[0];
 		const inAuthGroup = currentGroup === '(auth)';
 
 		// 1. Если не залогинен и не в группе авторизации — на логин
 		if (!isAuthenticated && !inAuthGroup) {
-			router.replace('/(auth)/login');
+			router.replace('(auth)');
 		} else if (isAuthenticated) {
 			const expectedGroup = role === 'employee' ? '(employee)' : '(student)';
 
