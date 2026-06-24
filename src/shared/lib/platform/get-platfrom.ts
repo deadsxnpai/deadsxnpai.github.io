@@ -27,6 +27,7 @@ export const detectPlatform = (): AppPlatform => {
         const RNPlatform = require('react-native').Platform;
         if (RNPlatform.OS === 'ios') return 'ios';
         if (RNPlatform.OS === 'android') return 'android';
+        if (RNPlatform.OS === 'web') return 'web';
     } catch {
     }
     if (typeof window !== 'undefined') {
