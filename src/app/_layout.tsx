@@ -3,8 +3,11 @@ import { Stack, router, useSegments, SplashScreen } from 'expo-router';
 import { useEffect } from 'react';
 import { View, ActivityIndicator, Platform } from 'react-native';
 import { apolloClient } from '@/shared/api';
-import { AuthProvider, useAuthStore } from '@/entities/user';
 import { StatusBar } from 'expo-status-bar';
+import {
+	AuthProvider,
+	useAuthStore,
+} from '@/shared/lib/providers/auth-provider';
 
 // Предотвращаем скрытие сплеш-скрина до завершения загрузки
 SplashScreen.preventAutoHideAsync();

@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useAuthStore } from '@/entities/user/model/auth.context';
 import { useTheme } from 'expo-router';
+import { useAuthStore } from '@/shared/lib/providers/auth-provider';
 
 export const EmployeeHomePage = () => {
 	const { user, logout } = useAuthStore();

@@ -4,7 +4,8 @@ import * as WebBrowser from 'expo-web-browser';
 import * as Linking from 'expo-linking';
 import * as SecureStore from 'expo-secure-store';
 import { getAuthUrl, EndPoints, getRedirectUri } from '@/shared/constants/endpoints';
-import { useAuthStore } from '@/entities/user';
+import { useAuthStore } from '@/shared/lib/providers/auth-provider';
+
 
 export const useSso = () => {
     const [isLoading, setIsLoading] = useState(false);
