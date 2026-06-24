@@ -44,11 +44,12 @@ export const LoginPage = () => {
 				},
 			});
 
-			if (isWeb) {
-				window.location.href = url;
-			} else {
-				await Linking.openURL(url);
+			if (typeof window !== 'undefined' && (window as any).Telegram?.WebApp) {
+				(window as any).Telegram.WebApp.close();
 			}
+			setTimeout(() => {
+				Linking.openURL(url);
+			}, 100);
 		} catch (e) {
 			setError('Ошибка при формировании ссылки для входа.');
 		} finally {
