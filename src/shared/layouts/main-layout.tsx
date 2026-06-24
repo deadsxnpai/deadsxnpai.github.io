@@ -37,7 +37,7 @@ export function MainLayout({
 	scrollable = true,
 	contentStyle,
 	containerStyle,
-	showHeader = true,
+	showHeader = false,
 	customHeader,
 }: MainLayoutProps) {
 	const renderContent = () => {

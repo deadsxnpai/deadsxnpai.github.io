@@ -20,7 +20,10 @@ export const ProfilePage = () => {
 	return (
 		<SafeAreaView
 			style={[styles.container, { backgroundColor: Colors.surface }]}>
-			<ScrollView contentContainerStyle={styles.scrollContent}>
+			<ScrollView 
+				contentContainerStyle={styles.scrollContent}
+				showsVerticalScrollIndicator={false}
+			>
 				{/* Аватар */}
 				<View style={styles.avatarContainer}>
 					<View style={[styles.avatar, { backgroundColor: Colors.primary }]}>
@@ -68,14 +71,21 @@ export const ProfilePage = () => {
 						value={`${userData?.document_series || ''} ${userData?.document_number || ''}`}
 					/>
 				</View>
-				<TouchableOpacity
-					style={[
-						styles.logoutButton,
-						{ backgroundColor: theme.colors.notification },
-					]}
-					onPress={logout}>
-					<Text style={styles.logoutButtonText}>Выйти из системы</Text>
-				</TouchableOpacity>
+				
+				{/* Кнопка выхода с отступом для TabBar */}
+				<View style={styles.logoutWrapper}>
+					<TouchableOpacity
+						style={[
+							styles.logoutButton,
+							{ backgroundColor: theme.colors.notification },
+						]}
+						onPress={logout}>
+						<Text style={styles.logoutButtonText}>Выйти из системы</Text>
+					</TouchableOpacity>
+				</View>
+				
+				{/* Дополнительный отступ снизу для TabBar */}
+				<View style={styles.bottomSpacer} />
 			</ScrollView>
 		</SafeAreaView>
 	);
@@ -90,7 +100,11 @@ const InfoRow = ({ label, value }: { label: string; value: string }) => (
 
 const styles = StyleSheet.create({
 	container: { flex: 1 },
-	scrollContent: { padding: 20 },
+	scrollContent: { 
+		paddingHorizontal: 20,
+		paddingTop: 20,
+		paddingBottom: 20,
+	},
 	avatarContainer: { alignItems: 'center', marginBottom: 30 },
 	avatar: {
 		width: 100,
@@ -109,6 +123,10 @@ const styles = StyleSheet.create({
 		padding: 20,
 		marginBottom: 16,
 		elevation: 2,
+		shadowColor: '#000',
+		shadowOffset: { width: 0, height: 2 },
+		shadowOpacity: 0.1,
+		shadowRadius: 4,
 	},
 	sectionTitle: {
 		fontSize: 18,
@@ -119,6 +137,7 @@ const styles = StyleSheet.create({
 	infoRow: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
+		alignItems: 'center',
 		paddingVertical: 10,
 		borderBottomWidth: 1,
 		borderBottomColor: '#f2f2f7',
@@ -132,6 +151,9 @@ const styles = StyleSheet.create({
 		flex: 1,
 		marginLeft: 10,
 	},
+	logoutWrapper: {
+		marginTop: 8,
+	},
 	logoutButton: {
 		height: 50,
 		borderRadius: 10,
@@ -139,4 +161,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	logoutButtonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
+	bottomSpacer: {
+		height: 80, 
+	},
 });
