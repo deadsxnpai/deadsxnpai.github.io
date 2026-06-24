@@ -9,31 +9,22 @@ import {
 	useAuthStore,
 } from '@/shared/lib/providers/auth-provider';
 
-// Предотвращаем скрытие сплеш-скрина до завершения загрузки
 SplashScreen.preventAutoHideAsync();
 
 const RootLayoutNav = () => {
-	const { isAuthenticated, loading, role, checkSession } = useAuthStore();
+	const { isAuthenticated, loading, role } = useAuthStore();
 	const segments = useSegments();
 
 	useEffect(() => {
-		checkSession();
-	}, []);
-
-	useEffect(() => {
 		if (loading) return;
-		if (isAuthenticated && role === null) return;
 
-		const currentGroup = segments[0];
-		const inAuthGroup = currentGroup === '/(auth)/login';
+		const inAuthGroup = segments[0] === '/(auth)/login';
 
-		// 1. Если не залогинен и не в группе авторизации — на логин
 		if (!isAuthenticated && !inAuthGroup) {
 			router.replace('/(auth)/login');
-		} else if (isAuthenticated) {
+		} else if (isAuthenticated && role) {
 			const expectedGroup = role === 'employee' ? '(employee)' : '(student)';
-
-			if (currentGroup !== expectedGroup && !inAuthGroup) {
+			if (segments[0] !== expectedGroup && !inAuthGroup) {
 				router.replace(`/${expectedGroup}` as any);
 			}
 		}

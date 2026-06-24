@@ -1,5 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+	View,
+	Text,
+	StyleSheet,
+	TouchableOpacity,
+	ScrollView,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from 'expo-router';
 import { useAuthStore } from '@/shared/lib/providers/auth-provider';
@@ -8,50 +14,82 @@ export const StudentHomePage = () => {
 	const { user, logout } = useAuthStore();
 	const theme = useTheme();
 
+	const userData = user?.data;
+
 	return (
 		<SafeAreaView
 			style={[styles.container, { backgroundColor: theme.colors.background }]}>
-			<View style={styles.header}>
-				<Text style={styles.badge}>Студент</Text>
-				<Text style={[styles.title, { color: theme.colors.text }]}>
-					Главная
-				</Text>
-			</View>
-
-			<View style={styles.content}>
-				<View style={styles.card}>
-					<Text style={styles.welcomeText}>Добро пожаловать,</Text>
-					<Text style={[styles.nameText, { color: theme.colors.primary }]}>
-						{user?.name || 'Студент Державинского'}
+			<ScrollView showsVerticalScrollIndicator={false}>
+				<View style={styles.header}>
+					<Text style={styles.badge}>Студент</Text>
+					<Text style={[styles.title, { color: theme.colors.text }]}>
+						Главная
 					</Text>
+				</View>
 
-					<View style={styles.infoBlock}>
-						<Text style={styles.infoLabel}>Логин ТГУ:</Text>
-						<Text style={styles.infoValue}>{user?.sub || 'не указан'}</Text>
+				<View style={styles.content}>
+					{/* Карточка профиля */}
+					<View style={styles.card}>
+						<Text style={styles.welcomeText}>Добро пожаловать,</Text>
+						<Text style={[styles.nameText, { color: theme.colors.primary }]}>
+							{userData?.full_name || 'Студент Державинского'}
+						</Text>
+
+						<InfoRow
+							label='Логин'
+							value={user?.sub}
+						/>
+						<InfoRow
+							label='Почта'
+							value={user?.email}
+						/>
+						<InfoRow
+							label='ИНН'
+							value={userData?.inn}
+						/>
 					</View>
 
-					<View style={styles.infoBlock}>
-						<Text style={styles.infoLabel}>Рабочая почта:</Text>
-						<Text style={styles.infoValue}>
-							{user?.email_work || 'не указана'}
+					{/* Карточка данных */}
+					<View style={styles.card}>
+						<Text style={styles.sectionTitle}>Персональные данные</Text>
+						<InfoRow
+							label='Дата рождения'
+							value={userData?.date_of_birth}
+						/>
+						<InfoRow
+							label='Гражданство'
+							value={userData?.country_name}
+						/>
+					</View>
+
+					{/* Placeholder для сервисов */}
+					<View style={[styles.card, styles.placeholderCard]}>
+						<Text style={styles.placeholderText}>
+							📚 Мои электронные сервисы
 						</Text>
 					</View>
 				</View>
 
-				{/* Здесь в будущем будет UI Kit зачеток и расписания */}
-				<View style={[styles.card, styles.placeholderCard]}>
-					<Text style={styles.placeholderText}>📚 Мои электронные сервисы</Text>
-				</View>
-			</View>
-
-			<TouchableOpacity
-				style={styles.logoutButton}
-				onPress={logout}>
-				<Text style={styles.logoutButtonText}>Выйти из аккаунта</Text>
-			</TouchableOpacity>
+				<TouchableOpacity
+					style={styles.logoutButton}
+					onPress={logout}>
+					<Text style={styles.logoutButtonText}>Выйти из аккаунта</Text>
+				</TouchableOpacity>
+			</ScrollView>
 		</SafeAreaView>
 	);
 };
+
+const InfoRow = ({ label, value }: { label: string; value?: string }) => (
+	<View style={styles.infoBlock}>
+		<Text style={styles.infoLabel}>{label}:</Text>
+		<Text
+			style={styles.infoValue}
+			numberOfLines={1}>
+			{value || '-'}
+		</Text>
+	</View>
+);
 
 const styles = StyleSheet.create({
 	container: { flex: 1, padding: 16 },
@@ -69,12 +107,18 @@ const styles = StyleSheet.create({
 		textTransform: 'uppercase',
 	},
 	title: { fontSize: 28, fontWeight: 'bold' },
-	content: { flex: 1, gap: 16 },
+	content: { gap: 16, marginBottom: 20 },
 	card: {
 		backgroundColor: '#fff',
 		padding: 20,
 		borderRadius: 14,
 		elevation: 2,
+	},
+	sectionTitle: {
+		fontSize: 16,
+		fontWeight: '600',
+		marginBottom: 8,
+		color: '#333',
 	},
 	welcomeText: { fontSize: 14, color: '#8e8e93', marginBottom: 4 },
 	nameText: { fontSize: 20, fontWeight: '700', marginBottom: 16 },
@@ -86,7 +130,13 @@ const styles = StyleSheet.create({
 		borderTopColor: '#f2f2f7',
 	},
 	infoLabel: { fontSize: 14, color: '#8e8e93' },
-	infoValue: { fontSize: 14, fontWeight: '500', color: '#1a1a1a' },
+	infoValue: {
+		fontSize: 14,
+		fontWeight: '500',
+		color: '#1a1a1a',
+		textAlign: 'right',
+		flex: 1,
+	},
 	placeholderCard: {
 		borderStyle: 'dashed',
 		borderWidth: 1,
@@ -104,7 +154,6 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		justifyContent: 'center',
 		alignItems: 'center',
-		marginTop: 'auto',
 		marginBottom: 16,
 	},
 	logoutButtonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
