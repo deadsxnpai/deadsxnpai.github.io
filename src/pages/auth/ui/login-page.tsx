@@ -38,18 +38,19 @@ export const LoginPage = () => {
 			setError(null);
 
 			const url = getAuthUrl({
+				redirectUri: 'https://t.me/deadsxnpai_claw_bot/tsuapp',
 				params: {
-					redirect: 'https://t.me/deadsxnpai_claw_bot/tsuapp',
 					tgInitData: initData,
 				},
 			});
 
-			if (typeof window !== 'undefined' && (window as any).Telegram?.WebApp) {
-				(window as any).Telegram.WebApp.close();
-			}
-			setTimeout(() => {
+			const WebApp = (window as any).Telegram?.WebApp;
+
+			if (WebApp) {
+				WebApp.openLink(url);
+			} else {
 				Linking.openURL(url);
-			}, 100);
+			}
 		} catch (e) {
 			setError('Ошибка при формировании ссылки для входа.');
 		} finally {
