@@ -50,7 +50,7 @@ export const getAuthUrl = (options?: {
 
     if (options?.params) {
         Object.entries(options.params).forEach(([key, value]) => {
-            url += `&${key}=${value}`;
+            url += `&${key}=${encodeURIComponent(String(value))}`;
         });
     }
 

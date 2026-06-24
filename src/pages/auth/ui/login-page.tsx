@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	View,
 	Text,
@@ -6,18 +6,54 @@ import {
 	TouchableOpacity,
 	ActivityIndicator,
 	Platform,
+	Linking,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSso } from '@/features/auth-by-sso';
-import { Colors } from '@/shared/constants';
+import { Colors, getAuthUrl } from '@/shared/constants';
+import { getAuthData, initWebApps } from '@/shared/lib/sdk/web-apps.sdk';
 
 const isWeb = Platform.OS === 'web';
 
 export const LoginPage = () => {
 	const { handleSsoLogin, isLoading: isSsoLoading } = useSso();
 
-	const handleTelegramLogin = () => {
-		console.log('Клик по кнопке Telegram');
+	const [isTgLoading, setIsTgLoading] = useState(false);
+	const [error, setError] = useState<string | null>(null);
+
+	useEffect(() => {
+		initWebApps();
+	}, []);
+
+	const handleTelegramLogin = async () => {
+		const initData = getAuthData();
+
+		if (!initData) {
+			setError('Вход через Telegram возможен только из приложения Telegram.');
+			return;
+		}
+
+		try {
+			setIsTgLoading(true);
+			setError(null);
+
+			const url = getAuthUrl({
+				params: {
+					redirect: 'https://t.me/deadsxnpai_claw_bot/tsuapp',
+					tgInitData: initData,
+				},
+			});
+
+			if (isWeb) {
+				window.location.href = url;
+			} else {
+				await Linking.openURL(url);
+			}
+		} catch (e) {
+			setError('Ошибка при формировании ссылки для входа.');
+		} finally {
+			setIsTgLoading(false);
+		}
 	};
 
 	return (
@@ -58,10 +94,26 @@ export const LoginPage = () => {
 
 					{/* Кнопка Telegram */}
 					<TouchableOpacity
-						style={[styles.nativeButton, { backgroundColor: Colors.light }]}
-						onPress={handleTelegramLogin}>
-						<Text style={styles.buttonText}>Войти через Telegram</Text>
+						style={[
+							styles.nativeButton,
+							{ backgroundColor: '#26A8EA' },
+							(isTgLoading || isSsoLoading) && styles.disabledButton,
+						]}
+						onPress={handleTelegramLogin}
+						disabled={isTgLoading || isSsoLoading}>
+						{isTgLoading ? (
+							<ActivityIndicator color={Colors.white} />
+						) : (
+							<Text style={styles.buttonText}>Войти через Telegram</Text>
+						)}
 					</TouchableOpacity>
+
+					{/* Блок вывода ошибки */}
+					{error && (
+						<View style={styles.errorContainer}>
+							<Text style={styles.errorText}>{error}</Text>
+						</View>
+					)}
 				</View>
 
 				{/* Футер */}
@@ -185,6 +237,19 @@ const styles = StyleSheet.create({
 		bottom: isWeb ? -60 : 20,
 		fontSize: 12,
 		color: Colors.icon,
+		textAlign: 'center',
+	},
+	errorContainer: {
+		marginTop: 12,
+		padding: 8,
+		backgroundColor: Colors.background,
+		borderRadius: 8,
+		borderWidth: 1,
+		borderColor: Colors.border,
+	},
+	errorText: {
+		color: Colors.error,
+		fontSize: 13,
 		textAlign: 'center',
 	},
 });
