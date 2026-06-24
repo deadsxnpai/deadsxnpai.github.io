@@ -86,6 +86,7 @@ export const EmployeeHomePage = () => {
 						))}
 					</View>
 				</View>
+				<View style={styles.bottomSpacer} />
 			</ScrollView>
 		</SafeAreaView>
 	);
@@ -148,5 +149,8 @@ const styles = StyleSheet.create({
 		color: '#1a1a1a',
 		flex: 1,
 		textAlign: 'right',
+	},
+	bottomSpacer: {
+		height: 60, 
 	},
 });
