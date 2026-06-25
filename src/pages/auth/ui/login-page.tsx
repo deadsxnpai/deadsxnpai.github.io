@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import {
 	View,
 	Text,
@@ -6,56 +5,23 @@ import {
 	TouchableOpacity,
 	ActivityIndicator,
 	Platform,
-	Linking,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSso } from '@/features/auth-by-sso';
-import { Colors, getAuthUrl } from '@/shared/constants';
-import { isTgPlatform, usePlatform } from '@/shared/lib';
-import { getAuthData } from '@/shared/lib/sdk/web-apps.sdk';
+import { Colors } from '@/shared/constants';
+import { usePlatform } from '@/shared/lib';
+import { useTelegramLogin } from '@/features/auth-by-sso/lib/use-tg-login';
 
 const isWeb = Platform.OS === 'web';
 
 export const LoginPage = () => {
 	const { handleSsoLogin, isLoading: isSsoLoading } = useSso();
-	const [isTgLoading, setIsTgLoading] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+	const {
+		handleTelegramLogin,
+		isLoading: isTgLoading,
+		error: tgError,
+	} = useTelegramLogin();
 	const platform = usePlatform();
-
-	const handleTelegramLogin = async () => {
-		if (!isTgPlatform(platform)) {
-			setError(
-				'Вход доступен только через Telegram. Откройте приложение внутри Telegram.',
-			);
-			return;
-		}
-
-		try {
-			const initData = getAuthData();
-			setIsTgLoading(true);
-			setError(null);
-
-			const url = getAuthUrl({
-				redirectUri: 'https://t.me/deadsxnpai_claw_bot/tsuapp',
-				params: {
-					tgInitData: initData,
-				},
-			});
-
-			const WebApp = (window as any).Telegram?.WebApp;
-
-			if (WebApp) {
-				WebApp.openLink(url);
-			} else {
-				Linking.openURL(url);
-			}
-		} catch (e) {
-			setError('Ошибка при формировании ссылки для входа.');
-		} finally {
-			setIsTgLoading(false);
-		}
-	};
-
 	return (
 		<SafeAreaView style={styles.container}>
 			<View style={styles.content}>
@@ -109,9 +75,9 @@ export const LoginPage = () => {
 					</TouchableOpacity>
 
 					{/* Блок вывода ошибки */}
-					{error && (
+					{tgError && (
 						<View style={styles.errorContainer}>
-							<Text style={styles.errorText}>{error}</Text>
+							<Text style={styles.errorText}>{tgError}</Text>
 						</View>
 					)}
 				</View>
