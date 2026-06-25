@@ -65,20 +65,22 @@ export const LoginPage = () => {
 					</View>
 
 					{/* Кнопка Telegram */}
-					<TouchableOpacity
-						style={[
-							styles.nativeButton,
-							{ backgroundColor: '#26A8EA' },
-							(isTgLoading || isSsoLoading) && styles.disabledButton,
-						]}
-						onPress={() => Linking.openURL(EndPoints.bot)}
-						disabled={isTgLoading || isSsoLoading}>
-						{isTgLoading ? (
-							<ActivityIndicator color={Colors.white} />
-						) : (
-							<Text style={styles.buttonText}>Открыть в Telegram</Text>
-						)}
-					</TouchableOpacity>
+					{platform !== 'tg' && (
+						<TouchableOpacity
+							style={[
+								styles.nativeButton,
+								{ backgroundColor: '#26A8EA' },
+								(isTgLoading || isSsoLoading) && styles.disabledButton,
+							]}
+							onPress={() => Linking.openURL(EndPoints.bot)}
+							disabled={isTgLoading || isSsoLoading}>
+							{isTgLoading ? (
+								<ActivityIndicator color={Colors.white} />
+							) : (
+								<Text style={styles.buttonText}>Открыть в Telegram</Text>
+							)}
+						</TouchableOpacity>
+					)}
 
 					{/* Блок вывода ошибки */}
 					{error && (
