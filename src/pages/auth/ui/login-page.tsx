@@ -5,10 +5,11 @@ import {
 	TouchableOpacity,
 	ActivityIndicator,
 	Platform,
+	Linking,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSso } from '@/features/auth-by-sso';
-import { Colors } from '@/shared/constants';
+import { Colors, EndPoints } from '@/shared/constants';
 import { usePlatform } from '@/shared/lib';
 import { useTelegramLogin } from '@/features/auth-by-sso/lib/use-tg-login';
 
@@ -21,7 +22,12 @@ export const LoginPage = () => {
 		isLoading: isTgLoading,
 		error: tgError,
 	} = useTelegramLogin();
+
 	const platform = usePlatform();
+	const handleLogin = platform === 'tg' ? handleTelegramLogin : handleSsoLogin;
+	const isLoading = isWeb ? isSsoLoading : isTgLoading;
+	const error = isWeb ? null : tgError;
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<View style={styles.content}>
@@ -42,9 +48,9 @@ export const LoginPage = () => {
 					{/* Кнопка SSO (ТГУ Сеть) */}
 					<TouchableOpacity
 						style={[styles.nativeButton, isSsoLoading && styles.disabledButton]}
-						onPress={handleSsoLogin}
-						disabled={isSsoLoading}>
-						{isSsoLoading ? (
+						onPress={handleLogin}
+						disabled={isLoading}>
+						{isLoading ? (
 							<ActivityIndicator color={Colors.white} />
 						) : (
 							<Text style={styles.buttonText}>Войти через ТГУ.ID</Text>
@@ -65,19 +71,19 @@ export const LoginPage = () => {
 							{ backgroundColor: '#26A8EA' },
 							(isTgLoading || isSsoLoading) && styles.disabledButton,
 						]}
-						onPress={handleTelegramLogin}
+						onPress={() => Linking.openURL(EndPoints.bot)}
 						disabled={isTgLoading || isSsoLoading}>
 						{isTgLoading ? (
 							<ActivityIndicator color={Colors.white} />
 						) : (
-							<Text style={styles.buttonText}>Войти через Telegram</Text>
+							<Text style={styles.buttonText}>Открыть в Telegram</Text>
 						)}
 					</TouchableOpacity>
 
 					{/* Блок вывода ошибки */}
-					{tgError && (
+					{error && (
 						<View style={styles.errorContainer}>
-							<Text style={styles.errorText}>{tgError}</Text>
+							<Text style={styles.errorText}>{error}</Text>
 						</View>
 					)}
 				</View>
@@ -86,8 +92,6 @@ export const LoginPage = () => {
 				<Text style={styles.footerText}>
 					© {new Date().getFullYear()} ФГБОУ ВО «ТГУ им. Г.Р. Державина»
 				</Text>
-				{/*TEst*/}
-				<Text style={styles.footerText}>{`© Платформа ${platform}`}</Text>
 			</View>
 		</SafeAreaView>
 	);

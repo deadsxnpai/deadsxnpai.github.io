@@ -5,6 +5,7 @@ import * as Linking from 'expo-linking';
 import * as SecureStore from 'expo-secure-store';
 import { getAuthUrl, EndPoints, getRedirectUri } from '@/shared/constants/endpoints';
 import { apolloClient } from '@/shared/api';
+import { router } from 'expo-router';
 
 export const useSso = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -58,6 +59,7 @@ export const useSso = () => {
                             }
 
                         }
+                        router.replace('/')
                     }
 
                 }

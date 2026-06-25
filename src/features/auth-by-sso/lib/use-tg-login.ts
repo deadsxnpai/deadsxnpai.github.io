@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Platform } from 'react-native';
 import * as Linking from 'expo-linking';
-import { getAuthUrl, getRedirectUri } from '@/shared/constants/endpoints';
+import { EndPoints, getAuthUrl, getRedirectUri } from '@/shared/constants/endpoints';
 import { getAuthData } from '@/shared/lib/sdk/web-apps.sdk';
 
 export const useTelegramLogin = () => {
@@ -16,7 +16,7 @@ export const useTelegramLogin = () => {
 
             const initData = getAuthData();
             const authUrl = getAuthUrl({
-                redirectUri: 'https://t.me/deadsxnpai_claw_bot/tsuapp',
+                redirectUri: EndPoints.bot,
                 params: {
                     tgInitData: initData,
                 },
