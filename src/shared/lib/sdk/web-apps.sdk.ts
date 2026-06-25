@@ -22,24 +22,24 @@ export const initWebApps = async () => {
         }
     } catch (e) { console.error('Max init failed', e); }
     // Инициализация Telegram
-    try {
-        await loadScript('https://telegram.org/js/telegram-web-app.js');
-        if (window.Telegram?.WebApp) {
-            window.Telegram.WebApp.ready();
-            window.Telegram.WebApp.expand();
-            console.log('Telegram WebApp initialized');
-        }
-    } catch (e) { console.error('Telegram init failed', e); }
+    // try {
+    //     await loadScript('https://telegram.org/js/telegram-web-app.js');
+    //     if (window.Telegram?.WebApp) {
+    //         window.Telegram.WebApp.ready();
+    //         window.Telegram.WebApp.expand();
+    //         console.log('Telegram WebApp initialized');
+    //     }
+    // } catch (e) { console.error('Telegram init failed', e); }
 
 };
 
 export const getAuthData = (): string | null => {
     if (typeof window === 'undefined') return null;
 
-    const tg = window.Telegram?.WebApp;
-    if (tg?.initData && tg.initData.length > 0) {
-        return tg.initData;
-    }
+    // const tg = window.Telegram?.WebApp;
+    // if (tg?.initData && tg.initData.length > 0) {
+    //     return tg.initData;
+    // }
 
     const max = window.WebApp;
     if (max?.initData && max.initData.length > 0) {
