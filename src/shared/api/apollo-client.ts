@@ -12,33 +12,21 @@ import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { createClient } from 'graphql-ws';
 import { Platform } from 'react-native';
-import { detectPlatform, isTgPlatform, usePlatform } from '../lib/platform/get-platfrom';
-import { getAuthData } from '../lib/sdk/web-apps.sdk';
+
 
 export const getAuthHeaders = async (): Promise<Record<string, string>> => {
-    const platform = usePlatform();
-
-    if (isTgPlatform(platform)) {
-        const initData = getAuthData();
-        if (initData) {
-            return { Authorization: `tma ${initData}` };
-        }
-        console.warn('No initData in Telegram WebApp');
-        return {};
+    if (typeof window !== 'undefined' && window.Telegram?.WebApp?.initData) {
+        return { Authorization: `tma ${window.Telegram.WebApp.initData}` };
     }
 
     try {
         let token: string | null = null;
-
         if (Platform.OS === 'web') {
-            if (typeof window !== 'undefined') {
-                token = localStorage.getItem('access_token');
-            }
+            token = localStorage.getItem('access_token');
         } else {
             const SecureStore = require('expo-secure-store');
             token = await SecureStore.getItemAsync('access_token');
         }
-
         return token ? { 'x-access-token': token } : {};
     } catch (error) {
         console.error('Failed to get auth headers', error);
