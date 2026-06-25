@@ -12,11 +12,12 @@ import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { createClient } from 'graphql-ws';
 import { Platform } from 'react-native';
+import { getAuthData } from '../lib/sdk/web-apps.sdk';
 
 
 export const getAuthHeaders = async (): Promise<Record<string, string>> => {
-    if (typeof window !== 'undefined' && window.Telegram?.WebApp?.initData) {
-        return { Authorization: `tma ${window.Telegram.WebApp.initData}` };
+    if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
+        return { Authorization: `tma ${getAuthData}` };
     }
 
     try {
