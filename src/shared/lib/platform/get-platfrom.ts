@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react';
 import { MaxWebApp } from '../sdk/web-apps.sdk';
+import { Platform } from 'react-native';
 
 declare global {
     interface Window {
@@ -30,3 +32,31 @@ export const detectPlatform = (): AppPlatform => {
 export const isTgPlatform = (platform: AppPlatform): boolean =>
     platform === 'tg';
 
+
+export const usePlatform = (): AppPlatform => {
+    const [platform, setPlatform] = useState<AppPlatform>(() => {
+        if (Platform.OS === 'ios') return 'ios';
+        if (Platform.OS === 'android') return 'android';
+        return 'web';
+    });
+
+    useEffect(() => {
+        if (platform === 'ios' || platform === 'android') return;
+        const check = setInterval(() => {
+            if (window?.Telegram?.WebApp?.initData) {
+                setPlatform('tg');
+                clearInterval(check);
+            }
+        }, 100);
+        const timeout = setTimeout(() => {
+            clearInterval(check);
+        }, 2000);
+
+        return () => {
+            clearInterval(check);
+            clearTimeout(timeout);
+        };
+    }, []);
+
+    return platform;
+};

@@ -11,7 +11,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSso } from '@/features/auth-by-sso';
 import { Colors, getAuthUrl } from '@/shared/constants';
-import { detectPlatform, isTgPlatform } from '@/shared/lib';
+import { isTgPlatform, usePlatform } from '@/shared/lib';
 import { getAuthData } from '@/shared/lib/sdk/web-apps.sdk';
 
 const isWeb = Platform.OS === 'web';
@@ -21,7 +21,7 @@ export const LoginPage = () => {
 
 	const [isTgLoading, setIsTgLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
-	const platform = detectPlatform();
+	const platform = usePlatform();
 
 	const handleTelegramLogin = async () => {
 		if (!isTgPlatform(platform)) {

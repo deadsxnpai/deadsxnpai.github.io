@@ -12,11 +12,11 @@ import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { createClient } from 'graphql-ws';
 import { Platform } from 'react-native';
-import { detectPlatform, isTgPlatform } from '../lib/platform/get-platfrom';
+import { detectPlatform, isTgPlatform, usePlatform } from '../lib/platform/get-platfrom';
 import { getAuthData } from '../lib/sdk/web-apps.sdk';
 
 export const getAuthHeaders = async (): Promise<Record<string, string>> => {
-    const platform = detectPlatform();
+    const platform = usePlatform();
 
     if (isTgPlatform(platform)) {
         const initData = getAuthData();
