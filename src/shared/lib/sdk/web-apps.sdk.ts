@@ -27,7 +27,6 @@ export const initWebApps = async () => {
         if (window.Telegram?.WebApp) {
             window.Telegram.WebApp.ready();
             window.Telegram.WebApp.expand();
-            window.dispatchEvent(new Event('tg-ready'));
             console.log('Telegram WebApp initialized');
         }
     } catch (e) { console.error('Telegram init failed', e); }
