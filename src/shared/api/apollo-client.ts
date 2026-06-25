@@ -17,7 +17,7 @@ import { getAuthData } from '../lib/sdk/web-apps.sdk';
 
 export const getAuthHeaders = async (): Promise<Record<string, string>> => {
     if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
-        return { Authorization: `tma ${getAuthData}` };
+        return { Authorization: `tma ${getAuthData()}` };
     }
 
     try {
