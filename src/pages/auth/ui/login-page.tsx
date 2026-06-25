@@ -1,3 +1,4 @@
+import React from 'react';
 import {
 	View,
 	Text,
@@ -6,34 +7,205 @@ import {
 	ActivityIndicator,
 	Platform,
 	Linking,
+	Image,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSso } from '@/features/auth-by-sso';
 import { Colors, EndPoints } from '@/shared/constants';
 import { usePlatform } from '@/shared/lib';
 import { useTelegramLogin } from '@/features/auth-by-sso/lib/use-tg-login';
+import { useMaxLogin } from '@/features/auth-by-sso/lib/use-max-login';
+import Icon from '@/shared/assets/logo/favicon.png';
 
 const isWeb = Platform.OS === 'web';
 
 export const LoginPage = () => {
 	const { handleSsoLogin, isLoading: isSsoLoading } = useSso();
-	const {
-		handleTelegramLogin,
-		isLoading: isTgLoading,
-		error: tgError,
-	} = useTelegramLogin();
+
+	const { handleTelegramLogin, isLoading: isTgLoading } = useTelegramLogin();
+
+	const { handleMaxLogin, isLoading: maxLoading } = useMaxLogin();
 
 	const platform = usePlatform();
-	const handleLogin = platform === 'tg' ? handleTelegramLogin : handleSsoLogin;
-	const isLoading = isWeb ? isSsoLoading : isTgLoading;
-	const error = isWeb ? null : tgError;
+
+	const getButtonsConfig = () => {
+		// TG: 2 buttons (vertical)
+		if (platform === 'tg') {
+			return {
+				layout: 'vertical',
+				buttons: [
+					{
+						id: 'tg',
+						text: 'Войти через Telegram',
+						handler: handleTelegramLogin,
+						loading: isTgLoading,
+						bgColor: '#0088cc',
+					},
+					{
+						id: 'max',
+						text: 'Открыть в Max',
+						handler: () => Linking.openURL(EndPoints.bot_max),
+						loading: false,
+						bgColor: '#334FEF',
+						isExternal: true,
+					},
+				],
+			};
+		}
+
+		// MAX: 2 buttons (vertical)
+		if (platform === 'max') {
+			return {
+				layout: 'vertical',
+				buttons: [
+					{
+						id: 'max',
+						text: 'Войти через Max',
+						handler: handleMaxLogin,
+						loading: maxLoading,
+						bgColor: '#334FEF',
+					},
+					{
+						id: 'tg',
+						text: 'Открыть в Telegram',
+						handler: () => Linking.openURL(EndPoints.bot_tg),
+						loading: false,
+						bgColor: '#0088cc',
+						isExternal: true,
+					},
+				],
+			};
+		}
+
+		// Default fallback: 2 buttons (vertical)
+		return {
+			layout: 'mixed',
+			buttons: [
+				{
+					id: 'sso',
+					text: 'Войти через ТГУ.ID',
+					handler: handleSsoLogin,
+					loading: isSsoLoading,
+					bgColor: Colors.primary,
+				},
+				{
+					id: 'max',
+					text: 'Открыть в Max',
+					handler: () => Linking.openURL(EndPoints.bot_max),
+					loading: false,
+					bgColor: '#334FEF',
+					isExternal: true,
+				},
+				{
+					id: 'tg',
+					text: 'Открыть в Telegram',
+					handler: () => Linking.openURL(EndPoints.bot_tg),
+					loading: false,
+					bgColor: '#0088cc',
+					isExternal: true,
+				},
+			],
+		};
+	};
+
+	const { layout, buttons } = getButtonsConfig();
+
+	const renderButtons = () => {
+		if (layout === 'mixed') {
+			const [firstButton, ...restButtons] = buttons;
+
+			return (
+				<>
+					<TouchableOpacity
+						style={[
+							styles.nativeButton,
+							{ backgroundColor: firstButton.bgColor },
+							firstButton.loading && styles.disabledButton,
+						]}
+						onPress={firstButton.handler}
+						disabled={firstButton.loading}>
+						{firstButton.loading ? (
+							<ActivityIndicator color={Colors.white} />
+						) : (
+							<Text style={styles.buttonText}>{firstButton.text}</Text>
+						)}
+					</TouchableOpacity>
+
+					<View style={styles.dividerContainer}>
+						<View style={styles.dividerLine} />
+						<Text style={styles.dividerText}>или</Text>
+						<View style={styles.dividerLine} />
+					</View>
+
+					{/* Rest buttons in a row */}
+					<View style={styles.horizontalContainer}>
+						{restButtons.map((button) => (
+							<TouchableOpacity
+								key={button.id}
+								style={[
+									styles.horizontalButton,
+									{ backgroundColor: button.bgColor },
+									button.loading && styles.disabledButton,
+								]}
+								onPress={button.handler}
+								disabled={button.loading}>
+								{button.loading ? (
+									<ActivityIndicator color={Colors.white} />
+								) : (
+									<Text style={styles.buttonText}>{button.text}</Text>
+								)}
+							</TouchableOpacity>
+						))}
+					</View>
+				</>
+			);
+		}
+
+		return (
+			<>
+				{buttons.map((button, index) => (
+					<React.Fragment key={button.id}>
+						<TouchableOpacity
+							style={[
+								styles.nativeButton,
+								{ backgroundColor: button.bgColor },
+								button.loading && styles.disabledButton,
+							]}
+							onPress={button.handler}
+							disabled={button.loading}>
+							{button.loading ? (
+								<ActivityIndicator color={Colors.white} />
+							) : (
+								<Text style={styles.buttonText}>{button.text}</Text>
+							)}
+						</TouchableOpacity>
+
+						{index < buttons.length - 1 && (
+							<View style={styles.dividerContainer}>
+								<View style={styles.dividerLine} />
+								<Text style={styles.dividerText}>или</Text>
+								<View style={styles.dividerLine} />
+							</View>
+						)}
+					</React.Fragment>
+				))}
+			</>
+		);
+	};
 
 	return (
 		<SafeAreaView style={styles.container}>
 			<View style={styles.content}>
 				<View style={styles.logoContainer}>
 					<View style={styles.logoPlaceholder}>
-						<Text style={styles.logoText}>ТГУ</Text>
+						{/* <Text style={styles.logoText}>ТГУ</Text> */}
+						<View style={styles.logoPlaceholder}>
+							<Image
+								source={Icon}
+								style={styles.logoImage}
+								resizeMode='contain'
+							/>
+						</View>
 					</View>
 					<Text style={styles.title}>Державинский университет</Text>
 					<Text style={styles.subtitle}>
@@ -44,51 +216,7 @@ export const LoginPage = () => {
 				{/* Карточка авторизации */}
 				<View style={[styles.card, isWeb && styles.webCard]}>
 					<Text style={styles.cardTitle}>Авторизация</Text>
-
-					{/* Кнопка SSO (ТГУ Сеть) */}
-					<TouchableOpacity
-						style={[styles.nativeButton, isSsoLoading && styles.disabledButton]}
-						onPress={handleLogin}
-						disabled={isLoading}>
-						{isLoading ? (
-							<ActivityIndicator color={Colors.white} />
-						) : (
-							<Text style={styles.buttonText}>Войти через ТГУ.ID</Text>
-						)}
-					</TouchableOpacity>
-
-					{/* Разделитель */}
-					{platform !== 'tg' && (
-						<View style={styles.dividerContainer}>
-							<View style={styles.dividerLine} />
-							<Text style={styles.dividerText}>или</Text>
-							<View style={styles.dividerLine} />
-						</View>
-					)}
-
-					{platform !== 'tg' && (
-						<TouchableOpacity
-							style={[
-								styles.nativeButton,
-								{ backgroundColor: '#26A8EA' },
-								(isTgLoading || isSsoLoading) && styles.disabledButton,
-							]}
-							onPress={() => Linking.openURL(EndPoints.bot)}
-							disabled={isTgLoading || isSsoLoading}>
-							{isTgLoading ? (
-								<ActivityIndicator color={Colors.white} />
-							) : (
-								<Text style={styles.buttonText}>Открыть в Telegram</Text>
-							)}
-						</TouchableOpacity>
-					)}
-
-					{/* Блок вывода ошибки */}
-					{error && (
-						<View style={styles.errorContainer}>
-							<Text style={styles.errorText}>{error}</Text>
-						</View>
-					)}
+					{renderButtons()}
 				</View>
 
 				{/* Футер */}
@@ -119,11 +247,10 @@ const styles = StyleSheet.create({
 	logoPlaceholder: {
 		width: 80,
 		height: 80,
-		borderRadius: 20,
+		borderRadius: '50%',
 		justifyContent: 'center',
 		alignItems: 'center',
-		marginBottom: 16,
-		backgroundColor: Colors.primary,
+		marginBottom: 8,
 		...Platform.select({
 			ios: {
 				shadowColor: Colors.black,
@@ -144,6 +271,10 @@ const styles = StyleSheet.create({
 		fontSize: 24,
 		fontWeight: 'bold',
 		letterSpacing: 1,
+	},
+	logoImage: {
+		width: 80,
+		height: 80,
 	},
 	title: {
 		fontSize: 22,
@@ -184,6 +315,20 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		width: '100%',
 		marginVertical: 4,
+		backgroundColor: Colors.primary,
+	},
+	horizontalContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		width: '100%',
+		gap: 12,
+	},
+	horizontalButton: {
+		flex: 1,
+		height: 50,
+		borderRadius: 8,
+		justifyContent: 'center',
+		alignItems: 'center',
 		backgroundColor: Colors.primary,
 	},
 	disabledButton: {

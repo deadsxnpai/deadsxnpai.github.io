@@ -1,17 +1,3 @@
-
-export interface MaxWebApp {
-    initData?: string;
-    ready: () => void;
-    expand: () => void;
-}
-
-export interface TelegramWebApp {
-    initData: string;
-    ready: () => void;
-    expand: () => void;
-}
-
-
 // Загрузка любого внешнего скрипта
 const loadScript = (src: string): Promise<void> => {
     return new Promise((resolve, reject) => {
@@ -27,7 +13,14 @@ const loadScript = (src: string): Promise<void> => {
 
 export const initWebApps = async () => {
     if (typeof window === 'undefined') return;
-
+    // Инициализация Max
+    try {
+        await loadScript('https://st.max.ru/js/max-web-app.js');
+        if (window.WebApp) {
+            window.WebApp.ready();
+            console.log('Max WebApp initialized');
+        }
+    } catch (e) { console.error('Max init failed', e); }
     // Инициализация Telegram
     try {
         await loadScript('https://telegram.org/js/telegram-web-app.js');
@@ -39,15 +32,6 @@ export const initWebApps = async () => {
         }
     } catch (e) { console.error('Telegram init failed', e); }
 
-    // Инициализация Max
-    try {
-        await loadScript('https://st.max.ru/js/max-web-app.js');
-        if (window.MaxWebApp) {
-            window.MaxWebApp.ready();
-            window.MaxWebApp.expand();
-            console.log('Max WebApp initialized');
-        }
-    } catch (e) { console.error('Max init failed', e); }
 };
 
 export const getAuthData = (): string | null => {
@@ -56,6 +40,11 @@ export const getAuthData = (): string | null => {
     const tg = window.Telegram?.WebApp;
     if (tg?.initData && tg.initData.length > 0) {
         return tg.initData;
+    }
+
+    const max = window.WebApp;
+    if (max?.initData && max.initData.length > 0) {
+        return max.initData;
     }
 
     const urlParams = new URLSearchParams(window.location.search);

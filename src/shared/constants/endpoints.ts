@@ -26,7 +26,8 @@ export const getRedirectUri = () => {
     return Linking.createURL('(auth)/login');
 };
 
-const BOT_URL = 'https://t.me/deadsxnpai_claw_bot/tsuapp'
+const TG_BOT_URL = 'https://t.me/deadsxnpai_claw_bot/tsuapp'
+const MAX_BOG_URL = 'https://max.ru/tsu_developer_bot?startapp'
 
 export const EndPoints = {
     domain: DOMAIN,
@@ -39,7 +40,8 @@ export const EndPoints = {
     reference: `${BASE_URL_API}/files/references`,
     userpic: `${BASE_URL_API}/files/userpic`,
     endSession: `${BASE_URL_API}/endSession?redirect=${getUrl()}/login`,
-    bot: BOT_URL
+    bot_tg: TG_BOT_URL,
+    bot_max: MAX_BOG_URL
 };
 
 export const getAuthUrl = (options?: {

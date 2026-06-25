@@ -21,6 +21,11 @@ export const getAuthHeaders = async (): Promise<Record<string, string>> => {
         return { Authorization: `tma ${data}` };
     }
 
+    if (typeof window !== 'undefined' && window.Telegram?.WebApp?.initData) {
+        const data = getAuthData();
+        return { Authorization: `tma ${data}` };
+    }
+
     try {
         let token: string | null = null;
         if (Platform.OS === 'web') {

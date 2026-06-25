@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { MaxWebApp } from '../sdk/web-apps.sdk';
 import { Platform } from 'react-native';
 
 declare global {
@@ -7,13 +6,11 @@ declare global {
         Telegram?: {
             WebApp?: any;
         };
-        TmaWebApp?: any;
-        MaxWebApp?: MaxWebApp;
+        WebApp: any;
     }
 }
 
 export type AppPlatform = 'ios' | 'android' | 'web' | 'tg' | 'max' | 'unknown';
-
 
 export const detectPlatform = (): AppPlatform => {
     try {
@@ -33,6 +30,7 @@ export const isTgPlatform = (platform: AppPlatform): boolean =>
     platform === 'tg';
 
 
+
 export const usePlatform = (): AppPlatform => {
     const [platform, setPlatform] = useState<AppPlatform>(() => {
         if (Platform.OS === 'ios') return 'ios';
@@ -42,18 +40,33 @@ export const usePlatform = (): AppPlatform => {
 
     useEffect(() => {
         if (platform === 'ios' || platform === 'android') return;
-        const check = setInterval(() => {
-            if (window?.Telegram?.WebApp?.initData) {
-                setPlatform('tg');
-                clearInterval(check);
+
+        const checkMax = setInterval(() => {
+            if (window?.WebApp?.initData) {
+                setPlatform('max');
+                clearInterval(checkMax);
+                clearInterval(checkTg);
             }
         }, 100);
+
+        // Check for Telegram platform (uses window.Telegram.WebApp)
+        const checkTg = setInterval(() => {
+            if (window?.Telegram?.WebApp?.initData) {
+                setPlatform('tg');
+                clearInterval(checkTg);
+                clearInterval(checkMax);
+            }
+        }, 100);
+
+
         const timeout = setTimeout(() => {
-            clearInterval(check);
+            clearInterval(checkMax);
+            clearInterval(checkTg);
         }, 2000);
 
         return () => {
-            clearInterval(check);
+            clearInterval(checkMax);
+            clearInterval(checkTg);
             clearTimeout(timeout);
         };
     }, []);
