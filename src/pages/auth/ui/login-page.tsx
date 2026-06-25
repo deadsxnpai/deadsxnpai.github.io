@@ -18,7 +18,7 @@ const isWeb = Platform.OS === 'web';
 
 export const LoginPage = () => {
 	const { handleSsoLogin, isLoading: isSsoLoading } = useSso();
-
+	const initData = getAuthData();
 	const [isTgLoading, setIsTgLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const platform = usePlatform();
@@ -121,7 +121,15 @@ export const LoginPage = () => {
 				<Text style={styles.footerText}>
 					© {new Date().getFullYear()} ФГБОУ ВО «ТГУ им. Г.Р. Державина»
 				</Text>
+				{/*TEst*/}
 				<Text style={styles.footerText}>{`© Платформа ${platform}`}</Text>
+				{initData && (
+					<Text
+						style={styles.debugText}
+						numberOfLines={10}>
+						InitData: {initData}
+					</Text>
+				)}
 			</View>
 		</SafeAreaView>
 	);
@@ -256,5 +264,17 @@ const styles = StyleSheet.create({
 		color: Colors.error,
 		fontSize: 13,
 		textAlign: 'center',
+	},
+	debugText: {
+		fontSize: 10,
+		color: '#888',
+		paddingHorizontal: 20,
+		marginTop: 10,
+		textAlign: 'center',
+	},
+	footerContainer: {
+		position: 'absolute',
+		bottom: 10,
+		width: '100%',
 	},
 });
