@@ -17,7 +17,6 @@
     "@apollo/client": "^3.9.0",
     "@expo/vector-icons": "^15.1.1",
     "@react-native-cookies/cookies": "react-native-cookies/cookies",
-    "@tma.js/sdk": "^3.2.3",
     "expo": "~56.0.0",
     "expo-blur": "~56.0.3",
     "expo-dev-client": "^56.0.20",
@@ -40,6 +39,8 @@
   },
   "devDependencies": {
     "@types/react": "~19.2.14",
-    "typescript": "~6.0.3"
+    "typescript": "~6.0.3",
+    "eslint": "^9.25.0",
+    "eslint-config-expo": "~10.0.0"
   }
 }

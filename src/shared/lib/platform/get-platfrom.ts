@@ -1,4 +1,3 @@
-import { retrieveLaunchParams } from '@tma.js/sdk';
 import { MaxWebApp } from '../sdk/web-apps.sdk';
 
 declare global {
@@ -13,14 +12,6 @@ declare global {
 
 export type AppPlatform = 'ios' | 'android' | 'web' | 'tg' | 'max' | 'unknown';
 
-export const isTmaMiniApp = (): boolean => {
-    try {
-        const params = retrieveLaunchParams();
-        return params?.tgWebAppPlatform !== null;
-    } catch {
-        return false;
-    }
-};
 
 export const detectPlatform = (): AppPlatform => {
     try {
@@ -31,7 +22,6 @@ export const detectPlatform = (): AppPlatform => {
     }
     if (typeof window !== 'undefined') {
         if (window?.Telegram?.WebApp) return 'tg';
-        if (isTmaMiniApp()) return 'tg';
         return 'web';
     }
     return 'unknown';
@@ -39,5 +29,4 @@ export const detectPlatform = (): AppPlatform => {
 
 export const isTgPlatform = (platform: AppPlatform): boolean =>
     platform === 'tg';
-export const isMaxPlatform = (platform: AppPlatform): boolean =>
-    platform === 'max';
+

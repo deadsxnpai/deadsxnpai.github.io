@@ -1,4 +1,4 @@
-// Определяем интерфейсы для обоих SDK
+
 export interface MaxWebApp {
     initData?: string;
     ready: () => void;
@@ -10,7 +10,6 @@ export interface TelegramWebApp {
     ready: () => void;
     expand: () => void;
 }
-
 
 
 // Загрузка любого внешнего скрипта
@@ -59,7 +58,6 @@ export const getAuthData = (): string | null => {
     // Затем Max
     if (window.MaxWebApp?.initData) return window.MaxWebApp.initData;
 
-    // Резервный вариант из URL (если нужно)
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get('x-init-data');
 };

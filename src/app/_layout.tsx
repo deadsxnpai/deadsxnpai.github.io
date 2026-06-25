@@ -4,21 +4,23 @@ import { useEffect } from 'react';
 import { View, ActivityIndicator, Platform } from 'react-native';
 import { apolloClient } from '@/shared/api';
 import { StatusBar } from 'expo-status-bar';
-import {
-	AuthProvider,
-	useAuthStore,
-} from '@/shared/lib/providers/auth-provider';
+import { useAuthStore } from '@/entities/user';
+import { AuthProvider, detectPlatform } from '@/shared/lib';
+import { initWebApps } from '@/shared/lib/sdk/web-apps.sdk';
 
 SplashScreen.preventAutoHideAsync();
 
 const RootLayoutNav = () => {
-	const { isAuthenticated, loading, role } = useAuthStore();
+	const isAuthenticated = useAuthStore((state) => !!state.user);
+	const loading = useAuthStore((state) => state.isLoading);
+	const role = useAuthStore((state) => state.getRole());
+
 	const segments = useSegments();
 
 	useEffect(() => {
 		if (loading) return;
 
-		const inAuthGroup = segments[0] === '/(auth)/login';
+		const inAuthGroup = segments[0] === '(auth)';
 
 		if (!isAuthenticated && !inAuthGroup) {
 			router.replace('/(auth)/login');
@@ -44,13 +46,14 @@ const RootLayoutNav = () => {
 export default function RootLayout() {
 	useEffect(() => {
 		SplashScreen.hideAsync();
+		if (Platform.OS === 'web') document.title = 'ЛК ТГУ';
 	}, []);
 
-	useEffect(() => {
-		if (Platform.OS === 'web') {
-			document.title = 'ЛК ТГУ';
-		}
-	}, []);
+	const platform = detectPlatform();
+	console.log('platform', platform);
+	if (platform === 'tg') {
+		initWebApps();
+	}
 
 	return (
 		<ApolloProvider client={apolloClient}>

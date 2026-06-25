@@ -27,7 +27,6 @@
       "package": "ru.tsutmb.app"
     },
     "web": {
-      "output": "static",
       "favicon": "./src/shared/assets/logo/favicon.png"
     },
     "plugins": [

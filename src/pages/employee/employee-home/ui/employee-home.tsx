@@ -1,20 +1,10 @@
-import React from 'react';
-import {
-	View,
-	Text,
-	StyleSheet,
-	TouchableOpacity,
-	ScrollView,
-} from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useTheme } from 'expo-router';
-import { useAuthStore } from '@/shared/lib/providers/auth-provider';
 import { Colors } from '@/shared/constants';
+import { useAuthStore } from '@/entities/user';
 
 export const EmployeeHomePage = () => {
-	const { user, logout } = useAuthStore();
-	const theme = useTheme();
-
+	const { user } = useAuthStore();
 	const userData = user?.data;
 
 	return (
@@ -86,6 +76,7 @@ export const EmployeeHomePage = () => {
 						))}
 					</View>
 				</View>
+				<View style={styles.bottomSpacer} />
 			</ScrollView>
 		</SafeAreaView>
 	);
@@ -148,5 +139,8 @@ const styles = StyleSheet.create({
 		color: '#1a1a1a',
 		flex: 1,
 		textAlign: 'right',
+	},
+	bottomSpacer: {
+		height: 60,
 	},
 });

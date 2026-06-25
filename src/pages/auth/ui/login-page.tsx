@@ -12,7 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSso } from '@/features/auth-by-sso';
 import { Colors, getAuthUrl } from '@/shared/constants';
 import { detectPlatform, isTgPlatform } from '@/shared/lib';
-import { retrieveRawInitData } from '@tma.js/sdk';
+import { getAuthData } from '@/shared/lib/sdk/web-apps.sdk';
 
 const isWeb = Platform.OS === 'web';
 
@@ -21,18 +21,18 @@ export const LoginPage = () => {
 
 	const [isTgLoading, setIsTgLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const platform = detectPlatform();
 
 	const handleTelegramLogin = async () => {
-		const platform = detectPlatform();
-
 		if (!isTgPlatform(platform)) {
 			setError(
 				'Вход доступен только через Telegram. Откройте приложение внутри Telegram.',
 			);
 			return;
 		}
+
 		try {
-			const initData = retrieveRawInitData();
+			const initData = getAuthData();
 			setIsTgLoading(true);
 			setError(null);
 
@@ -121,6 +121,7 @@ export const LoginPage = () => {
 				<Text style={styles.footerText}>
 					© {new Date().getFullYear()} ФГБОУ ВО «ТГУ им. Г.Р. Державина»
 				</Text>
+				<Text style={styles.footerText}>{`© Платформа ${platform}`}</Text>
 			</View>
 		</SafeAreaView>
 	);
@@ -159,6 +160,9 @@ const styles = StyleSheet.create({
 			},
 			android: {
 				elevation: 4,
+			},
+			web: {
+				boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
 			},
 		}),
 	},
