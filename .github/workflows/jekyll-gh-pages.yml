@@ -28,20 +28,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Setup Node.js (required for some Expo dependencies)
         uses: actions/setup-node@v4
         with:
-          node-version: 22
-          cache: 'npm'
+          node-version: 24
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Install dependencies with Bun
+        run: bun install --frozen-lockfile
 
-      - name: Install Expo CLI
-        run: npm install -g expo-cli
+      - name: Install Expo CLI globally with Bun
+        run: bun add -g expo-cli
 
       - name: Build web app
-        run: npm run build:web
+        run: bun run build:web
         env:
           CI: false
 
