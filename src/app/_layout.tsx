@@ -48,13 +48,7 @@ export default function RootLayout() {
 		SplashScreen.hideAsync();
 		if (Platform.OS === 'web') document.title = 'ЛК ТГУ';
 	}, []);
-
-	const platform = detectPlatform();
-	console.log('platform', platform);
-	if (platform === 'tg') {
-		initWebApps();
-	}
-
+	initWebApps();
 	return (
 		<ApolloProvider client={apolloClient}>
 			<AuthProvider>
