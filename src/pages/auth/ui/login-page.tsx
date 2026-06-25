@@ -123,13 +123,13 @@ export const LoginPage = () => {
 				</Text>
 				{/*TEst*/}
 				<Text style={styles.footerText}>{`© Платформа ${platform}`}</Text>
-				{initData && (
+				{
 					<Text
 						style={styles.debugText}
 						numberOfLines={10}>
 						InitData: {initData}
 					</Text>
-				)}
+				}
 			</View>
 		</SafeAreaView>
 	);

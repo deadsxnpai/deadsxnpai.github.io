@@ -53,13 +53,12 @@ export const initWebApps = async () => {
 export const getAuthData = (): string | null => {
     if (typeof window === 'undefined') return null;
 
-    // Сначала ищем данные Telegram
-    if (window.Telegram?.WebApp?.initData) return window.Telegram.WebApp.initData;
-
-    // Затем Max
-    if (window.MaxWebApp?.initData) return window.MaxWebApp.initData;
+    const tg = window.Telegram?.WebApp;
+    if (tg?.initData && tg.initData.length > 0) {
+        return tg.initData;
+    }
 
     const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('x-init-data');
+    return urlParams.get('x-init-data') || urlParams.get('tgWebAppData');
 };
 
