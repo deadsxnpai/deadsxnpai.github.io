@@ -16,7 +16,7 @@ export const isDev = DOMAIN === dev;
 export const getUrl = () =>
     window.location.hostname === 'localhost'
         ? 'http://localhost:8081'
-        : `${protocol}://${DOMAIN}`;
+        : window.location.origin;;
 
 
 export const getRedirectUri = () => {
