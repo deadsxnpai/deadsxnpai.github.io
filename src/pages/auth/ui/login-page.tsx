@@ -18,7 +18,6 @@ const isWeb = Platform.OS === 'web';
 
 export const LoginPage = () => {
 	const { handleSsoLogin, isLoading: isSsoLoading } = useSso();
-	const initData = getAuthData();
 	const [isTgLoading, setIsTgLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const platform = usePlatform();
