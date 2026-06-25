@@ -39,7 +39,7 @@ export const EndPoints = {
     recordbook: `${BASE_URL_API}/files/recordbooks`,
     reference: `${BASE_URL_API}/files/references`,
     userpic: `${BASE_URL_API}/files/userpic`,
-    endSession: `${BASE_URL_API}/endSession?redirect=${getUrl()}/login`,
+    endSession: `${BASE_URL_API}/endSession?redirect=${getUrl()}`,
     bot_tg: TG_BOT_URL,
     bot_max: MAX_BOG_URL
 };
