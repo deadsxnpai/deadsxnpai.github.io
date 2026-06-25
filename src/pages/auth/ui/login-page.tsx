@@ -58,13 +58,14 @@ export const LoginPage = () => {
 					</TouchableOpacity>
 
 					{/* Разделитель */}
-					<View style={styles.dividerContainer}>
-						<View style={styles.dividerLine} />
-						<Text style={styles.dividerText}>или</Text>
-						<View style={styles.dividerLine} />
-					</View>
+					{platform !== 'tg' && (
+						<View style={styles.dividerContainer}>
+							<View style={styles.dividerLine} />
+							<Text style={styles.dividerText}>или</Text>
+							<View style={styles.dividerLine} />
+						</View>
+					)}
 
-					{/* Кнопка Telegram */}
 					{platform !== 'tg' && (
 						<TouchableOpacity
 							style={[
