@@ -1,4 +1,5 @@
 // app/+not-found.tsx
+import React from 'react';
 import { MainLayout } from '@/shared/layouts/main-layout';
 import { Button, Typography } from '@/shared/ui';
 import { router } from 'expo-router';

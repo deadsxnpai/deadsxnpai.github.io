@@ -1,3 +1,4 @@
+import React from 'react';
 import { ApolloProvider } from '@apollo/client';
 import { Stack, router, useSegments, SplashScreen } from 'expo-router';
 import { useEffect } from 'react';
