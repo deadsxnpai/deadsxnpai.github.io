@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect } from 'react';
 import { useMe } from '@/features/auth-by-sso';
 import { useAuthStore } from '@/entities/user';

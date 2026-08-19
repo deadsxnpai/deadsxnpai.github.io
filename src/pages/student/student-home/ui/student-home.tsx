@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from 'expo-router';
-import { useAuthStore } from '@/shared/lib/providers/auth-provider';
+import { useAuthStore } from '@/entities/user';
 
 export const StudentHomePage = () => {
 	const { user, logout } = useAuthStore();
