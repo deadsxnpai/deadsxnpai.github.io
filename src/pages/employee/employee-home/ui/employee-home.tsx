@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from '@/shared/constants';
 import { useAuthStore } from '@/entities/user';
+import React from 'react';
 
 export const EmployeeHomePage = () => {
 	const { user } = useAuthStore();
